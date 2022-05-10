@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 import org.springframework.web.context.request.WebRequest
@@ -16,7 +17,7 @@ import java.util.*
 import java.util.Arrays.stream
 import java.util.stream.Collectors.toList
 
-
+@RestController
 class VAuthenticatorApiProxy(@Value("\${vauthenticator.host}") private val vauthenticatorServiceUri: String,
                              private val apiServiceCallProxyService: ApiServiceCallProxyService,
                              private val vauthenticatorRestTemplate: RestTemplate) {
@@ -30,12 +31,12 @@ class VAuthenticatorApiProxy(@Value("\${vauthenticator.host}") private val vauth
         apiServiceCallProxyService.log(response)
         return ResponseEntity.status(response.statusCode)
                 .headers(apiServiceCallProxyService.responseHeadersFrom(response.headers))
-                .body<ByteArray>(response.body)
+                .body(response.body)
     }
 }
 
 
-class ApiServiceCallProxyService(val strippedPath : String) {
+class ApiServiceCallProxyService(private val strippedPath : String) {
     fun pathFor(webRequest: WebRequest): String {
         val path = webRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, SCOPE_REQUEST) as String?
         val strippedPath = path!!.substring(strippedPath.length)
@@ -49,8 +50,8 @@ class ApiServiceCallProxyService(val strippedPath : String) {
         log.info("path: $path")
         log.info("method: $method")
         log.info("body: $body")
-        log.info("requestEntity.body: " + requestEntity.getBody())
-        log.info("requestEntity.header: " + requestEntity.getHeaders())
+        log.info("requestEntity.body: " + requestEntity.body)
+        log.info("requestEntity.header: " + requestEntity.headers)
     }
 
     fun log(responseEntity: ResponseEntity<*>) {
@@ -81,13 +82,13 @@ class ApiServiceCallProxyService(val strippedPath : String) {
 
     private fun setContentDispositionHeader(responseHeaders: HttpHeaders, result: HttpHeaders) {
         if (responseHeaders.containsKey(HttpHeaders.CONTENT_DISPOSITION)) {
-            val contentDisposition: ContentDisposition = responseHeaders.getContentDisposition()
-            result.set(HttpHeaders.CONTENT_DISPOSITION, format("inline; filename=%s", contentDisposition.getFilename()))
+            val contentDisposition: ContentDisposition = responseHeaders.contentDisposition
+            result.set(HttpHeaders.CONTENT_DISPOSITION, format("inline; filename=%s", contentDisposition.filename))
         }
     }
 
     private fun setContentTypeHeader(responseHeaders: HttpHeaders, result: HttpHeaders) {
-        Optional.ofNullable(responseHeaders.getContentType())
+        Optional.ofNullable(responseHeaders.contentType)
                 .ifPresent { mediaType -> result.set(HttpHeaders.CONTENT_TYPE, mediaType.toString()) }
     }
 
