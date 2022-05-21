@@ -2,6 +2,7 @@ package it.valeriovaudi.vauthenticator.config
 
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.filter.BearerTokenInterceptor
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.filter.OAuth2TokenResolver
+import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.session.management.OAuth2AuthorizationRequestResolverWithSessionState
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.user.VAuthenticatorOAuth2User
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.user.VAuthenticatorOidcUserService
 import org.springframework.beans.factory.annotation.Value
@@ -17,7 +18,7 @@ import org.springframework.web.client.RestTemplate
 const val adminRole = "VAUTHENTICATOR_ADMIN"
 
 @Configuration(proxyBeanMethods = false)
-class WebSecurityConfig {
+class WebSecurityConfig(private val oAuth2AuthorizationRequestResolverWithSessionState: OAuth2AuthorizationRequestResolverWithSessionState){
 
     @Value("\${vauthenticator.client.registrationId}")
     private lateinit var registrationId: String
@@ -37,7 +38,9 @@ class WebSecurityConfig {
                 .and().oauth2Login().defaultSuccessUrl("/secure/admin/index")
                 .userInfoEndpoint()
                 .oidcUserService(vAuthenticatorOidcUserService())
-
+                .and()
+                .authorizationEndpoint()
+                .authorizationRequestResolver(oAuth2AuthorizationRequestResolverWithSessionState);
 
         return http.build()
 

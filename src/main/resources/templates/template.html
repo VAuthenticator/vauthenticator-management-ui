@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 </head>
 <body>
-
 <div id="features" th:text="${features}" style="display: none"></div>
 
 <div id="app"></div>
+
+<iframe title="rp session management iframe" style="visibility: hidden;" id="rp_session_management_iframe" src="/session/management"></iframe>
+<iframe title="op session management iframe" style="visibility: hidden;" id="op_session_management_iframe" src="http://local.api.vauthenticator.com/session/management"></iframe>
 
 </body>
 </html>

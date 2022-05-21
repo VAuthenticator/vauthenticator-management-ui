@@ -27,7 +27,7 @@ export default (props) => {
                         VAuthenticator Administration {props.page}
                     </Typography>
 
-                    <Link href="/vauthenticator/logout">
+                    <Link href="/oidc_logout.html">
                         <IconButton edge="start"
                                     className={classes.menuButton}
                                     color="inherit"
