@@ -25,7 +25,7 @@ class WebSecurityConfig(private val oAuth2AuthorizationRequestResolverWithSessio
 
     @Bean
     fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http.csrf().disable()
+        http.csrf().disable().headers().frameOptions().sameOrigin()
 
         http.logout()
                 .deleteCookies("opbs")
