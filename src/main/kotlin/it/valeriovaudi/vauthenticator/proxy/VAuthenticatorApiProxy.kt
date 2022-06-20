@@ -18,7 +18,7 @@ import java.util.Arrays.stream
 import java.util.stream.Collectors.toList
 
 @RestController
-class VAuthenticatorApiProxy(@Value("\${vauthenticator.host}") private val vauthenticatorServiceUri: String,
+class VAuthenticatorApiProxy(@Value("\${vauthenticator.backChannelHost}") private val vauthenticatorServiceUri: String,
                              private val apiServiceCallProxyService: ApiServiceCallProxyService,
                              private val vauthenticatorRestTemplate: RestTemplate) {
 
