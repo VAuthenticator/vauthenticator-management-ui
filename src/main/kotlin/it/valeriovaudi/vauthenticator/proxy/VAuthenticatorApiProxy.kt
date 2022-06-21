@@ -47,17 +47,17 @@ class ApiServiceCallProxyService(private val strippedPath : String) {
     }
 
     fun log(method: HttpMethod, body: Any?, path: String, requestEntity: HttpEntity<*>) {
-        log.info("path: $path")
-        log.info("method: $method")
-        log.info("body: $body")
-        log.info("requestEntity.body: " + requestEntity.body)
-        log.info("requestEntity.header: " + requestEntity.headers)
+        log.debug("path: $path")
+        log.debug("method: $method")
+        log.debug("body: $body")
+        log.debug("requestEntity.body: " + requestEntity.body)
+        log.debug("requestEntity.header: " + requestEntity.headers)
     }
 
     fun log(responseEntity: ResponseEntity<*>) {
-        log.info("responseEntity.body: " + responseEntity.body)
-        log.info("responseEntity.header: " + responseEntity.headers)
-        log.info("responseEntity.statusCode: " + responseEntity.statusCode)
+        log.debug("responseEntity.body: " + responseEntity.body)
+        log.debug("responseEntity.header: " + responseEntity.headers)
+        log.debug("responseEntity.statusCode: " + responseEntity.statusCode)
     }
 
     fun httpEntityFor(body: Any?): HttpEntity<*> {
