@@ -13,9 +13,7 @@ export const authorizedGrantTypesRegistry = (authorizedGrantTypes) => {
     let registry = {
         authorization_code: false,
         refresh_token: false,
-        client_credentials: false,
-        password: false,
-        implicit: false
+        client_credentials: false
     }
 
     if (authorizedGrantTypes) {
