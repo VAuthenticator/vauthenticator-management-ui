@@ -3,58 +3,52 @@ package it.valeriovaudi.vauthenticator.config
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.filter.BearerTokenInterceptor
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.filter.OAuth2TokenResolver
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.session.management.OAuth2AuthorizationRequestResolverWithSessionState
-import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.user.VAuthenticatorOAuth2User
 import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.user.VAuthenticatorOidcUserService
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService
-import org.springframework.security.oauth2.client.userinfo.CustomUserTypesOAuth2UserService
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.web.client.RestTemplate
 
 const val adminRole = "VAUTHENTICATOR_ADMIN"
 
+@EnableWebSecurity
 @Configuration(proxyBeanMethods = false)
-class WebSecurityConfig(private val oAuth2AuthorizationRequestResolverWithSessionState: OAuth2AuthorizationRequestResolverWithSessionState){
-
-    @Value("\${vauthenticator.client.registrationId}")
-    private lateinit var registrationId: String
+class WebSecurityConfig(
+    private val vAuthenticatorOidcUserService: VAuthenticatorOidcUserService,
+    private val oAuth2AuthorizationRequestResolverWithSessionState: OAuth2AuthorizationRequestResolverWithSessionState
+) {
 
     @Bean
     fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http.csrf().disable().headers().frameOptions().sameOrigin()
+        http.csrf().disable().headers().frameOptions().disable()
 
         http.logout()
-                .deleteCookies("opbs")
-                .invalidateHttpSession(true)
-                .logoutSuccessUrl("/secure/admin/index")
+            .deleteCookies("opbs")
+            .invalidateHttpSession(true)
+            .logoutSuccessUrl("/secure/admin/index")
 
-        http.authorizeRequests().mvcMatchers("/actuator/**", "/oidc_logout.html").permitAll()
-                .and()
-                .authorizeRequests().anyRequest().hasAnyAuthority(adminRole)
-                .and().oauth2Login().defaultSuccessUrl("/secure/admin/index")
-                .userInfoEndpoint()
-                .oidcUserService(vAuthenticatorOidcUserService())
-                .and()
-                .authorizationEndpoint()
-                .authorizationRequestResolver(oAuth2AuthorizationRequestResolverWithSessionState);
+
+        http.oauth2Login().defaultSuccessUrl("/secure/admin/index")
+            .userInfoEndpoint()
+            .oidcUserService(vAuthenticatorOidcUserService)
+            .and()
+            .authorizationEndpoint()
+            .authorizationRequestResolver(oAuth2AuthorizationRequestResolverWithSessionState);
+
+        http.authorizeHttpRequests { authz ->
+            authz.requestMatchers("/actuator/**", "/oidc_logout.html").permitAll()
+                .anyRequest().hasAnyAuthority(adminRole)
+        }
 
         return http.build()
-
     }
-
-    fun vAuthenticatorOidcUserService(): VAuthenticatorOidcUserService =
-            VAuthenticatorOidcUserService(OidcUserService(),
-                    CustomUserTypesOAuth2UserService(mapOf(registrationId to VAuthenticatorOAuth2User::class.java)))
-
 
     @Bean
-    fun budgetRestTemplate(oAuth2TokenResolver: OAuth2TokenResolver): RestTemplate {
-        return RestTemplateBuilder()
-                .additionalInterceptors(BearerTokenInterceptor(oAuth2TokenResolver))
-                .build()
-    }
+    fun vauthenticatorRestTemplate(oAuth2TokenResolver: OAuth2TokenResolver) =
+        RestTemplateBuilder()
+            .additionalInterceptors(BearerTokenInterceptor(oAuth2TokenResolver))
+            .build()
+
 }

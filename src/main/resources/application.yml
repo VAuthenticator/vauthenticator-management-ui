@@ -1,3 +1,7 @@
 spring:
   application:
     name: vauthenticator-management-ui
+
+#logging:
+#  level:
+#    org.springframework.security.*: DEBUG

@@ -9,34 +9,25 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v3
 
-      - name: install nodejs
-        run: |
-          sudo apt -y update
-          sudo apt -y install nodejs
-          sudo apt -y install npm
+      - name: install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-      - name: install openjdk
-        run: |
-          sudo apt-get update && sudo apt-get install openjdk-17-jdk
-          sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-          sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-          java -version
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'corretto'
 
       - name: build testing environment
         run: |
-          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-
-          git clone https://github.com/mrFlick72/client-security-starter.git
-          cd client-security-starter
+          git clone https://github.com/VAuthenticator/spring-boot-client-starter.git
+          cd spring-boot-client-starter
           mvn clean install -q
-
-      - name: build testing environment
-        run: |
-          git clone https://github.com/mrFlick72/aws-messaging-java-client.git
-          cd aws-messaging-java-client
-          mvn clean install
 
       - name: Build frontend artifacts
         run: |
@@ -46,8 +37,7 @@ jobs:
 
       - name: Build
         run: |
-          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          mvn install
+          mvn install -q
 
       - name: docker push
         run: |
