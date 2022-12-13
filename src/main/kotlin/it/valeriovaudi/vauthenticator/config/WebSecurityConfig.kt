@@ -1,9 +1,9 @@
 package it.valeriovaudi.vauthenticator.config
 
-import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.filter.BearerTokenInterceptor
-import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.filter.OAuth2TokenResolver
-import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.session.management.OAuth2AuthorizationRequestResolverWithSessionState
-import it.valeriovaudi.vauthenticator.security.clientsecuritystarter.user.VAuthenticatorOidcUserService
+import com.vauthenticator.springbootclientstarter.filter.BearerTokenInterceptor
+import com.vauthenticator.springbootclientstarter.filter.OAuth2TokenResolver
+import com.vauthenticator.springbootclientstarter.session.management.OAuth2AuthorizationRequestResolverWithSessionState
+import com.vauthenticator.springbootclientstarter.user.VAuthenticatorOidcUserService
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

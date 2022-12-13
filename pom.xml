@@ -41,7 +41,7 @@
         </dependency>
 
         <dependency>
-            <groupId>it.valeriovaudi.vauthenticator.security</groupId>
+            <groupId>com.vauthenticator</groupId>
             <artifactId>spring-boot-client-starter</artifactId>
             <version>0.4</version>
         </dependency>
