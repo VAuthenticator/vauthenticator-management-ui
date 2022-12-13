@@ -38,6 +38,12 @@ jobs:
           java-version: 17
           distribution: 'corretto'
 
+      - name: build testing environment
+        run: |
+          git clone https://github.com/VAuthenticator/spring-boot-client-starter.git
+          cd spring-boot-client-starter
+          mvn clean install -q
+
       - name: Build
         run: |
           mvn clean install -q
