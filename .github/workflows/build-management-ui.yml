@@ -1,11 +1,70 @@
-name: build vauthenticator management ui
+name: build VAuthenticator
 
 on:
   push: { }
-  workflow_dispatch: { }
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'make a tag'
+        required: false
 
 jobs:
-  provisioning:
+  tag-artifact:
+    if: github.event.inputs.version != '' || github.event.inputs.version != ' '
+
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: make an echo
+        run: |
+          echo version ${{github.event.inputs.version}}
+
+      - name: Create tag
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{github.event.inputs.version}}
+
+  build-backend:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'corretto'
+
+      - name: Build
+        run: |
+          mvn clean install -q
+
+      - name: docker push
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+          
+          if [[ ${GITHUB_REF##*/} == 'master' ]]
+          then
+            DOCKER_TAG="latest"
+          else
+            DOCKER_TAG="${GITHUB_REF##*/}"
+          fi
+          
+          echo "$DOCKER_TAG"
+          docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
+          docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
+
+      - name: Docker tag
+        if: github.event.inputs.version != '' || github.event.inputs.version != ' '
+
+        run: |
+          DOCKER_TAG="${{github.event.inputs.version}}"
+          docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
+          docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
+  ui-backend:
     runs-on: ubuntu-20.04
 
     steps:
@@ -17,37 +76,34 @@ jobs:
         with:
           node-version: 16
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: 'corretto'
-
-      - name: build testing environment
-        run: |
-          git clone https://github.com/VAuthenticator/spring-boot-client-starter.git
-          cd spring-boot-client-starter
-          mvn clean install -q
-
       - name: Build frontend artifacts
         run: |
           cd src/main/frontend
-          npm install
+          npm install --legacy-peer-deps
           npm run-script build
-
-      - name: Build
-        run: |
-          mvn install -q
 
       - name: docker push
         run: |
+          cd src/main/frontend
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+          
           if [[ ${GITHUB_REF##*/} == 'master' ]]
           then
             DOCKER_TAG="latest"
           else
             DOCKER_TAG="${GITHUB_REF##*/}"
           fi
+          
           echo "$DOCKER_TAG"
-          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
-          docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
-          docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
+          docker build . -t mrflick72/vauthenticator-management-ui-assets-k8s:$DOCKER_TAG
+          docker push mrflick72/vauthenticator-management-ui-assets-k8s:$DOCKER_TAG
+
+      - name: Docker tag
+        if: github.event.inputs.version != '' || github.event.inputs.version != ' '
+
+        run: |
+          cd src/main/frontend
+          
+          DOCKER_TAG="${{github.event.inputs.version}}"
+          docker build . -t mrflick72/vauthenticator-management-ui-assets-k8s:$DOCKER_TAG
+          docker push mrflick72/vauthenticator-management-ui-assets-k8s:$DOCKER_TAG
