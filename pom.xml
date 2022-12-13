@@ -20,7 +20,7 @@
         <java.version>17</java.version>
         <kotlin.version>1.7.21</kotlin.version>
         <io.mockk.version>1.13.2</io.mockk.version>
-        <wiremock.version>2.27.2</wiremock.version>
+        <wiremock.version>2.35.0</wiremock.version>
     </properties>
 
     <dependencies>
@@ -94,7 +94,7 @@
         <!-- testing -->
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock-jre8</artifactId>
+            <artifactId>wiremock-jre8-standalone</artifactId>
             <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
@@ -102,13 +102,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.mockk</groupId>
-            <artifactId>mockk</artifactId>
-            <version>${io.mockk.version}</version>
             <scope>test</scope>
         </dependency>
 
