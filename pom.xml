@@ -11,7 +11,7 @@
 
     <groupId>it.valeriovaudi</groupId>
     <artifactId>vauthenticator-management-ui</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
 
     <name>vauthenticator</name>
     <description>VAuthentiator Authorization Server Management Application</description>
