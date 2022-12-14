@@ -1,22 +1,17 @@
 var path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const BUID_DIR = path.resolve(__dirname + "../../../../target/classes/static");
+const BUID_DIR = path.resolve(__dirname + "/dist");
 
 module.exports = {
     mode: 'development',
     entry: {
+        healthz: path.resolve(__dirname, './app/healthz/healthz.js'),
         admin: path.resolve(__dirname, './app/admin/index.js'),
     },
     resolve: {
         extensions: [".js", ".jsx"]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            chunks: ['admin'],
-            filename: "../templates/secure/admin.html",
-            template: path.resolve(__dirname, "../resources/templates/template.html")
-        })
     ],
     module: {
         rules: [
