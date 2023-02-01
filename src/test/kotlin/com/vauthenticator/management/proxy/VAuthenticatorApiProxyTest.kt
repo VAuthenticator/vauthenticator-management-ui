@@ -1,4 +1,4 @@
-package it.valeriovaudi.vauthenticator.proxy
+package com.vauthenticator.management.proxy
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*

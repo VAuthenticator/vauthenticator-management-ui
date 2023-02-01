@@ -1,4 +1,4 @@
-package it.valeriovaudi.vauthenticator
+package com.vauthenticator.management
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication

@@ -1,6 +1,6 @@
-package it.valeriovaudi.vauthenticator.config
+package com.vauthenticator.management.config
 
-import it.valeriovaudi.vauthenticator.proxy.ApiServiceCallProxyService
+import com.vauthenticator.management.proxy.ApiServiceCallProxyService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
