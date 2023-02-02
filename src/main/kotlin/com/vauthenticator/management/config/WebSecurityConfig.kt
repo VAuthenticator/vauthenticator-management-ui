@@ -1,4 +1,4 @@
-package it.valeriovaudi.vauthenticator.config
+package com.vauthenticator.management.config
 
 import com.vauthenticator.springbootclientstarter.filter.BearerTokenInterceptor
 import com.vauthenticator.springbootclientstarter.filter.OAuth2TokenResolver
