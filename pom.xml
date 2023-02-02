@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>it.valeriovaudi</groupId>
+    <groupId>com.vauthenticator</groupId>
     <artifactId>vauthenticator-management-ui</artifactId>
     <version>0.5-SNAPSHOT</version>
 
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.vauthenticator</groupId>
             <artifactId>spring-boot-client-starter</artifactId>
-            <version>0.4</version>
+            <version>0.4.1</version>
         </dependency>
 
         <!-- web dependencies -->
