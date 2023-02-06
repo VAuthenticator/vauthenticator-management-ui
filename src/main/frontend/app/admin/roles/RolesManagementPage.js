@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
-import {withStyles} from "@material-ui/core";
 import {AssignmentInd, Delete} from "@material-ui/icons";
-import vauthenticatorStyles from "../../component/styles";
 import AdminTemplate from "../../component/AdminTemplate";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import {deleteRoleFor, findAllRoles} from "./RoleRepository";
@@ -17,8 +15,7 @@ const columns = [
     {id: 'delete', label: 'Delete Role', minWidth: 170}
 ];
 
-const RolesManagementPage = withStyles(vauthenticatorStyles)((props) => {
-    const {classes} = props;
+const RolesManagementPage = () => {
     const pageTitle = "Roles Management"
     const [roles, setRoles] = React.useState([])
     const [openConfirmationDeleteRoleDialog, setOpenConfirmationDeleteRoleDialog] = React.useState(false)
@@ -86,7 +83,7 @@ const RolesManagementPage = withStyles(vauthenticatorStyles)((props) => {
     }, []);
 
     return (
-        <AdminTemplate maxWidth="xl" classes={classes} page={pageTitle}>
+        <AdminTemplate maxWidth="xl"  page={pageTitle}>
             <ConfirmationDialog maxWidth="md"
                                 open={openConfirmationDeleteRoleDialog}
                                 onExecute={deleteRole}
@@ -114,6 +111,6 @@ const RolesManagementPage = withStyles(vauthenticatorStyles)((props) => {
 
         </AdminTemplate>
     )
-})
+}
 
 export default RolesManagementPage

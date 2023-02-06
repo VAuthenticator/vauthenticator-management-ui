@@ -1,45 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {withStyles} from "@material-ui/core";
 
-import vauthenticatorStyles from "../component/styles";
 import {HashRouter} from "react-router-dom";
-import {Route, Switch} from "react-router";
-import ClientAppListPage from "./clientapp/ClientAppListPage";
-import ClientAppManagementPage from "./clientapp/ClientAppManagementPage";
-import RolesManagementPage from "./roles/RolesManagementPage";
+import {Route, Routes} from "react-router";
 import HomePage from "./home/HomePage";
-import AccountListPage from "./account/AccountListPage";
-import AccountManagementPage from "./account/AccountManagementPage";
+import RolesManagementPage from "./roles/RolesManagementPage";
 
-const VAuthenticatorAdminApp = withStyles(vauthenticatorStyles)((props) => {
-    return (
+const VAuthenticatorAdminApp = () =>
         <HashRouter>
-            <Switch>
-                <Route exact={true} path="/"
-                       render={(props) => <HomePage {...props} />}/>
-
+            <Routes>
+                <Route exact={true} path="/" element={<HomePage />}/>
+{/*
                 <Route exact={true} path="/client-applications/list"
-                       render={(props) => <ClientAppListPage {...props} />}/>
+                       element={(props) => <ClientAppListPage {...props} />}/>
 
                 <Route exact={true} path="/client-applications/save"
-                       render={(props) => <ClientAppManagementPage {...props} />}/>
+                       element={(props) => <ClientAppManagementPage {...props} />}/>
 
                 <Route exact={true} path="/client-applications/edit/:clientAppId"
-                       render={(props) => <ClientAppManagementPage {...props} />}/>
+                       element={(props) => <ClientAppManagementPage {...props} />}/>
+ */}
+                <Route exact={true} path="/roles" element={<RolesManagementPage />}/>
 
-                <Route exact={true} path="/roles"
-                       render={(props) => <RolesManagementPage {...props} />}/>
-
-                <Route exact={true} path="/accounts"
-                       render={(props) => <AccountListPage {...props} />}/>
-
+                {/*
+                <Route exact={true} path="/accounts" element={<AccountListPage  />}/>
                 <Route exact={true} path="/accounts/edit/:accountMail"
-                       render={(props) => <AccountManagementPage {...props} />}/>
-            </Switch>
-        </HashRouter>)
+                       element={(props) => <AccountManagementPage {...props} />}/>
 
-})
+                       */}
+            </Routes>
+        </HashRouter>
+
 
 if (document.getElementById('app')) {
     ReactDOM.render(<VAuthenticatorAdminApp/>, document.getElementById('app'));

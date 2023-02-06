@@ -1,15 +1,11 @@
 import React from 'react';
-import {withStyles} from "@material-ui/core";
-import vauthenticatorStyles from "../../component/styles";
 import AdminTemplate from "../../component/AdminTemplate";
 import MenuCardContainer from "../../component/MenuCardContainer";
 import HomePageMenuItem, {homeMenuContent} from "./HomePageMenuItem";
 
-const HomePage = withStyles(vauthenticatorStyles)((props) => {
-    const {classes} = props;
-    const pageTitle = "Home"
+const HomePage = () => {
     return (
-        <AdminTemplate maxWidth="xl" classes={classes} page={pageTitle}>
+        <AdminTemplate maxWidth="xl" page={"Home"}>
             <MenuCardContainer spacing={3}>
                 <HomePageMenuItem content={homeMenuContent.clientApplications} />
                 <HomePageMenuItem content={homeMenuContent.roles} />
@@ -18,6 +14,6 @@ const HomePage = withStyles(vauthenticatorStyles)((props) => {
 
         </AdminTemplate>
     )
-})
+}
 
 export default HomePage
