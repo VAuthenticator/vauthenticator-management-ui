@@ -15,13 +15,13 @@ export default (props) => {
         <ThemeProvider theme={theme}>
             <AppBar position="static">
                 <Toolbar variant="dense">
-                    <Link href="#" color="primary">
+                    <a href="#">
                         <IconButton edge="start"
                                     color="default"
                                     aria-label="menu">
                             <MenuIcon/>
                         </IconButton>
-                    </Link>
+                    </a>
 
                     <Typography variant="h6">
                         VAuthenticator Administration {props.page}
