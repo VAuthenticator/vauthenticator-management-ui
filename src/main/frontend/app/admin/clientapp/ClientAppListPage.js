@@ -19,7 +19,8 @@ const columns = [
     {id: 'secretKey', label: 'Reset Password', minWidth: 170}
 ];
 
-const ClientAppManagementPage = () => {
+const ClientAppListPage = () => {
+    console.log("AO")
     const [applications, setApplications] = React.useState([])
     const [open, setOpen] = React.useState(false)
     const [currentClientAppId, setCurrentClientAppId] = React.useState("")
@@ -88,4 +89,4 @@ const ClientAppManagementPage = () => {
     );
 }
 
-export default ClientAppManagementPage
+export default ClientAppListPage

@@ -7,8 +7,8 @@ import HomePage from "./home/HomePage";
 import RolesManagementPage from "./roles/RolesManagementPage";
 import AccountManagementPage from "./account/AccountManagementPage";
 import AccountListPage from "./account/AccountListPage";
-import ClientAppManagementPage from "./clientapp/ClientAppListPage";
 import ClientAppListPage from "./clientapp/ClientAppListPage";
+import ClientAppManagementPage from "./clientapp/ClientAppManagementPage";
 
 const VAuthenticatorAdminApp = () =>
     <HashRouter>
@@ -19,7 +19,7 @@ const VAuthenticatorAdminApp = () =>
                    element={<ClientAppListPage/>}/>
 
             <Route exact={true} path="/client-applications/save"
-                   element={<ClientAppManagementPage/>}/>
+                   element={<ClientAppManagementPage/>} />
 
             <Route exact={true} path="/client-applications/edit/:clientAppId"
                    element={<ClientAppManagementPage/>}/>

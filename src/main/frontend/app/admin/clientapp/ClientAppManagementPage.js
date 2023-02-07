@@ -34,6 +34,8 @@ const columns = [
 ];
 
 const ClientAppManagementPage = () => {
+    console.log("AO ancora")
+
     let {clientAppId} = useParams();
     const storePassword = !clientAppId
     const navigate = useNavigate();
