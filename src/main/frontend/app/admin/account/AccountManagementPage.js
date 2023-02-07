@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {withStyles} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import vauthenticatorStyles from "../../component/styles";
-import {useHistory, useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import FormInputTextField from "../../component/FormInputTextField";
 import AdminTemplate from "../../component/AdminTemplate";
 import Separator from "../../component/Separator";
@@ -22,10 +20,9 @@ const columns = [
     {id: 'delete', label: 'Delete Role', minWidth: 170}
 ];
 
-export default withStyles(vauthenticatorStyles)((props) => {
-    const {classes} = props;
+export default () => {
     let {accountMail} = useParams();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [email, setEmail] = useState(accountMail)
     const [enabled, setEnabled] = useState({enabled: false})
     const [accountLocked, setAccountLocked] = useState({accountLocked: false})
@@ -47,8 +44,7 @@ export default withStyles(vauthenticatorStyles)((props) => {
                             )
                         })
                 })
-        },
-        {}
+        }, []
     )
 
     const save = () => {
@@ -62,23 +58,20 @@ export default withStyles(vauthenticatorStyles)((props) => {
         saveAccountFor(account)
             .then(response => {
                 if (response.status === 204) {
-                    history.goBack();
+                    navigate(-1);
                 }
             })
     }
 
     return (
-        <AdminTemplate maxWidth="xl" classes={classes}
-                       page={pageTitle}>
+        <AdminTemplate maxWidth="xl" page={pageTitle}>
 
             <Typography variant="h3" component="h3">
                 <PeopleAlt fontSize="large"/> Account mail: {accountMail}
             </Typography>
 
-            <Card className={classes.card}>
-                <CardHeader title="Account definition"
-                            className={classes.title}
-                            color="textSecondary"/>
+            <Card>
+                <CardHeader title="Account definition" color="textSecondary"/>
                 <CardContent>
                     <FormInputTextField id="email"
                                         label="Account Mail"
@@ -112,4 +105,4 @@ export default withStyles(vauthenticatorStyles)((props) => {
 
         </AdminTemplate>
     );
-})
+}
