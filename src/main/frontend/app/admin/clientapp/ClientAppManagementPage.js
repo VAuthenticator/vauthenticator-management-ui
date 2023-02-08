@@ -36,6 +36,7 @@ const columns = [
 ];
 
 const ClientAppManagementPage = () => {
+    const classes = vauthenticatorStyles(useTheme());
     let {clientAppId} = useParams();
     const storePassword = !clientAppId
     const navigate = useNavigate();
@@ -124,7 +125,7 @@ const ClientAppManagementPage = () => {
                 <Apps fontSize="large"/> Client Application: {clientApplicationId}
             </Typography>
 
-            <Box>
+            <Box style={classes.tabs}>
                 <Tabs value={value}
                       orientation="vertical"
                       onChange={handleChange}
