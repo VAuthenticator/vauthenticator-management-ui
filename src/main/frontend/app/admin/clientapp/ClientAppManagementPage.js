@@ -19,6 +19,8 @@ import {Apps} from "@material-ui/icons";
 import {findAllRoles} from "../roles/RoleRepository";
 import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
 import Box from "@material-ui/core/Box";
+import vauthenticatorStyles from "../../theme/styles";
+import {useTheme} from "@mui/material";
 
 function allProps(index) {
     return {
@@ -34,8 +36,6 @@ const columns = [
 ];
 
 const ClientAppManagementPage = () => {
-    console.log("AO ancora")
-
     let {clientAppId} = useParams();
     const storePassword = !clientAppId
     const navigate = useNavigate();
@@ -118,7 +118,6 @@ const ClientAppManagementPage = () => {
     }
 
     let pageTitle = clientApplicationId ? `: Client Application: ${clientApplicationId}` : "";
-
     return  <AdminTemplate maxWidth="xl" age={pageTitle}>
 
             <Typography variant="h3" component="h3">

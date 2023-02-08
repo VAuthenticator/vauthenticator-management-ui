@@ -1,18 +1,21 @@
 import React from 'react';
 import MenuCard from "../../component/MenuCard";
 import {Apps, AssignmentInd, PeopleAlt} from "@material-ui/icons";
+import vauthenticatorStyles from "../../theme/styles";
+import {useTheme} from "@mui/material";
 
 export default (props) => {
+    let classes = vauthenticatorStyles(useTheme());
     const {content} = props;
     return (
         <MenuCard linkTo={content.link}
                   content={
                       <div>
-                          <div>
+                          <div style={classes.homeMenuItemTitle}>
                               <h1>{content.title.text}</h1>
-                              {content.title.icon()}
+                              {content.title.icon(classes)}
                           </div>
-                          <h3>
+                          <h3 style={classes.homeMenuItemText}>
                               {content.body}
                           </h3>
                       </div>
@@ -20,12 +23,11 @@ export default (props) => {
     )
 }
 
-
 export const homeMenuContent = {
     clientApplications: {
         title: {
             text: "Client Application Management Section",
-            icon: () => <Apps/>
+            icon: (classes) => <Apps style={classes.homeMenuItemIcon}/>
         },
         body: "In this section you can manage all client application on VAuthenticator. Your will able to " +
             "   create, delete, set parameters like redirect uri, application roles and so on",
@@ -34,7 +36,7 @@ export const homeMenuContent = {
     roles: {
         title: {
             text: "Roles Management Section",
-            icon: () => <AssignmentInd/>
+            icon: (classes) => <AssignmentInd style={classes.homeMenuItemIcon}/>
         },
         body: "In this section you can manage all Role used in all applications federated with VAuthenticator. Your will able to " +
             "   create, delete or modify descriptions",
@@ -43,7 +45,7 @@ export const homeMenuContent = {
     accounts: {
         title: {
             text: "Account Management Section",
-            icon: () => <PeopleAlt/>
+            icon: (classes) => <PeopleAlt style={classes.homeMenuItemIcon}/>
         },
         body: "In this section you can manage Accounts in VAuthenticator from OpenIdConnect prospective. Your will able to " +
             " disable accounts, invalidate and force password reset",

@@ -2,6 +2,8 @@ import React from 'react';
 import AdminTemplate from "../../component/AdminTemplate";
 import MenuCardContainer from "../../component/MenuCardContainer";
 import HomePageMenuItem, {homeMenuContent} from "./HomePageMenuItem";
+import vauthenticatorStyles from "../../theme/styles";
+import {useTheme} from "@mui/material";
 
 const HomePage = () => {
     return (
