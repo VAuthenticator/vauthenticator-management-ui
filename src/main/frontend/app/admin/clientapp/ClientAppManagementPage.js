@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {withStyles} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import vauthenticatorStyles from "../../component/styles";
-import {useHistory, useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import {findClientApplicationFor, saveClientApplicationFor} from "./ClientAppRepository";
 import FormInputTextField from "../../component/FormInputTextField";
 import AdminTemplate from "../../component/AdminTemplate";
@@ -20,6 +18,9 @@ import {authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./Authori
 import {Apps} from "@material-ui/icons";
 import {findAllRoles} from "../roles/RoleRepository";
 import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
+import Box from "@material-ui/core/Box";
+import vauthenticatorStyles from "../../theme/styles";
+import {useTheme} from "@mui/material";
 
 function allProps(index) {
     return {
@@ -34,11 +35,11 @@ const columns = [
     {id: 'delete', label: 'Delete Role', minWidth: 170}
 ];
 
-const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
-    const {classes} = props;
+const ClientAppManagementPage = () => {
+    const classes = vauthenticatorStyles(useTheme());
     let {clientAppId} = useParams();
     const storePassword = !clientAppId
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [clientApplicationId, setClientApplicationId] = useState(clientAppId)
     const [clientAppName, setClientAppName] = useState("")
@@ -72,7 +73,7 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
         saveClientApplicationFor(clientApplicationId, clientApplication)
             .then(response => {
                 if (response.status === 204) {
-                    history.goBack();
+                    navigate(-1);
                 }
             })
     }
@@ -103,7 +104,7 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
                         )
                     })
             })
-    }, {})
+    }, [])
     const [value, setValue] = React.useState('0');
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -118,25 +119,21 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
     }
 
     let pageTitle = clientApplicationId ? `: Client Application: ${clientApplicationId}` : "";
-
-    return (
-        <AdminTemplate maxWidth="xl" classes={classes}
-                       page={pageTitle}>
+    return  <AdminTemplate maxWidth="xl" age={pageTitle}>
 
             <Typography variant="h3" component="h3">
                 <Apps fontSize="large"/> Client Application: {clientApplicationId}
             </Typography>
 
-            <div className={classes.tabs}>
+            <Box style={classes.tabs}>
                 <Tabs value={value}
                       orientation="vertical"
                       onChange={handleChange}
                       aria-label="wrapped label tabs example">
-                    <Tab
-                        value="0"
-                        label="1) Client Application Credentials Section"
-                        wrapped
-                        {...allProps('0')}
+                    <Tab value="0"
+                         label="1) Client Application Credentials Section"
+                         wrapped
+                         {...allProps('0')}
                     />
                     <Tab value="1"
                          label="2) Client Application Permission Definition Section"
@@ -147,10 +144,8 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
                          {...allProps('2')} />
                 </Tabs>
                 <TabPanel value={value} index={'0'}>
-                    <Card className={classes.card}>
-                        <CardHeader title="Client Application base definition"
-                                    className={classes.title}
-                                    color="textSecondary"/>
+                    <Card>
+                        <CardHeader title="Client Application base definition" color="textSecondary"/>
                         <CardContent>
                             <FormInputTextField id="clientAppId"
                                                 label="Client Application Id"
@@ -179,6 +174,7 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
                                                 value={clientAppName}/>
                         </CardContent>
                     </Card>
+
                     <Separator/>
 
                     <LeftRightComponentRow leftComponentColumnsSize={2}
@@ -190,11 +186,9 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
                 </TabPanel>
 
                 <TabPanel value={value} index={'1'}>
-                    <Card className={classes.card}>
+                    <Card>
                         <CardContent>
-                            <CardHeader title="Client Application permission specification"
-                                        className={classes.title}
-                                        color="textSecondary"/>
+                            <CardHeader title="Client Application permission specification" color="textSecondary"/>
 
 
                             <FormInputTextField id="scopes"
@@ -254,11 +248,9 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
 
                 </TabPanel>
                 <TabPanel value={value} index={'2'}>
-                    <Card className={classes.card}>
+                    <Card>
                         <CardContent>
-                            <CardHeader title="Client Application urls definitions"
-                                        className={classes.title}
-                                        color="textSecondary"/>
+                            <CardHeader title="Client Application urls definitions" color="textSecondary"/>
 
                             <FormInputTextField id="webServerRedirectUri"
                                                 label="Web Server Redirect Uri"
@@ -293,9 +285,8 @@ const ClientAppManagementPage = withStyles(vauthenticatorStyles)((props) => {
                                            rightComponents={<FormButton label="Save Client Application" direction="rtl"
                                                                         onClickHandler={saveClientApp}/>}/>
                 </TabPanel>
-            </div>
+            </Box>
         </AdminTemplate>
-    );
-})
+}
 
 export default ClientAppManagementPage
