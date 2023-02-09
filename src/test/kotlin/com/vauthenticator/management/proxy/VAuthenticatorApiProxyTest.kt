@@ -16,7 +16,7 @@ import org.springframework.web.servlet.HandlerMapping
 
 internal class VAuthenticatorApiProxyTest {
 
-    var wireMockServer: WireMockServer = WireMockServer(options().dynamicHttpsPort()) //No-args constructor will start on port 8080, no HTTPS
+    private var wireMockServer: WireMockServer = WireMockServer(options().dynamicHttpsPort())
 
     @BeforeEach
     fun setUp() {
