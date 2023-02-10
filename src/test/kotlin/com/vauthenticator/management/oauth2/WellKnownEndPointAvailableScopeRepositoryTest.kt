@@ -14,22 +14,8 @@ import org.springframework.web.client.RestTemplate
 @WireMockTest
 class WellKnownEndPointAvailableScopeRepositoryTest {
 
-//    private var wireMockServer: WireMockServer = WireMockServer(WireMockConfiguration.options().dynamicHttpsPort().dynamicPort())
-
-
-
-//    @BeforeEach
-//    fun setUp() {
-//        wireMockServer.start()
-//    }
-//
-//    @AfterEach
-//    fun tearDown() {
-//        wireMockServer.stop()
-//    }
-
     @Test
-    fun `happy path`(wm1 : WireMockRuntimeInfo) {
+    fun `happy path`(wm : WireMockRuntimeInfo) {
         stubFor(
             get("/.well-known/openid-configuration")
                 .willReturn(
@@ -40,7 +26,7 @@ class WellKnownEndPointAvailableScopeRepositoryTest {
         val underTest =
             WellKnownEndPointAvailableScopeRepository(
                 jacksonObjectMapper(),
-                "http://localhost:${wm1.httpPort}",
+                "http://localhost:${wm.httpPort}",
                 RestTemplate()
             )
 
