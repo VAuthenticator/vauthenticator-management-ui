@@ -3,7 +3,7 @@ package com.vauthenticator.management.proxy
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpMethod
 import org.springframework.mock.web.MockHttpServletRequest
@@ -39,7 +39,7 @@ class VAuthenticatorApiProxyTest {
         val servletWebRequest = ServletWebRequest(mockHttpServletRequest, MockHttpServletResponse())
         val proxy = apiProxy.proxy(servletWebRequest, HttpMethod.GET, null)
         val body: ByteArray = proxy.body!!
-        Assertions.assertEquals("echo", String(body))
+        assertEquals("echo", String(body))
     }
 
     @Test
@@ -67,6 +67,6 @@ class VAuthenticatorApiProxyTest {
         val servletWebRequest = ServletWebRequest(mockHttpServletRequest, MockHttpServletResponse())
         val proxy = apiProxy.proxy(servletWebRequest, HttpMethod.POST, "hello")
         val body: ByteArray = proxy.body!!
-        Assertions.assertEquals("echo", String(body))
+        assertEquals("echo", String(body))
     }
 }
