@@ -1,9 +1,11 @@
 package com.vauthenticator.management.oauth2
 
-import org.springframework.http.ResponseEntity
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.ResponseEntity.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.client.RestTemplate
 
 @RestController
 class AvailableScopesEndPoint(private val availableScopeRepository: AvailableScopeRepository) {
@@ -22,9 +24,16 @@ interface AvailableScopeRepository {
     fun getScopes(): Scopes
 }
 
-class WellKnownEndPointAvailableScopeRepository : AvailableScopeRepository {
+class WellKnownEndPointAvailableScopeRepository(
+    private val objectMapper: ObjectMapper,
+    private val baseUrl: String,
+    private val restTemplate: RestTemplate
+) : AvailableScopeRepository {
+    private val endpoint = "/.well-known/openid-configuration"
     override fun getScopes(): Scopes {
-        TODO("Not yet implemented")
+        val entity = restTemplate.getForObject("${baseUrl}$endpoint", String::class.java)
+        val rawScopes = objectMapper.readTree(entity).get("scopes_supported") as List<String>
+        return Scopes(rawScopes.map { Scope(it) })
     }
 
 }

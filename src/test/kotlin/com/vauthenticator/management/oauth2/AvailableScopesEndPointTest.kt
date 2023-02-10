@@ -2,6 +2,7 @@ package com.vauthenticator.management.oauth2
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.vauthenticator.management.oauth2.ScopeFixture.scopes
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -32,7 +33,6 @@ class AvailableScopesEndPointTest {
 
     @Test
     fun `happy path`() {
-        val scopes = Scopes(listOf(Scope("A_SCOPE")))
         every { availableScopeRepository.getScopes() } returns scopes
         val scopesJsonContent = objectMapper.writeValueAsString(scopes)
 

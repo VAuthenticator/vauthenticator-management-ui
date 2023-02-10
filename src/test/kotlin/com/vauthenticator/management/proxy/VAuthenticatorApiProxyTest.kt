@@ -16,7 +16,7 @@ import org.springframework.web.servlet.HandlerMapping
 
 internal class VAuthenticatorApiProxyTest {
 
-    private var wireMockServer: WireMockServer = WireMockServer(options().dynamicHttpsPort())
+    private var wireMockServer: WireMockServer = WireMockServer(options().dynamicPort())
 
     @BeforeEach
     fun setUp() {
