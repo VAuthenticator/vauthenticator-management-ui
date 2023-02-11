@@ -13,6 +13,6 @@ class ScopesConfig {
     @Bean
     fun availableScopeRepository(
         objectMapper: ObjectMapper,
-        @Value("\${vauthenticator.host}") vauthenticatoBaseUrl: String
+        @Value("\${vauthenticator.backChannelHost}") vauthenticatoBaseUrl: String
     ) = WellKnownEndPointAvailableScopeRepository(objectMapper, vauthenticatoBaseUrl, RestTemplate())
 }
