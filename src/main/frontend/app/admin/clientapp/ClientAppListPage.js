@@ -20,7 +20,6 @@ const columns = [
 ];
 
 const ClientAppListPage = () => {
-    console.log("AO")
     const [applications, setApplications] = React.useState([])
     const [open, setOpen] = React.useState(false)
     const [currentClientAppId, setCurrentClientAppId] = React.useState("")
