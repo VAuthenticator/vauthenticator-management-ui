@@ -63,7 +63,7 @@ const ClientAppManagementPage = () => {
         let clientApplication = {
             "clientAppName": clientAppName,
             "secret": secret,
-            "scopes": scopes,
+            "scopes": scopes.map(scope => scope.value),
             "authorizedGrantTypes": authorizedGrantTypesParam(authorizedGrantTypes),
             "webServerRedirectUri": webServerRedirectUri,
             "authorities": authorities,
@@ -97,7 +97,9 @@ const ClientAppManagementPage = () => {
                         try {
                             setClientAppName(clientApp.clientAppName)
                             setSecret(clientApp.secret)
-                            setScopes(clientApp.scopes)
+                            setScopes(clientApp.scopes.map(scope => {
+                                return {value: scope, label: scope};
+                            }))
                             setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes))
                             setWebServerRedirectUri(clientApp.webServerRedirectUri)
                             setAccessTokenValidity(clientApp.accessTokenValidity)
@@ -204,14 +206,8 @@ const ClientAppManagementPage = () => {
                         <FormSelect id="scopes"
                                     label="Scopes"
                                     multi={true}
-                                    onChangeHandler={(value) => {
-                                        console.log(value)
-                                        setScopes([
-                                            ...scopes,
-                                            {
-                                                [value.target.value]: value.target.value
-                                            }
-                                        ])
+                                    onChangeHandler={(event) => {
+                                        setScopes(event)
                                     }}
                                     options={availableScopes}
                                     value={scopes}/>
