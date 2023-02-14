@@ -6,7 +6,7 @@ import HomePageMenuItem, {homeMenuContent} from "./HomePageMenuItem";
 const HomePage = () => {
     return (
         <AdminTemplate maxWidth="xl" page={"Home"}>
-            <MenuCardContainer spacing={3}>
+            <MenuCardContainer spacing={2}>
                 <HomePageMenuItem content={homeMenuContent.clientApplications} />
                 <HomePageMenuItem content={homeMenuContent.roles} />
                 <HomePageMenuItem content={homeMenuContent.accounts} />
