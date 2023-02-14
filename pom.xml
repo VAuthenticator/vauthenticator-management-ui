@@ -70,7 +70,6 @@
             <version>3.1.9-1</version>
         </dependency>
 
-
         <!-- kotlin dependencies -->
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
