@@ -3,6 +3,7 @@ import MenuCard from "../../component/MenuCard";
 import {Apps, AssignmentInd, PeopleAlt} from "@material-ui/icons";
 import vauthenticatorStyles from "../../theme/styles";
 import {useTheme} from "@mui/material";
+import {Key} from "@mui/icons-material";
 
 export default (props) => {
     let classes = vauthenticatorStyles(useTheme());
@@ -50,5 +51,13 @@ export const homeMenuContent = {
         body: "In this section you can manage Accounts in VAuthenticator from OpenIdConnect prospective. Your will able to " +
             " disable accounts, invalidate and force password reset",
         link: "/accounts"
+    },
+    keys: {
+        title: {
+            text: "Key Management Section",
+            icon: (classes) => <Key style={classes.homeMenuItemIcon}/>
+        },
+        body: "In this section you can manage Keys in VAuthenticator for token signature",
+        link: "/keys"
     }
 }
