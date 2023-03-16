@@ -36,12 +36,16 @@ export default () => {
                 .then(roleValues => {
                     findAccountFor(email)
                         .then(value => {
-                            setEnabled({enabled: value.enabled})
-                            setAccountLocked({accountLocked: value.accountLocked})
-                            setAuthorities(value.authorities)
-                            setAuthorityRows(
-                                drawAuthorityRows(setAuthorityRows, setAuthorities, value.authorities, roleValues)
-                            )
+                            if (value) {
+                                setEnabled({enabled: value.enabled})
+                                setAccountLocked({accountLocked: value.accountLocked})
+                                setAuthorities(value.authorities)
+                                setAuthorityRows(
+                                    drawAuthorityRows(setAuthorityRows, setAuthorities, value.authorities, roleValues)
+                                )
+                            } else {
+                                navigate(-1)
+                            }
                         })
                 })
         }, []
@@ -100,6 +104,7 @@ export default () => {
 
                     <Separator/>
                     <FormButton label="Save" onClickHandler={save}/>
+                    <FormButton label="Back" onClickHandler={() => navigate(-1)}/>
                 </CardContent>
             </Card>
 

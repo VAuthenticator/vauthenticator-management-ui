@@ -1,10 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import AdminTemplate from "../../component/AdminTemplate";
 import StickyHeadTable from "../../component/StickyHeadTable";
-import EditIcon from "@material-ui/icons/Edit";
-import {findAllAccounts} from "./AccountRepository";
-import Checkbox from "@material-ui/core/Checkbox";
 import {useNavigate} from "react-router";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import FormInputTextField from "../../component/FormInputTextField";
+import Separator from "../../component/Separator";
+import FormButton from "../../component/FormButton";
 
 const columns = [
     {id: 'email', label: 'E-Mail', minWidth: 170},
@@ -16,10 +19,11 @@ const columns = [
 export default () => {
     const pageTitle = "Account Management"
     const [accounts, setAccounts] = useState([])
+    const [email, setEmail] = useState("")
 
     const navigate = useNavigate();
 
-    const getEditLinkFor = (accountMail) => {
+   /* const getEditLinkFor = (accountMail) => {
         return <EditIcon onClick={() => {
             navigate(`/accounts/edit/${accountMail}`)
         }}/>
@@ -44,8 +48,25 @@ export default () => {
     useEffect(() => {
         fetchAllAccounts()
     }, []);
-
+*/
     return <AdminTemplate maxWidth="xl" page={pageTitle}>
+        <Card>
+            <CardHeader title="Account Search" color="textSecondary"/>
+            <CardContent>
+                <FormInputTextField id="email"
+                                    label="Account Mail"
+                                    required={true}
+                                    disabled={false}
+                                    handler={(value) => {
+                                        setEmail(value.target.value)
+                                    }}
+                                    value={email}/>
+
+
+                <Separator/>
+                <FormButton label="Find" onClickHandler={() => navigate(`/accounts/edit/${email}`)}/>
+            </CardContent>
+        </Card>
         <StickyHeadTable columns={columns} rows={accounts}/>
     </AdminTemplate>
 
