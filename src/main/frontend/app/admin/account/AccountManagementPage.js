@@ -13,6 +13,7 @@ import {findAccountFor, saveAccountFor} from "./AccountRepository";
 import FormButton from "../../component/FormButton";
 import {findAllRoles} from "../roles/RoleRepository";
 import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
+import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 
 const columns = [
     {id: 'name', label: 'Role', minWidth: 170},
@@ -103,8 +104,15 @@ export default () => {
                     <AuthorityTable authorityRows={authorityRows} columns={columns}/>
 
                     <Separator/>
-                    <FormButton label="Save" onClickHandler={save}/>
-                    <FormButton label="Back" onClickHandler={() => navigate(-1)}/>
+
+                    <LeftRightComponentRow leftComponentColumnsSize={2}
+                                           leftComponents={<FormButton label="Back"
+                                                                       onClickHandler={() => navigate(-1)}/>}
+
+                                           rightComponentsColumnSize={2}
+                                           rightComponents={<FormButton label="Save" direction="rtl" onClickHandler={save}/>}
+                    />
+
                 </CardContent>
             </Card>
 
