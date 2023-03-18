@@ -1,6 +1,8 @@
 package com.vauthenticator.management.document
 
-data class Document(val contentType: String, val content: ByteArray) {
+import java.io.Serializable
+
+data class Document(val contentType: String, val content: ByteArray) : Serializable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
