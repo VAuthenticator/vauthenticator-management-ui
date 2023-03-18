@@ -9,6 +9,8 @@ class S3DocumentRepository(
 ) : DocumentRepository {
 
     override fun loadDocument(type: String, path: String): Document {
+        println("type: $type")
+        println("path: $path")
         val request = GetObjectRequest.builder().bucket(buketName).key("$type/$path").build()
         val response = s3Client.getObject(request)
 
