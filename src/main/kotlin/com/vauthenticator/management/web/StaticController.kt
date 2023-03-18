@@ -18,7 +18,12 @@ class StaticController(
 
     @GetMapping("/static/content/asset/{assetName}")
     fun assetContent(@PathVariable assetName: String): ResponseEntity<*> {
+        try {
+
         staticContentLocalCache.get(assetName, Document::class.java)!!
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
         val document = documentRepository.loadDocument("static-management-ui", "content/asset/$assetName")
 
         return ResponseEntity.ok()
