@@ -38,7 +38,7 @@ class WebSecurityConfig(
             .authorizationRequestResolver(oAuth2AuthorizationRequestResolverWithSessionState);
 
         http.authorizeHttpRequests { authz ->
-            authz.requestMatchers("/actuator/**", "/oidc_logout.html").permitAll()
+            authz.requestMatchers("/static/content/asset/**","/actuator/**", "/oidc_logout.html").permitAll()
                 .anyRequest().hasAnyAuthority(adminRole)
         }
 

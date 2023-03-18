@@ -1,4 +1,4 @@
-package com.vauthenticator.management
+package com.vauthenticator.management.web
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 class BaseUiModelInjector(
     @Value("\${vauthenticator.host}") private val vauthenticatorHost: String,
     @Value("\${vauthenticator.session-management.rp-iframe.host}") private val managementUiHost: String,
-    @Value("\${assetServer.baseUrl:http://localhost:3001/asset}") private val assetServerBaseUrl: String
+    @Value("\${assetServer.baseUrl:http://local.management.vauthenticator.com:\${server.port}/static/content/asset}") private val assetServerBaseUrl: String
 ) {
 
     @ModelAttribute("assetServerBaseUrl")
