@@ -25,7 +25,7 @@ class CacheConfig(private val documentRepository: DocumentRepository) {
                 .refreshAfterWrite(ttl)
                 .build { assetName ->
                     logger.debug("loading $assetName ....")
-                   String(documentRepository.loadDocument("static-management-ui", "$assetName"))
+                    documentRepository.loadDocument("static-management-ui", "$assetName")
                 }
         )
     }

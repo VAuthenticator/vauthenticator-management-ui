@@ -1,7 +1,9 @@
 package com.vauthenticator.management.web
 
+import com.vauthenticator.management.document.Document
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.caffeine.CaffeineCache
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -11,7 +13,12 @@ import org.springframework.web.bind.annotation.RestController
 class StaticController(private val staticContentLocalCache: CaffeineCache) {
 
     @GetMapping("/static/content/asset/{assetName}")
-    fun assetContent(@PathVariable assetName: String): String {
-        return staticContentLocalCache.get(assetName, String::class.java)!!
-    }
+    fun assetContent(@PathVariable assetName: String) =
+        staticContentLocalCache.get(assetName, Document::class.java)!!
+            .let {
+                ResponseEntity.ok()
+                    .header("Content-Type", it.contentType)
+                    .body(it.content)
+            }
+
 }

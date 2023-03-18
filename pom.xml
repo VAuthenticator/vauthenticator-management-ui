@@ -19,6 +19,7 @@
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.7.22</kotlin.version>
+        <snakeyaml.version>2.0</snakeyaml.version>
         <io.mockk.version>1.13.2</io.mockk.version>
         <wiremock.version>3.0.0-beta-2</wiremock.version>
         <aws.sdk.version>2.20.22</aws.sdk.version>
@@ -59,12 +60,6 @@
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.vauthenticator</groupId>
-            <artifactId>spring-boot-client-starter</artifactId>
-            <version>0.4.1</version>
-        </dependency>
-
         <!-- web dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -81,6 +76,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vauthenticator</groupId>
+            <artifactId>spring-boot-client-starter</artifactId>
+            <version>0.4.1</version>
         </dependency>
 
         <!-- kotlin dependencies -->

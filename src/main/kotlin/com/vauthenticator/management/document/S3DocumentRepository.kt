@@ -7,8 +7,14 @@ class S3DocumentRepository(
     private val s3Client: S3Client,
     private val buketName: String
 ) : DocumentRepository {
-    override fun loadDocument(type: String, path: String): ByteArray {
+
+    override fun loadDocument(type: String, path: String): Document {
         val request = GetObjectRequest.builder().bucket(buketName).key("$type/$path").build()
-        return s3Client.getObject(request).readAllBytes()
+        val response = s3Client.getObject(request)
+
+        return Document(
+            contentType = response.response().contentType(),
+            content = response.readAllBytes()
+        )
     }
 }
