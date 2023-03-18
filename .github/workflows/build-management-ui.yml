@@ -87,7 +87,7 @@ jobs:
         run: |
           cd src/main/frontend
           npm install --legacy-peer-deps
-          npm run-script build
+          npm run-script production-build
 
       - name: load static file on s3
         uses: aws-actions/configure-aws-credentials@v1-node16
