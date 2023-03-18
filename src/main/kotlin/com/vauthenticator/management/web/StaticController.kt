@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RestController
 class StaticController(private val staticContentLocalCache: CaffeineCache) {
 
     @GetMapping("/static/content/asset/{assetName}")
-    fun assetContent(@PathVariable assetName: String) =
-        staticContentLocalCache.get(assetName, Document::class.java)!!
-            .let {
-                ResponseEntity.ok()
-                    .header("Content-Type", it.contentType)
-                    .body(it.content)
-            }
+    fun assetContent(@PathVariable assetName: String): ResponseEntity<*> {
+        println(assetName)
+        println(staticContentLocalCache)
+        val document = staticContentLocalCache.get(assetName, Document::class.java)!!
+
+        return ResponseEntity.ok()
+            .header("Content-Type", document.contentType)
+            .body(document.content)
+    }
 
 }

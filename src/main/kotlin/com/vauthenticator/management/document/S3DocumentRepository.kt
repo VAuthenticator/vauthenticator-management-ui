@@ -1,5 +1,6 @@
 package com.vauthenticator.management.document
 
+import org.slf4j.LoggerFactory
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 
@@ -8,9 +9,10 @@ class S3DocumentRepository(
     private val buketName: String
 ) : DocumentRepository {
 
+    private val logger = LoggerFactory.getLogger(S3DocumentRepository::class.java)
     override fun loadDocument(type: String, path: String): Document {
-        println("type: $type")
-        println("path: $path")
+        logger.info("type: $type")
+        logger.info("path: $path")
         val request = GetObjectRequest.builder().bucket(buketName).key("$type/$path").build()
         val response = s3Client.getObject(request)
 
