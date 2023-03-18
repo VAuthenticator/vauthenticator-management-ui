@@ -99,7 +99,7 @@ jobs:
           cd src/main/frontend/dist/asset
           ls *.js | while read line
           do 
-            aws s3 cp $line s3://${{ secrets.VAUTHENTICATOR_BUCKET }}/static-management-ui/$line
+            aws s3 cp $line s3://${{ secrets.VAUTHENTICATOR_BUCKET }}/static-management-ui/content/asset/$line
           done
 
       - name: docker push
