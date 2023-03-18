@@ -11,8 +11,6 @@ class S3DocumentRepository(
 
     private val logger = LoggerFactory.getLogger(S3DocumentRepository::class.java)
     override fun loadDocument(type: String, path: String): Document {
-        logger.info("type: $type")
-        logger.info("path: $path")
         val request = GetObjectRequest.builder().bucket(buketName).key("$type/$path").build()
         val response = s3Client.getObject(request)
 

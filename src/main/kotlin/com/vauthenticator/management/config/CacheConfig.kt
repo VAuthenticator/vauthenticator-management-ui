@@ -24,7 +24,7 @@ class CacheConfig(private val documentRepository: DocumentRepository) {
             "static-content-local-cache", Caffeine.newBuilder()
                 .refreshAfterWrite(ttl)
                 .build { assetName ->
-                    logger.info("loading $assetName ....")
+                    logger.debug("loading $assetName ....")
                     documentRepository.loadDocument("static-management-ui", "content/asset/$assetName")
                 }
         )

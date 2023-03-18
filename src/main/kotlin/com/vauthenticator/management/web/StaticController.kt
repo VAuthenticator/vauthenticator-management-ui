@@ -14,10 +14,7 @@ class StaticController(private val staticContentLocalCache: CaffeineCache) {
 
     @GetMapping("/static/content/asset/{assetName}")
     fun assetContent(@PathVariable assetName: String): ResponseEntity<*> {
-        println(assetName)
-        println(staticContentLocalCache)
         val document = staticContentLocalCache.get(assetName, Document::class.java)!!
-
         return ResponseEntity.ok()
             .header("Content-Type", document.contentType)
             .body(document.content)
