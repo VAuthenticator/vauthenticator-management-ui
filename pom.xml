@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.4</version>
         <relativePath/>
     </parent>
 
@@ -13,17 +13,37 @@
     <artifactId>vauthenticator-management-ui</artifactId>
     <version>0.5-SNAPSHOT</version>
 
-    <name>vauthenticator</name>
+    <name>vauthenticator-management-ui</name>
     <description>VAuthentiator Authorization Server Management Application</description>
 
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.7.22</kotlin.version>
+        <snakeyaml.version>2.0</snakeyaml.version>
         <io.mockk.version>1.13.2</io.mockk.version>
         <wiremock.version>3.0.0-beta-2</wiremock.version>
+        <aws.sdk.version>2.20.22</aws.sdk.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/sts -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sts</artifactId>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
@@ -38,12 +58,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vauthenticator</groupId>
-            <artifactId>spring-boot-client-starter</artifactId>
-            <version>0.4.1</version>
         </dependency>
 
         <!-- web dependencies -->
@@ -65,9 +79,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.webjars.bower</groupId>
-            <artifactId>crypto-js</artifactId>
-            <version>3.1.9-1</version>
+            <groupId>com.vauthenticator</groupId>
+            <artifactId>spring-boot-client-starter</artifactId>
+            <version>0.4.1</version>
         </dependency>
 
         <!-- kotlin dependencies -->
