@@ -2,6 +2,7 @@ package com.vauthenticator.management.web
 
 import com.vauthenticator.management.document.Document
 import com.vauthenticator.management.document.DocumentRepository
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.caffeine.CaffeineCache
 import org.springframework.http.ResponseEntity
@@ -16,10 +17,12 @@ class StaticController(
     private val staticContentLocalCache: CaffeineCache
 ) {
 
+    private val logger = LoggerFactory.getLogger(StaticController::class.java)
+
     @GetMapping("/static/content/asset/{assetName}")
     fun assetContent(@PathVariable assetName: String): ResponseEntity<*> {
         try {
-
+        logger.info("assetName : $assetName")
         staticContentLocalCache.get(assetName, Document::class.java)!!
         }catch (e:Exception){
             e.printStackTrace()
