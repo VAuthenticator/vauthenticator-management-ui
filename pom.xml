@@ -22,7 +22,7 @@
         <snakeyaml.version>2.0</snakeyaml.version>
         <io.mockk.version>1.13.2</io.mockk.version>
         <wiremock.version>3.0.0-beta-2</wiremock.version>
-        <aws.sdk.version>2.20.22</aws.sdk.version>
+        <aws.sdk.version>2.20.26</aws.sdk.version>
     </properties>
 
     <dependencies>
@@ -44,16 +44,16 @@
             <version>${aws.sdk.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-brave</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-tracing-bridge-brave</artifactId>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-registry-prometheus</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
