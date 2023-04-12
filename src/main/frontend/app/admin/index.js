@@ -10,6 +10,7 @@ import AccountListPage from "./account/AccountListPage";
 import ClientAppListPage from "./clientapp/ClientAppListPage";
 import ClientAppManagementPage from "./clientapp/ClientAppManagementPage";
 import KeyManagementPage from "./key/KeyManagementPage";
+import MailTemplatePage from "./templates/MailTemplatePage";
 
 const VAuthenticatorAdminApp = () =>
     <HashRouter>
@@ -31,6 +32,7 @@ const VAuthenticatorAdminApp = () =>
             <Route exact={true} path="/accounts/edit/:accountMail" element={<AccountManagementPage/>}/>
 
             <Route exact={true} path="/keys" element={<KeyManagementPage/>}/>
+            <Route exact={true} path="/mail-templates" element={<MailTemplatePage/>}/>
         </Routes>
     </HashRouter>
 

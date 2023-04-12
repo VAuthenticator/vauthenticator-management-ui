@@ -32,6 +32,9 @@ const vauthenticatorStyles = theme => ({
     },
     title: {
         flexGrow: 1,
+    },
+    contentEditor: {
+        minHeight: "200px"
     }
 });
 
