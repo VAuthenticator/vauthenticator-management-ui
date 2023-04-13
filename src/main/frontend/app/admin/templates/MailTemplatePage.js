@@ -16,7 +16,7 @@ const MailTemplatePage = () => {
 
     let mailContent = useRef()
     const [mailType, setMailType] = useState("")
-    let saveMailTempalte = () => {
+    let saveMailTemplate = () => {
         saveMailTemplateFor({
             mailType: mailType.value,
             body: mailContent.current.innerHTML
@@ -50,7 +50,7 @@ const MailTemplatePage = () => {
 
             <Separator/>
 
-            <FormButton label="Save" type="button" onClickHandler={saveMailTempalte}/>
+            <FormButton label="Save" type="button" onClickHandler={saveMailTemplate}/>
         </AdminTemplate>
     )
 }
