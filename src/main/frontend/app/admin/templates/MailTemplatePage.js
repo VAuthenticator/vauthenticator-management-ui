@@ -19,7 +19,7 @@ const MailTemplatePage = () => {
     let saveMailTemplate = () => {
         saveMailTemplateFor({
             mailType: mailType.value,
-            body: mailContent.current.innerHTML
+            body: mailContent.current.innerText
         })
             .then(_ => {
             })
