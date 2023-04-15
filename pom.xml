@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.4</version>
+        <version>3.0.5</version>
         <relativePath/>
     </parent>
 
@@ -21,7 +21,7 @@
         <kotlin.version>1.7.22</kotlin.version>
         <snakeyaml.version>2.0</snakeyaml.version>
         <io.mockk.version>1.13.2</io.mockk.version>
-        <wiremock.version>3.0.0-beta-2</wiremock.version>
+        <wiremock.version>3.0.0-beta-7</wiremock.version>
         <aws.sdk.version>2.20.26</aws.sdk.version>
     </properties>
 
@@ -44,16 +44,16 @@
             <version>${aws.sdk.version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.micrometer</groupId>-->
-<!--            <artifactId>micrometer-tracing-bridge-brave</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.micrometer</groupId>-->
-<!--            <artifactId>micrometer-registry-prometheus</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

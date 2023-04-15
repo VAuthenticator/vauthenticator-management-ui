@@ -1,6 +1,7 @@
 import React from 'react';
 import MenuCard from "../../component/MenuCard";
 import {Apps, AssignmentInd, PeopleAlt} from "@material-ui/icons";
+import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import vauthenticatorStyles from "../../theme/styles";
 import {useTheme} from "@mui/material";
 import {Key} from "@mui/icons-material";
@@ -59,5 +60,13 @@ export const homeMenuContent = {
         },
         body: "In this section you can manage Keys in VAuthenticator for token signature",
         link: "/keys"
+    },
+    mails: {
+        title: {
+            text: "Mail Template Management Section",
+            icon: (classes) => <LocalPostOfficeIcon style={classes.homeMenuItemIcon}/>
+        },
+        body: "In this section you can manage Mail templates in VAuthenticator",
+        link: "/mail-templates"
     }
 }

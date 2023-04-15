@@ -11,6 +11,7 @@ const HomePage = () => {
                 <HomePageMenuItem content={homeMenuContent.roles} />
                 <HomePageMenuItem content={homeMenuContent.accounts} />
                 <HomePageMenuItem content={homeMenuContent.keys} />
+                <HomePageMenuItem content={homeMenuContent.mails} />
             </MenuCardContainer>
 
         </AdminTemplate>
