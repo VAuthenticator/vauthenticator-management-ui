@@ -34,7 +34,7 @@ const MailTemplatePage = () => {
             body: mailContent.current.innerText
         })
             .then(r => {
-                if(r.status == 204){
+                if(r.status === 204){
                     setOpenSucceeded(true);
                 } else {
                     setOpenFailure(false);
