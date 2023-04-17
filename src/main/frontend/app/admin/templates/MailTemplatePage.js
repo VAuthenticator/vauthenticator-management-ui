@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Separator from "../../component/Separator";
 import FormButton from "../../component/FormButton";
 import FormSelect from "../../component/FormSelect";
-import {saveMailTemplateFor} from "./MailTemplateRepository";
+import {getMailTemplateFor, saveMailTemplateFor} from "./MailTemplateRepository";
 
 
 const MailTemplatePage = () => {
@@ -35,6 +35,10 @@ const MailTemplatePage = () => {
                         multi={false}
                         onChangeHandler={(event) => {
                             setMailType(event)
+                            getMailTemplateFor(event.value)
+                                .then(content => {
+                                    mailContent.current.innerText = content.body
+                                })
                         }}
                         options={[
                             {value: "WELCOME", label: "WELCOME"},
