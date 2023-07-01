@@ -82,7 +82,7 @@
         <dependency>
             <groupId>com.vauthenticator</groupId>
             <artifactId>spring-boot-client-starter</artifactId>
-            <version>0.5-SNAPSHOT</version>
+            <version>0.6-SNAPSHOT</version>
         </dependency>
 
         <!-- kotlin dependencies -->
