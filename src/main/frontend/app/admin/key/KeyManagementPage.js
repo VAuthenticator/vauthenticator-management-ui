@@ -3,7 +3,8 @@ import AdminTemplate from "../../component/AdminTemplate";
 import {Delete} from "@material-ui/icons";
 import {deleteKeyFor, findAllKeys} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
-import {Alert, Snackbar} from "@mui/material";
+import {Alert, Snackbar, useTheme} from "@mui/material";
+import vauthenticatorStyles from "../../theme/styles";
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
@@ -12,6 +13,7 @@ const columns = [
 ];
 
 const KeysManagementPage = () => {
+    vauthenticatorStyles(useTheme());
     const pageTitle = "Keys Management"
     const [keys, setKeys] = React.useState([])
     const [openFailure, setOpenFailure] = React.useState(false);
