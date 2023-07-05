@@ -3,7 +3,7 @@ import AdminTemplate from "../../component/AdminTemplate";
 import {Delete} from "@material-ui/icons";
 import {deleteKeyFor, findAllKeys} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
-import ConfirmationDialog from "../../component/ConfirmationDialog";
+import {Alert, Snackbar} from "@mui/material";
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
@@ -14,25 +14,24 @@ const columns = [
 const KeysManagementPage = () => {
     const pageTitle = "Keys Management"
     const [keys, setKeys] = React.useState([])
-    const [openConfirmationDeleteKeyDialog, setOpenConfirmationDeleteKeyDialog] = React.useState(false)
-    const handleCloseConfirmationDialog = (refresh) => {
-        setOpenConfirmationDeleteKeyDialog(false);
-        if (refresh) {
-            fetchAllKeys();
+    const [openFailure, setOpenFailure] = React.useState(false);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
         }
-    };
 
-    const deleteKey = (kid) => deleteKeyFor(kid)
-        .then(response => {
-            if (response.status === 204) {
-                fetchAllKeys()
-            }
-        })
+        setOpenFailure(false);
+    };
 
     const getDeleteLinkFor = (kid) => {
         return <Delete onClick={() => {
-            deleteKey(kid)
-                .then(_ => {
+            deleteKeyFor(kid)
+                .then(response => {
+                    if (response.status === 204) {
+                        fetchAllKeys()
+                    } else {
+                        setOpenFailure(true);
+                    }
                 })
         }}/>;
     }
@@ -63,13 +62,12 @@ const KeysManagementPage = () => {
 
     return (
         <AdminTemplate maxWidth="xl" page={pageTitle}>
+            <Snackbar open={openFailure} autoHideDuration={6000}>
+                <Alert onClose={handleClose} severity="failure" sx={{ width: '100%' }}>
+                    Delete this key is not allowed
+                </Alert>
+            </Snackbar>
             <StickyHeadTable columns={columns} rows={keys}/>
-            <ConfirmationDialog maxWidth="md"
-                                open={openConfirmationDeleteKeyDialog}
-                                onExecute={deleteKey}
-                                onClose={handleCloseConfirmationDialog}
-                                message="Are you sure delete the selected key"
-                                title="Key delete"/>
         </AdminTemplate>
     )
 }
