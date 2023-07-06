@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import AdminTemplate from "../../component/AdminTemplate";
 import {Delete} from "@material-ui/icons";
 import {deleteKeyFor, findAllKeys} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
-import {Alert, Snackbar, useTheme} from "@mui/material";
+import AdminTemplate from "../../component/AdminTemplate";
 import vauthenticatorStyles from "../../theme/styles";
+import {Alert, Snackbar, useTheme} from "@mui/material";
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
@@ -65,7 +65,7 @@ const KeysManagementPage = () => {
     return (
         <AdminTemplate maxWidth="xl" page={pageTitle}>
             <Snackbar open={openFailure} autoHideDuration={6000}>
-                <Alert onClose={handleClose} severity="failure" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                     Delete this key is not allowed
                 </Alert>
             </Snackbar>
