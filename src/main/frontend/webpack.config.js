@@ -9,14 +9,12 @@ module.exports = {
         "404_error": path.resolve(__dirname, './app/errors/400ErrorPage.js'),
         "400_error": path.resolve(__dirname, './app/errors/404ErrorPage.js'),
         "500_error": path.resolve(__dirname, './app/errors/500ErrorPage.js'),
-        healthz: path.resolve(__dirname, './app/healthz/healthz.js'),
-        admin: path.resolve(__dirname, './app/admin/index.js'),
+        "admin": path.resolve(__dirname, './app/admin/index.js')
     },
     resolve: {
         extensions: [".js", ".jsx"]
     },
-    plugins: [
-    ],
+    plugins: [],
     module: {
         rules: [
             {

@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
-import AdminTemplate from "../../component/AdminTemplate";
 import {Delete} from "@material-ui/icons";
 import {deleteKeyFor, findAllKeys} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
+import AdminTemplate from "../../component/AdminTemplate";
+import vauthenticatorStyles from "../../theme/styles";
+import {Alert, Snackbar, useTheme} from "@mui/material";
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
@@ -11,8 +13,17 @@ const columns = [
 ];
 
 const KeysManagementPage = () => {
+    vauthenticatorStyles(useTheme());
     const pageTitle = "Keys Management"
     const [keys, setKeys] = React.useState([])
+    const [openFailure, setOpenFailure] = React.useState(false);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenFailure(false);
+    };
 
     const getDeleteLinkFor = (kid) => {
         return <Delete onClick={() => {
@@ -20,6 +31,8 @@ const KeysManagementPage = () => {
                 .then(response => {
                     if (response.status === 204) {
                         fetchAllKeys()
+                    } else {
+                        setOpenFailure(true);
                     }
                 })
         }}/>;
@@ -51,6 +64,11 @@ const KeysManagementPage = () => {
 
     return (
         <AdminTemplate maxWidth="xl" page={pageTitle}>
+            <Snackbar open={openFailure} autoHideDuration={6000}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    Delete this key is not allowed
+                </Alert>
+            </Snackbar>
             <StickyHeadTable columns={columns} rows={keys}/>
         </AdminTemplate>
     )

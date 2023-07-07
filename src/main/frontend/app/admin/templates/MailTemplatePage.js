@@ -49,7 +49,7 @@ const MailTemplatePage = () => {
                 </Alert>
             </Snackbar>
             <Snackbar open={openFailure} autoHideDuration={6000}>
-                <Alert onClose={handleClose} severity="failure" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                     Mail Template save failed
                 </Alert>
             </Snackbar>
