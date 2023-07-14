@@ -15,6 +15,9 @@ on:
 jobs:
   tag-artifact:
     if: github.event.inputs.version != '' || github.event.inputs.version != ' '
+    needs:
+      - build-backend
+      - ui-backend
 
     runs-on: ubuntu-20.04
     steps:
@@ -31,7 +34,7 @@ jobs:
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
           
           mvn versions:set -DnewVersion=${{github.event.inputs.version}}
-          git commit -am "new version release ${{github.event.inputs.newversion}}"
+          git commit -am "[skip-ci] new version release ${{github.event.inputs.newversion}}"
           git push
 
       - name: Create tag
@@ -41,7 +44,6 @@ jobs:
           tag: ${{github.event.inputs.version}}
 
   build-backend:
-    if: github.event.inputs.version == '' || github.event.inputs.version == ' '
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -80,7 +82,7 @@ jobs:
           docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
           docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
   ui-backend:
-    if: github.event.inputs.version == '' || github.event.inputs.version == ' '
+    needs: tag-artifact
     runs-on: ubuntu-20.04
 
     steps:
