@@ -14,29 +14,31 @@ on:
         type: string
 jobs:
   tag-artifact:
+    if: github.event.inputs.version != '' || github.event.inputs.version != ' '
+
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
-        if: github.event.inputs.version != '' || github.event.inputs.version != ' '
         uses: actions/checkout@v3
 
+      - name: make an echo
+        run: |
+          echo version ${{github.event.inputs.version}}
+
       - name: set the Tag version
-        if: github.event.inputs.version != '' || github.event.inputs.version != ' '
         run: |
           mvn versions:set -DnewVersion=${{github.event.inputs.version}}
-          git commit -am "[skip ci] new version release ${{github.event.inputs.newversion}}"
+          git commit -am "new version release ${{github.event.inputs.newversion}}"
           git push
 
       - name: Create tag
-        if: github.event.inputs.version != '' || github.event.inputs.version != ' '
         uses: ncipollo/release-action@v1
         with:
           bodyFile: changelog/${{github.event.inputs.version}}.md
           tag: ${{github.event.inputs.version}}
 
   build-backend:
-    needs: tag-artifact
-
+    if: github.event.inputs.version == '' || github.event.inputs.version == ' '
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -75,7 +77,7 @@ jobs:
           docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
           docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
   ui-backend:
-    needs: tag-artifact
+    if: github.event.inputs.version == '' || github.event.inputs.version == ' '
     runs-on: ubuntu-20.04
 
     steps:
