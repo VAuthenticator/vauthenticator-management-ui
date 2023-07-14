@@ -8,6 +8,10 @@ on:
         description: 'make a tag'
         required: false
 
+      newversion:
+        description: 'Next desired version'
+        required: true
+        type: string
 jobs:
   tag-artifact:
     if: github.event.inputs.version != '' || github.event.inputs.version != ' '
@@ -21,6 +25,12 @@ jobs:
         run: |
           echo version ${{github.event.inputs.version}}
 
+      - name: set the Tag version
+        run: |
+          mvn versions:set -DnewVersion=${{github.event.inputs.version}}
+          git commit -am "[skip ci] new version release ${{github.event.inputs.newversion}}"
+          git push
+
       - name: Create tag
         uses: ncipollo/release-action@v1
         with:
@@ -28,6 +38,8 @@ jobs:
           tag: ${{github.event.inputs.version}}
 
   build-backend:
+    needs: tag-artifact
+
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -38,12 +50,6 @@ jobs:
         with:
           java-version: 17
           distribution: 'corretto'
-
-      - name: build testing environment
-        run: |
-          git clone https://github.com/VAuthenticator/spring-boot-client-starter.git
-          cd spring-boot-client-starter
-          mvn clean install -q
 
       - name: Build
         run: |
@@ -72,6 +78,7 @@ jobs:
           docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
           docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
   ui-backend:
+    needs: tag-artifact
     runs-on: ubuntu-20.04
 
     steps:
