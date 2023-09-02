@@ -76,7 +76,7 @@ const MailTemplatePage = () => {
 
             <Separator/>
 
-            <div ref={mailContent} contenteditable="true" style={classes.contentEditor}/>
+            <div ref={mailContent} contentEditable="true" style={classes.contentEditor}/>
 
             <Separator/>
 
