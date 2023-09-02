@@ -50,6 +50,7 @@ const ClientAppManagementPage = () => {
     const [availableScopes, setAvailableScopes] = useState([])
     const [authorizedGrantTypes, setAuthorizedGrantTypes] = useState(authorizedGrantTypesRegistry)
     const [webServerRedirectUri, setWebServerRedirectUri] = useState("")
+    const [withPkce, setWithPkce] = useState(false)
 
     const [authorities, setAuthorities] = useState([])
     const [authorityRows, setAuthorityRows] = useState([])
@@ -65,6 +66,7 @@ const ClientAppManagementPage = () => {
             "secret": secret,
             "scopes": scopes.map(scope => scope.value),
             "authorizedGrantTypes": authorizedGrantTypesParam(authorizedGrantTypes),
+            "withPkce": withPkce,
             "webServerRedirectUri": webServerRedirectUri,
             "authorities": authorities,
             "accessTokenValidity": accessTokenValidity,
@@ -101,6 +103,7 @@ const ClientAppManagementPage = () => {
                                 return {value: scope, label: scope};
                             }))
                             setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes))
+                            setWithPkce(clientApp.withPkce)
                             setWebServerRedirectUri(clientApp.webServerRedirectUri)
                             setAccessTokenValidity(clientApp.accessTokenValidity)
                             setRefreshTokenValidity(clientApp.refreshTokenValidity)
@@ -211,6 +214,15 @@ const ClientAppManagementPage = () => {
                                     }}
                                     options={availableScopes}
                                     value={scopes}/>
+
+                        <CheckboxesGroup id="withPkce"
+                                         handler={(value) => {
+                                             setWithPkce(value.target.checked)
+                                         }}
+                                         choicesRegistry={{
+                                             with_pkce: withPkce
+                                         }}
+                                         legend="Enable/Disable PKCE"/>
 
                         <CheckboxesGroup id="authorizedGrantTypes"
                                          handler={(value) => {
