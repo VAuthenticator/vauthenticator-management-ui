@@ -1,14 +1,8 @@
-import {Container, Link, Paper, ThemeProvider} from "@material-ui/core";
 import React from "react";
-import Toolbar from "@material-ui/core/Toolbar";
-import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import MenuIcon from '@material-ui/icons/Menu';
-import {ExitToApp} from "@material-ui/icons";
 import themeProvider from "../theme/ThemeProvider";
 import vauthenticatorStyles from "../theme/styles";
-import {useTheme} from "@mui/material";
+import {AppBar, IconButton, ThemeProvider, Toolbar, Typography} from "@mui/material";
+import {ExitToApp} from "@mui/icons-material";
 
 export default (props) => {
     let theme = themeProvider

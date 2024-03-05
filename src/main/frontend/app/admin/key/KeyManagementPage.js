@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import {Delete} from "@material-ui/icons";
 import {deleteKeyFor, findAllKeys} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import AdminTemplate from "../../component/AdminTemplate";
 import vauthenticatorStyles from "../../theme/styles";
 import {Alert, Snackbar, useTheme} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},

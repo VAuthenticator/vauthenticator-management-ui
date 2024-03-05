@@ -1,19 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import Typography from "@material-ui/core/Typography";
 import {useNavigate, useParams} from "react-router";
 import FormInputTextField from "../../component/FormInputTextField";
 import AdminTemplate from "../../component/AdminTemplate";
 import Separator from "../../component/Separator";
-import {PeopleAlt} from "@material-ui/icons";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
 import {findAccountFor, saveAccountFor} from "./AccountRepository";
 import FormButton from "../../component/FormButton";
 import {findAllRoles} from "../roles/RoleRepository";
 import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
+import {Card, CardContent, CardHeader, Typography} from "@mui/material";
+import {PeopleAlt} from "@mui/icons-material";
 
 const columns = [
     {id: 'name', label: 'Role', minWidth: 170},

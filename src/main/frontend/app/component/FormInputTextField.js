@@ -1,5 +1,5 @@
-import {Grid, TextField} from "@material-ui/core";
 import React from "react";
+import {Grid, TextField} from "@mui/material";
 
 export default function FormInputTextField({id, label, type, required, autoFocus, disabled, suffix, value, handler}) {
     return <Grid container spacing={8} alignItems="flex-end">

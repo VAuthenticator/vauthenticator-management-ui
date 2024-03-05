@@ -1,11 +1,6 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import {CardHeader} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
+import {Card, CardActionArea, CardContent, CardHeader, Grid, makeStyles} from "@mui/material";
 
 const useStyles = makeStyles({
     root: {

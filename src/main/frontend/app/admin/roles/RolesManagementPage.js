@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
-import {AssignmentInd, Delete} from "@material-ui/icons";
 import AdminTemplate from "../../component/AdminTemplate";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import {deleteRoleFor, findAllRoles} from "./RoleRepository";
 import FormButton from "../../component/FormButton";
-import EditIcon from "@material-ui/icons/Edit";
 import ConfirmationDialog from "../../component/ConfirmationDialog";
 import RolesDialog from "./RolesDialog";
+import {Delete, Edit} from "@mui/icons-material";
 
 const columns = [
     {id: 'name', label: 'Role', minWidth: 170},
@@ -25,7 +24,7 @@ const RolesManagementPage = () => {
     const [isRoleReadOnly, setIsRoleReadOnly] = React.useState(false)
 
     const getEditLinkFor = (role) => {
-        return <EditIcon onClick={() => {
+        return <Edit onClick={() => {
             setRole(role)
             setIsRoleReadOnly(true)
             setOpenRolesManagementDialog(true);
