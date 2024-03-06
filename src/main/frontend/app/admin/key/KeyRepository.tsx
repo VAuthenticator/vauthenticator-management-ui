@@ -1,3 +1,8 @@
+export interface VAuthenticatorKey {
+    masterKey: string
+    kid: string
+}
+
 export function findAllKeys() {
     return fetch("/secure/api/keys",
         {

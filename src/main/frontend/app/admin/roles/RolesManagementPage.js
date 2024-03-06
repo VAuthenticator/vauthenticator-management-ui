@@ -5,7 +5,7 @@ import {deleteRoleFor, findAllRoles} from "./RoleRepository";
 import FormButton from "../../component/FormButton";
 import ConfirmationDialog from "../../component/ConfirmationDialog";
 import RolesDialog from "./RolesDialog";
-import {Delete, Edit} from "@mui/icons-material";
+import {AssignmentInd, Delete, Edit} from "@mui/icons-material";
 
 const columns = [
     {id: 'name', label: 'Role', minWidth: 170},

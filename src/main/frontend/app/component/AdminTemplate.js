@@ -1,8 +1,9 @@
 import React from "react";
 import themeProvider from "../theme/ThemeProvider";
 import vauthenticatorStyles from "../theme/styles";
-import {AppBar, IconButton, ThemeProvider, Toolbar, Typography} from "@mui/material";
+import {AppBar, Container, IconButton, Menu, Paper, ThemeProvider, Toolbar, Typography, useTheme} from "@mui/material";
 import {ExitToApp} from "@mui/icons-material";
+import {Link} from "react-router-dom";
 
 export default (props) => {
     let theme = themeProvider
@@ -16,7 +17,8 @@ export default (props) => {
                                     style={classes.menuButton}
                                     color="default"
                                     aria-label="menu">
-                            <MenuIcon/>
+                            <Menu style={classes.menuButton}
+                                  color="inherit"/>
                         </IconButton>
                     </a>
 

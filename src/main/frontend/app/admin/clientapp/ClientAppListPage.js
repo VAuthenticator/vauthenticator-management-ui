@@ -6,7 +6,7 @@ import AdminTemplate from "../../component/AdminTemplate";
 import FormButton from "../../component/FormButton";
 import ResetClientAppSecretDialog from "./ResetClientAppSecretDialog";
 import {useNavigate} from "react-router";
-import {Delete, Edit, VpnKey} from "@mui/icons-material";
+import {Apps, Delete, Edit, VpnKey} from "@mui/icons-material";
 
 const columns = [
     {id: 'clientAppName', label: 'Client Application Name', minWidth: 170},

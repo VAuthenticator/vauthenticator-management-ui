@@ -14,7 +14,7 @@ import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable"
 import vauthenticatorStyles from "../../theme/styles";
 import FormSelect from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
-import {Box, Card, CardContent, CardHeader, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Card, CardContent, CardHeader, Tab, Tabs, Typography, useTheme} from "@mui/material";
 import {Apps} from "@mui/icons-material";
 
 function allProps(index) {

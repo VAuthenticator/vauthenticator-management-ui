@@ -21,27 +21,6 @@ export default () => {
 
     const navigate = useNavigate();
 
-
-    const fetchAllAccounts = () => {
-        findAllAccounts()
-            .then(values => {
-                let rows = values.map(value => {
-                    return {
-                        email: value.email,
-                        enabled: <Checkbox color="primary" checked={value.enabled}/>,
-                        accountLocked: <Checkbox color="primary" checked={value.accountLocked}/>,
-                        edit: getEditLinkFor(value["email"]),
-                    }
-                })
-
-                setAccounts(rows)
-            });
-    }
-
-    useEffect(() => {
-        fetchAllAccounts()
-    }, []);
-
     return <AdminTemplate maxWidth="xl" page={pageTitle}>
         <Card>
             <CardHeader title="Account Search" color="textSecondary"/>

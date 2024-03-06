@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {deleteKeyFor, findAllKeys} from "./KeyRepository";
+import React, {SyntheticEvent, useEffect} from 'react';
+import {deleteKeyFor, findAllKeys, VAuthenticatorKey} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import AdminTemplate from "../../component/AdminTemplate";
 import vauthenticatorStyles from "../../theme/styles";
@@ -17,15 +17,15 @@ const KeysManagementPage = () => {
     const pageTitle = "Keys Management"
     const [keys, setKeys] = React.useState([])
     const [openFailure, setOpenFailure] = React.useState(false);
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
+    const handleClose = (event: SyntheticEvent<Element, Event>) => {
+        // if (reason === 'clickaway') {
+        //     return;
+        // }
+        console.log(event.type)
         setOpenFailure(false);
     };
 
-    const getDeleteLinkFor = (kid) => {
+    const getDeleteLinkFor = (kid : string) => {
         return <Delete onClick={() => {
             deleteKeyFor(kid)
                 .then(response => {
@@ -47,7 +47,7 @@ const KeysManagementPage = () => {
                 }
             })
             .then(val => {
-                let rows = val.map(value => {
+                let rows = val.map((value : VAuthenticatorKey) => {
                     return {
                         masterKey: value.masterKey,
                         kid: value.kid,

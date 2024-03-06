@@ -1,27 +1,18 @@
 import React from 'react';
-import {
-    makeStyles,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow
-} from "@mui/material";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
-    },
-    container: {
-        maxHeight: 440,
-    },
-});
+const classes = {
+        root: {
+            width: '100%',
+        },
+        container: {
+            maxHeight: 440,
+        }
+    }
+;
 
 export default function StickyHeadTable({columns, rows}) {
-    const classes = useStyles();
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
