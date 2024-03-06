@@ -9,7 +9,7 @@ export function findAllKeys() {
         })
 }
 
-export function deleteKeyFor(kid) {
+export function deleteKeyFor(kid: string) {
     return fetch("/secure/api/keys",
         {
             method: "DELETE",
