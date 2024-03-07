@@ -1,8 +1,9 @@
 import React from "react";
 import themeProvider from "../theme/ThemeProvider";
 import vauthenticatorStyles from "../theme/styles";
-import {AppBar, Container, IconButton, Menu, Paper, ThemeProvider, Toolbar, Typography, useTheme} from "@mui/material";
+import {AppBar, Container, IconButton, Paper, ThemeProvider, Toolbar, Typography, useTheme} from "@mui/material";
 import {ExitToApp} from "@mui/icons-material";
+import MenuIcon from '@mui/icons-material/Menu';
 import {Link} from "react-router-dom";
 
 export default (props) => {
@@ -17,7 +18,7 @@ export default (props) => {
                                     style={classes.menuButton}
                                     color="default"
                                     aria-label="menu">
-                            <Menu style={classes.menuButton}
+                            <MenuIcon style={classes.menuButton}
                                   color="inherit"/>
                         </IconButton>
                     </a>

@@ -2,8 +2,7 @@ import React, {SyntheticEvent, useEffect} from 'react';
 import {deleteKeyFor, findAllKeys, VAuthenticatorKey} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import AdminTemplate from "../../component/AdminTemplate";
-import vauthenticatorStyles from "../../theme/styles";
-import {Alert, Snackbar, useTheme} from "@mui/material";
+import {Alert, Snackbar} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 const columns = [
@@ -13,15 +12,10 @@ const columns = [
 ];
 
 const KeysManagementPage = () => {
-    vauthenticatorStyles(useTheme());
     const pageTitle = "Keys Management"
     const [keys, setKeys] = React.useState([])
     const [openFailure, setOpenFailure] = React.useState(false);
     const handleClose = (event: SyntheticEvent<Element, Event>) => {
-        // if (reason === 'clickaway') {
-        //     return;
-        // }
-        console.log(event.type)
         setOpenFailure(false);
     };
 
