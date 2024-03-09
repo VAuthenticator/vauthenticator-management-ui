@@ -1,25 +1,29 @@
 import React, {SyntheticEvent, useEffect} from 'react';
-import {deleteKeyFor, findAllKeys, VAuthenticatorKey} from "./KeyRepository";
+import {deleteKeyFor, findAllKeys, rotateKeyFor, VAuthenticatorKey} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import AdminTemplate from "../../component/AdminTemplate";
 import {Alert, Snackbar} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
     {id: 'kid', label: 'Key Id', minWidth: 170},
-    {id: 'delete', label: 'Delete Key', minWidth: 170}
+    {id: 'delete', label: 'Delete Key', minWidth: 170},
+    {id: 'rotate', label: 'Rotate Key', minWidth: 170}
 ];
 
 const KeysManagementPage = () => {
     const pageTitle = "Keys Management"
     const [keys, setKeys] = React.useState([])
     const [openFailure, setOpenFailure] = React.useState(false);
+    const [openWarning, setOpenWarning] = React.useState(false);
     const handleClose = (event: SyntheticEvent<Element, Event>) => {
         setOpenFailure(false);
+        setOpenWarning(false);
     };
 
-    const getDeleteLinkFor = (kid : string) => {
+    const getDeleteLinkFor = (kid: string) => {
         return <Delete onClick={() => {
             deleteKeyFor(kid)
                 .then(response => {
@@ -29,6 +33,25 @@ const KeysManagementPage = () => {
                         setOpenFailure(true);
                     }
                 })
+        }}/>;
+    }
+
+    const getRotateLinkFor = (kid: string, ttl: number) => {
+        const already_rotated = ttl
+        return <AutorenewIcon onClick={() => {
+            if (!already_rotated) {
+                rotateKeyFor(kid)
+                    .then(response => {
+                        if (response.status === 204) {
+                            fetchAllKeys()
+                        } else {
+                            setOpenWarning(true);
+                        }
+                    })
+            }else {
+                setOpenWarning(true);
+                console.log("key already rotated")
+            }
         }}/>;
     }
     const fetchAllKeys = () => {
@@ -41,11 +64,12 @@ const KeysManagementPage = () => {
                 }
             })
             .then(val => {
-                let rows = val.map((value : VAuthenticatorKey) => {
+                let rows = val.map((value: VAuthenticatorKey) => {
                     return {
                         masterKey: value.masterKey,
                         kid: value.kid,
-                        delete: getDeleteLinkFor(value.kid)
+                        delete: getDeleteLinkFor(value.kid),
+                        rotate: getRotateLinkFor(value.kid, value.ttl)
                     }
                 })
                 setKeys(rows)
@@ -59,8 +83,13 @@ const KeysManagementPage = () => {
     return (
         <AdminTemplate maxWidth="xl" page={pageTitle}>
             <Snackbar open={openFailure} autoHideDuration={6000}>
-                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                     Delete this key is not allowed
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openWarning} autoHideDuration={6000}>
+                <Alert onClose={handleClose} severity="warning" sx={{width: '100%'}}>
+                    Key already rotated
                 </Alert>
             </Snackbar>
             <StickyHeadTable columns={columns} rows={keys}/>
