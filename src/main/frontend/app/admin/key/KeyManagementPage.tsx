@@ -1,10 +1,11 @@
-import React, {SyntheticEvent, useEffect} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {deleteKeyFor, findAllKeys, rotateKeyFor, VAuthenticatorKey} from "./KeyRepository";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import AdminTemplate from "../../component/AdminTemplate";
 import {Alert, Snackbar} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import KeyDialog from "./KeyDialog";
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
@@ -15,6 +16,11 @@ const columns = [
 
 const KeysManagementPage = () => {
     const pageTitle = "Keys Management"
+
+    const [kid, setKid] = useState("")
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+    const [openRenewDialog, setOpenRenewDialog] = useState(false)
+
     const [keys, setKeys] = React.useState([])
     const [openFailure, setOpenFailure] = React.useState(false);
     const [openWarning, setOpenWarning] = React.useState(false);
@@ -25,32 +31,20 @@ const KeysManagementPage = () => {
 
     const getDeleteLinkFor = (kid: string) => {
         return <Delete onClick={() => {
-            deleteKeyFor(kid)
-                .then(response => {
-                    if (response.status === 204) {
-                        fetchAllKeys()
-                    } else {
-                        setOpenFailure(true);
-                    }
-                })
+            setKid(kid)
+            setOpenDeleteDialog(true);
         }}/>;
     }
 
     const getRotateLinkFor = (kid: string, ttl: number) => {
+        setKid(kid)
         const already_rotated = ttl
+
         return <AutorenewIcon onClick={() => {
             if (!already_rotated) {
-                rotateKeyFor(kid)
-                    .then(response => {
-                        if (response.status === 204) {
-                            fetchAllKeys()
-                        } else {
-                            setOpenWarning(true);
-                        }
-                    })
-            }else {
+                setOpenRenewDialog(true);
+            } else {
                 setOpenWarning(true);
-                console.log("key already rotated")
             }
         }}/>;
     }
@@ -82,6 +76,42 @@ const KeysManagementPage = () => {
 
     return (
         <AdminTemplate maxWidth="xl" page={pageTitle}>
+            <KeyDialog kid={kid}
+                       open={openDeleteDialog}
+                       handleClose={() => setOpenDeleteDialog(false)}
+                       title={"Delete Key Dialog"}
+                       content={`Do you want delete the key: ${kid}`}
+                       handler={() => {
+                           deleteKeyFor(kid)
+                               .then(response => {
+                                   if (response.status === 204) {
+                                       fetchAllKeys()
+                                       setOpenDeleteDialog(false);
+                                   } else {
+                                       setOpenFailure(true);
+                                   }
+                               })
+                       }}
+            />
+
+            <KeyDialog kid={kid}
+                       open={openRenewDialog}
+                       handleClose={() => setOpenRenewDialog(false)}
+                       content={`Do you want renew the key: ${kid}`}
+                       title={"Renew Key Dialog"}
+                       handler={() => {
+                           rotateKeyFor(kid)
+                               .then(response => {
+                                   if (response.status === 204) {
+                                       fetchAllKeys()
+                                       setOpenRenewDialog(false);
+                                   } else {
+                                       setOpenWarning(true);
+                                   }
+                               })
+                       }}
+            />
+
             <Snackbar open={openFailure} autoHideDuration={6000}>
                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                     Delete this key is not allowed
