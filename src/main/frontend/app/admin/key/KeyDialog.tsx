@@ -24,8 +24,8 @@ const KeyDialog: React.FC<KeyDialogProps> = ({open, handleClose, title, content,
                 <Separator/>
 
                 <DialogActions>
-                    <FormButton labelPrefix={undefined}  type={"button"} direction={""} label="Save" onClickHandler={handler}/>
-                    <FormButton labelPrefix={undefined}  type={"button"} direction={""}  label="Cancel" onClickHandler={handleClose}/>
+                    <FormButton label="Save" onClickHandler={handler}/>
+                    <FormButton  label="Cancel" onClickHandler={handleClose}/>
                 </DialogActions>
             </DialogContent>
         </Dialog>

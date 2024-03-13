@@ -5,11 +5,7 @@ const themeProvider = createTheme({
         primary: {
             main: '#252624',
             contrastText: '#fff',
-        },
-        neutral: {
-            main: '#64748B',
-            contrastText: '#fff',
-        },
+        }
     },
     components: {
         MuiGrid: {

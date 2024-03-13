@@ -18,6 +18,7 @@ const KeysManagementPage = () => {
     const pageTitle = "Keys Management"
 
     const [kid, setKid] = useState("")
+    const [kidTtl, setKidTtl] = useState(0)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openRenewDialog, setOpenRenewDialog] = useState(false)
 
@@ -37,15 +38,10 @@ const KeysManagementPage = () => {
     }
 
     const getRotateLinkFor = (kid: string, ttl: number) => {
-        setKid(kid)
-        const already_rotated = ttl
-
         return <AutorenewIcon onClick={() => {
-            if (!already_rotated) {
-                setOpenRenewDialog(true);
-            } else {
-                setOpenWarning(true);
-            }
+            setKid(kid)
+            setKidTtl(ttl)
+            setOpenRenewDialog(true);
         }}/>;
     }
     const fetchAllKeys = () => {
@@ -84,9 +80,9 @@ const KeysManagementPage = () => {
                        handler={() => {
                            deleteKeyFor(kid)
                                .then(response => {
+                                   setOpenDeleteDialog(false);
                                    if (response.status === 204) {
                                        fetchAllKeys()
-                                       setOpenDeleteDialog(false);
                                    } else {
                                        setOpenFailure(true);
                                    }
@@ -100,24 +96,31 @@ const KeysManagementPage = () => {
                        content={`Do you want renew the key: ${kid}`}
                        title={"Renew Key Dialog"}
                        handler={() => {
-                           rotateKeyFor(kid)
-                               .then(response => {
-                                   if (response.status === 204) {
-                                       fetchAllKeys()
+                           const already_rotated = kidTtl
+                           console.log("kidTtl " + kidTtl)
+                           if (!already_rotated) {
+                               rotateKeyFor(kid)
+                                   .then(response => {
                                        setOpenRenewDialog(false);
-                                   } else {
-                                       setOpenWarning(true);
-                                   }
-                               })
+                                       if (response.status === 204) {
+                                           fetchAllKeys()
+                                       } else {
+                                           setOpenWarning(true);
+                                       }
+                                   })
+                           } else {
+                               setOpenWarning(true);
+                           }
+
                        }}
             />
 
-            <Snackbar open={openFailure} autoHideDuration={6000}>
+            <Snackbar open={openFailure} autoHideDuration={600}>
                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                     Delete this key is not allowed
                 </Alert>
             </Snackbar>
-            <Snackbar open={openWarning} autoHideDuration={6000}>
+            <Snackbar open={openWarning} autoHideDuration={600}>
                 <Alert onClose={handleClose} severity="warning" sx={{width: '100%'}}>
                     Key already rotated
                 </Alert>
