@@ -1,12 +1,9 @@
 import React from 'react';
 import {saveRoleFor} from "./RoleRepository";
 import FormButton from "../../component/FormButton";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
 import Separator from "../../component/Separator";
-import DialogActions from "@material-ui/core/DialogActions";
 import FormInputTextField from "../../component/FormInputTextField";
+import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 
 export default function RoleDialog({onClose, open, title, role, setRole, isRoleReadOnly}) {
 

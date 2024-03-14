@@ -1,14 +1,10 @@
-import {Container, Link, Paper, ThemeProvider} from "@material-ui/core";
 import React from "react";
-import Toolbar from "@material-ui/core/Toolbar";
-import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import MenuIcon from '@material-ui/icons/Menu';
-import {ExitToApp} from "@material-ui/icons";
 import themeProvider from "../theme/ThemeProvider";
 import vauthenticatorStyles from "../theme/styles";
-import {useTheme} from "@mui/material";
+import {AppBar, Container, IconButton, Paper, ThemeProvider, Toolbar, Typography, useTheme} from "@mui/material";
+import {ExitToApp} from "@mui/icons-material";
+import MenuIcon from '@mui/icons-material/Menu';
+import {Link} from "react-router-dom";
 
 export default (props) => {
     let theme = themeProvider
@@ -22,7 +18,8 @@ export default (props) => {
                                     style={classes.menuButton}
                                     color="default"
                                     aria-label="menu">
-                            <MenuIcon/>
+                            <MenuIcon style={classes.menuButton}
+                                  color="inherit"/>
                         </IconButton>
                     </a>
 

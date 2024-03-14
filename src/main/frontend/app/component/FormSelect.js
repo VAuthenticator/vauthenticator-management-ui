@@ -1,9 +1,8 @@
 import React from "react"
 import Select from "react-select";
-import {Grid, InputLabel, OutlinedInput, useTheme} from "@mui/material";
+import {Grid, InputLabel, OutlinedInput} from "@mui/material";
 
 export default ({id, label, multi, options, value, onChangeHandler, suffix}) => {
-    const theme = useTheme()
     return <Grid container spacing={8} alignItems="flex-end">
         {suffix && <Grid item>
             {suffix}
@@ -12,7 +11,7 @@ export default ({id, label, multi, options, value, onChangeHandler, suffix}) => 
             <InputLabel id={id}>{label}</InputLabel>
             <Select
                 menuPortalTarget={document.body}
-                styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+                styles={{menuPortal: base => ({...base, zIndex: 9999})}}
                 labelId={id}
                 isMulti={multi}
                 id={id}

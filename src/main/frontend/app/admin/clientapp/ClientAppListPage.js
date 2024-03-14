@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
-import {Apps, Delete, VpnKey} from "@material-ui/icons";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import {deleteClientApplicationFor, findAllClientApplications} from "./ClientAppRepository";
 import {Link} from "react-router-dom";
-import EditIcon from "@material-ui/icons/Edit";
 import AdminTemplate from "../../component/AdminTemplate";
 import FormButton from "../../component/FormButton";
 import ResetClientAppSecretDialog from "./ResetClientAppSecretDialog";
 import {useNavigate} from "react-router";
+import {Apps, Delete, Edit, VpnKey} from "@mui/icons-material";
 
 const columns = [
     {id: 'clientAppName', label: 'Client Application Name', minWidth: 170},
@@ -27,7 +26,7 @@ const ClientAppListPage = () => {
     const navigate = useNavigate()
 
     const getEditLinkFor = (clientAppId) => {
-        return <EditIcon onClick={() => {
+        return <Edit onClick={() => {
             navigate(`/client-applications/edit/${clientAppId}`)
         }}/>
     }

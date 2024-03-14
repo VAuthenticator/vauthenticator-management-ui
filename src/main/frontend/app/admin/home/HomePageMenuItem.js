@@ -1,10 +1,9 @@
 import React from 'react';
 import MenuCard from "../../component/MenuCard";
-import {Apps, AssignmentInd, PeopleAlt} from "@material-ui/icons";
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import vauthenticatorStyles from "../../theme/styles";
+import {Apps, AssignmentInd, Key, PeopleAlt} from "@mui/icons-material";
 import {useTheme} from "@mui/material";
-import {Key} from "@mui/icons-material";
 
 export default (props) => {
     let classes = vauthenticatorStyles(useTheme());

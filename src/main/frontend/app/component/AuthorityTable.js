@@ -1,7 +1,6 @@
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import React from "react";
 import StickyHeadTable from "./StickyHeadTable";
+import {Checkbox, FormControlLabel} from "@mui/material";
 
 export const drawAuthorityRows = (setAuthorityRows, setAuthorities, clientAppAuthorities, allRole) => allRole.map(role => {
     return {

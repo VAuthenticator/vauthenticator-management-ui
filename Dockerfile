@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM amazoncorretto:21-al2023
 
 ADD target/vauthenticator-management-ui.jar /usr/local/vauthenticator-management-ui/
 

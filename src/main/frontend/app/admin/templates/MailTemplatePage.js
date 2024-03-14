@@ -1,8 +1,7 @@
 import React, {useRef, useState} from 'react';
 import AdminTemplate from "../../component/AdminTemplate";
 import vauthenticatorStyles from "../../theme/styles";
-import {Alert, Snackbar, useTheme} from "@mui/material";
-import Typography from "@material-ui/core/Typography";
+import {Alert, Snackbar, Typography, useTheme} from "@mui/material";
 
 import Separator from "../../component/Separator";
 import FormButton from "../../component/FormButton";

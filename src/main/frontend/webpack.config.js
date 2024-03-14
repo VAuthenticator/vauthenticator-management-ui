@@ -12,7 +12,7 @@ module.exports = {
         "admin": path.resolve(__dirname, './app/admin/index.js')
     },
     resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: ['.tsx', '.ts', ".js", ".jsx"]
     },
     plugins: [],
     module: {
@@ -22,7 +22,12 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
-                test: path.join(__dirname, "."),
+                test: /\.tsx?$/,
+                use: ['ts-loader'],
+                exclude: /node_modules$/,
+            },
+            {
+                test: /\.js?$/,
                 exclude: path.resolve(__dirname, "node_modules"),
                 use: {
                     loader: "babel-loader",

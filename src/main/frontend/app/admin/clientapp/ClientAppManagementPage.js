@@ -1,28 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import Typography from "@material-ui/core/Typography";
 import {useNavigate, useParams} from "react-router";
 import {findClientApplicationFor, saveClientApplicationFor} from "./ClientAppRepository";
 import FormInputTextField from "../../component/FormInputTextField";
 import AdminTemplate from "../../component/AdminTemplate";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
 import Separator from "../../component/Separator";
 import FormButton from "../../component/FormButton";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
 import TabPanel from "../../component/TabPanel";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
 import {authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
-import {Apps} from "@material-ui/icons";
 import {findAllRoles} from "../roles/RoleRepository";
 import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
-import Box from "@material-ui/core/Box";
 import vauthenticatorStyles from "../../theme/styles";
-import {useTheme} from "@mui/material";
 import FormSelect from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
+import {Box, Card, CardContent, CardHeader, Tab, Tabs, Typography, useTheme} from "@mui/material";
+import {Apps} from "@mui/icons-material";
 
 function allProps(index) {
     return {

@@ -1,14 +1,10 @@
 import React, {useState} from "react";
 
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import FormInputTextField from "../../component/FormInputTextField";
 import FormButton from "../../component/FormButton";
 import Separator from "../../component/Separator";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
 import {resetSecretFor} from "./ClientAppRepository";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
 export default function ResetClientAppSecretDialog({onClose, open, clientAppId}) {
     const [secret, setSecret] = useState("")

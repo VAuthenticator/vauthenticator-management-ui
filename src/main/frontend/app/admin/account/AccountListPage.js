@@ -2,12 +2,10 @@ import React, {useState} from 'react';
 import AdminTemplate from "../../component/AdminTemplate";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import {useNavigate} from "react-router";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
 import FormInputTextField from "../../component/FormInputTextField";
 import Separator from "../../component/Separator";
 import FormButton from "../../component/FormButton";
+import {Card, CardContent, CardHeader} from "@mui/material";
 
 const columns = [
     {id: 'email', label: 'E-Mail', minWidth: 170},
@@ -23,32 +21,6 @@ export default () => {
 
     const navigate = useNavigate();
 
-   /* const getEditLinkFor = (accountMail) => {
-        return <EditIcon onClick={() => {
-            navigate(`/accounts/edit/${accountMail}`)
-        }}/>
-    }
-
-    const fetchAllAccounts = () => {
-        findAllAccounts()
-            .then(values => {
-                let rows = values.map(value => {
-                    return {
-                        email: value.email,
-                        enabled: <Checkbox color="primary" checked={value.enabled}/>,
-                        accountLocked: <Checkbox color="primary" checked={value.accountLocked}/>,
-                        edit: getEditLinkFor(value["email"]),
-                    }
-                })
-
-                setAccounts(rows)
-            });
-    }
-
-    useEffect(() => {
-        fetchAllAccounts()
-    }, []);
-*/
     return <AdminTemplate maxWidth="xl" page={pageTitle}>
         <Card>
             <CardHeader title="Account Search" color="textSecondary"/>
