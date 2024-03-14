@@ -6,12 +6,14 @@ import {Alert, Snackbar} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import KeyDialog from "./KeyDialog";
+import moment from "moment";
 
 const columns = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
     {id: 'kid', label: 'Key Id', minWidth: 170},
     {id: 'delete', label: 'Delete Key', minWidth: 170},
-    {id: 'rotate', label: 'Rotate Key', minWidth: 170}
+    {id: 'rotate', label: 'Rotate Key', minWidth: 170},
+    {id: 'expireIn', label: 'Expire In', minWidth: 170}
 ];
 
 const KeysManagementPage = () => {
@@ -59,7 +61,9 @@ const KeysManagementPage = () => {
                         masterKey: value.masterKey,
                         kid: value.kid,
                         delete: getDeleteLinkFor(value.kid),
-                        rotate: getRotateLinkFor(value.kid, value.ttl)
+                        rotate: getRotateLinkFor(value.kid, value.ttl),
+                        expireIn: value.ttl == 0 ? "Never" : moment.unix(value.ttl).format("YYYY-MM-DD:HH:mm")
+
                     }
                 })
                 setKeys(rows)
@@ -116,8 +120,9 @@ const KeysManagementPage = () => {
             />
 
             <Snackbar open={openFailure} autoHideDuration={600}>
-                <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                    Delete this key is not allowed
+                <Alert onClose={handleClose} severity="error" sx={{width: '100%' , whiteSpace: 'pre-line' }}>
+                    Delete this key is not allowed where
+                    The key is already rotated either there is only one key available
                 </Alert>
             </Snackbar>
             <Snackbar open={openWarning} autoHideDuration={600}>
