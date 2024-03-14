@@ -4,6 +4,7 @@ export interface VAuthenticatorKey {
     masterKey: string
     kid: string
     ttl: number
+    expireIn: string
 }
 
 export function findAllKeys() {
