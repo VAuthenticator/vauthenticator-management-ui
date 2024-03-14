@@ -78,9 +78,9 @@ const KeysManagementPage = () => {
                        title={"Delete Key Dialog"}
                        content={`Do you want delete the key: ${kid}`}
                        handler={() => {
+                           setOpenDeleteDialog(false);
                            deleteKeyFor(kid)
                                .then(response => {
-                                   setOpenDeleteDialog(false);
                                    if (response.status === 204) {
                                        fetchAllKeys()
                                    } else {
@@ -97,11 +97,11 @@ const KeysManagementPage = () => {
                        title={"Renew Key Dialog"}
                        handler={() => {
                            const already_rotated = kidTtl
-                           console.log("kidTtl " + kidTtl)
+                           setOpenRenewDialog(false);
+
                            if (!already_rotated) {
                                rotateKeyFor(kid)
                                    .then(response => {
-                                       setOpenRenewDialog(false);
                                        if (response.status === 204) {
                                            fetchAllKeys()
                                        } else {
