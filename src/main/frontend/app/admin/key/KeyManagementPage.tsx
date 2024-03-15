@@ -120,13 +120,13 @@ const KeysManagementPage = () => {
             />
 
             <Snackbar open={openFailure} autoHideDuration={600}>
-                <Alert onClose={handleClose} severity="error" sx={{width: '100%' , whiteSpace: 'pre-line' }}>
-                    Delete this key is not allowed where
+                <Alert onClose={handleClose} severity="error" sx={{whiteSpace: 'pre-line'}}>
+                    Delete this key is not allowed where <br/>
                     The key is already rotated either there is only one key available
                 </Alert>
             </Snackbar>
             <Snackbar open={openWarning} autoHideDuration={600}>
-                <Alert onClose={handleClose} severity="warning" sx={{width: '100%'}}>
+                <Alert onClose={handleClose} severity="warning">
                     Key already rotated
                 </Alert>
             </Snackbar>

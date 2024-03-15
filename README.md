@@ -13,8 +13,10 @@ In order to make simple the ui assets build for local development take in consid
 in order to be sure to have the asset files in the correct path execute this script:
 
 ```shell
-rm -rf node_modules
 rm -rf dist
+rm -rf src/main/frontend/node_modules
+rm -rf src/main/frontend/package-lock.json
+rm -rf src/main/frontend/dist
 
 mkdir -p dist/static-asset/content/asset/
 
