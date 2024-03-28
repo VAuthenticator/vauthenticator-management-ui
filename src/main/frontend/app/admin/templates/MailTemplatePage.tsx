@@ -5,15 +5,14 @@ import {Alert, Snackbar, Typography, useTheme} from "@mui/material";
 
 import Separator from "../../component/Separator";
 import FormButton from "../../component/FormButton";
-import FormSelect from "../../component/FormSelect";
 import {getMailTemplateFor, saveMailTemplateFor} from "./MailTemplateRepository";
-
+import FormSelect from "../../component/FormSelect";
 
 const MailTemplatePage = () => {
     const pageTitle = "Mail Template Management"
     const classes = vauthenticatorStyles(useTheme());
 
-    let mailContent = useRef()
+    let mailContent = useRef<HTMLDivElement>(null)
     const [mailType, setMailType] = useState("")
     const [openSucceeded, setOpenSucceeded] = React.useState(false);
     const [openFailure, setOpenFailure] = React.useState(false);
@@ -25,8 +24,8 @@ const MailTemplatePage = () => {
 
     let saveMailTemplate = () => {
         saveMailTemplateFor({
-            mailType: mailType.value,
-            body: mailContent.current.innerText
+            mailType: mailType,
+            body: mailContent?.current?.innerText
         })
             .then(r => {
                 if(r.status === 204){
