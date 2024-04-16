@@ -28,7 +28,7 @@ const MailTemplatePage = () => {
             body: mailContent?.current?.innerText
         })
             .then(r => {
-                if(r.status === 204){
+                if (r.status === 204) {
                     setOpenSucceeded(true);
                 } else {
                     setOpenFailure(false);
@@ -38,12 +38,12 @@ const MailTemplatePage = () => {
     return (
         <AdminTemplate maxWidth="xl" page={pageTitle}>
             <Snackbar open={openSucceeded} autoHideDuration={6000}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                     Mail Template save succeeded
                 </Alert>
             </Snackbar>
             <Snackbar open={openFailure} autoHideDuration={6000}>
-                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                     Mail Template save failed
                 </Alert>
             </Snackbar>
@@ -51,21 +51,24 @@ const MailTemplatePage = () => {
                 Mail Template
             </Typography>
 
-            <FormSelect label="Mail Template Type"
+            <FormSelect id="mail-template-type"
+                        label="Mail Template Type"
                         multi={false}
                         onChangeHandler={(event) => {
-                            setMailType(event)
-                            getMailTemplateFor(event.value)
-                                .then(content => {
-                                    mailContent.current.innerText = content.body
-                                })
-                        }}
+                             setMailType(event)
+                             getMailTemplateFor(event.value)
+                                 .then(content => {
+                                     if(mailContent && mailContent.current) {
+                                         mailContent.current.innerText = content.body
+                                     }
+                                 })
+                         }}
                         options={[
-                            {value: "WELCOME", label: "WELCOME"},
-                            {value: "EMAIL_VERIFICATION", label: "EMAIL_VERIFICATION"},
-                            {value: "RESET_PASSWORD", label: "RESET_PASSWORD"},
-                            {value: "MFA", label: "MFA"}
-                        ]}
+                             {value: "WELCOME", label: "WELCOME"},
+                             {value: "EMAIL_VERIFICATION", label: "EMAIL_VERIFICATION"},
+                             {value: "RESET_PASSWORD", label: "RESET_PASSWORD"},
+                             {value: "MFA", label: "MFA"}
+                         ]}
             />
 
             <Separator/>
