@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 
 export default (props) => {
     let theme = themeProvider
-    const classes = vauthenticatorStyles(useTheme());
+    const classes = vauthenticatorStyles();
     return (
         <ThemeProvider theme={theme}>
             <AppBar position="static">

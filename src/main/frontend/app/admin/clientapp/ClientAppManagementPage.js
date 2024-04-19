@@ -31,7 +31,7 @@ const columns = [
 ];
 
 const ClientAppManagementPage = () => {
-    const classes = vauthenticatorStyles(useTheme());
+    const classes = vauthenticatorStyles();
     let {clientAppId} = useParams();
     const storePassword = !clientAppId
     const navigate = useNavigate();
