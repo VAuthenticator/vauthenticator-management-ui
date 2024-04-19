@@ -11,5 +11,4 @@ const MenuCardContainer: React.FC<MenuCardContainerProps> = ({children}) => {
         {children}
     </Grid>
 }
-
 export default MenuCardContainer

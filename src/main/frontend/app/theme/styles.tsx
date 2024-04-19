@@ -1,5 +1,3 @@
-import {Theme} from "@mui/material/styles/createTheme";
-
 const vauthenticatorStyles = () => {
     return {
         tabs: {
