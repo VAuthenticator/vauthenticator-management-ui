@@ -11,8 +11,10 @@ const themeProvider = createTheme({
         MuiGrid: {
             styleOverrides: {
                 root: {
-                    margin: "10px",
-                    padding: "10px"
+                    marginTop: "10px",
+                    paddingTop: "10px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px"
                 }
             }
         }

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {Link} from "react-router-dom";
 import {Card, CardActionArea, CardContent, CardHeader, Grid} from "@mui/material";
+import {SvgIconComponent} from "@mui/icons-material";
 
 const classes = {
     root: {
@@ -19,7 +20,7 @@ interface MenuCardProps {
 
 const MenuCard: React.FC<MenuCardProps> = ({title, content, linkTo}) => {
     return (
-        <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <Link to={linkTo} style={{textDecoration: 'none', textAlign: 'center'}}>
                 <Card style={classes.root}>
                     <CardActionArea>
