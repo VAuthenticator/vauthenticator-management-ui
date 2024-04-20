@@ -1,22 +1,33 @@
-import React from 'react';
+import React, {MouseEventHandler, ReactNode} from 'react';
 import MenuCard from "../../component/MenuCard";
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import vauthenticatorStyles from "../../theme/styles";
-import {Apps, AssignmentInd, Key, PeopleAlt} from "@mui/icons-material";
+import {Apps, AssignmentInd, Key, PeopleAlt, SvgIconComponent} from "@mui/icons-material";
 import {useTheme} from "@mui/material";
 
-export default (props) => {
-    let classes = vauthenticatorStyles(useTheme());
-    const {content} = props;
+const FONT_SIZE: number = 150
+
+interface HomePageMenuItemWrapperProps {
+    content: HomePageMenuItemProps
+}
+
+interface HomePageMenuItemProps {
+    titleText: string
+    titleIcon: ReactNode
+    body: string
+    link: string
+}
+
+const HomePageMenuItem: React.FC<HomePageMenuItemWrapperProps> = ({content}) => {
     return (
         <MenuCard linkTo={content.link}
                   content={
                       <div>
-                          <div style={classes.homeMenuItemTitle}>
-                              <h1>{content.title.text}</h1>
-                              {content.title.icon(classes)}
+                          <div style={{textAlign: "center"}}>
+                              <h1>{content.titleText}</h1>
+                              {content.titleIcon}
                           </div>
-                          <h3 style={classes.homeMenuItemText}>
+                          <h3 style={{textAlign: "justify"}}>
                               {content.body}
                           </h3>
                       </div>
@@ -26,46 +37,37 @@ export default (props) => {
 
 export const homeMenuContent = {
     clientApplications: {
-        title: {
-            text: "Client Application Management Section",
-            icon: (classes) => <Apps style={classes.homeMenuItemIcon}/>
-        },
+        titleText: "Client Application Management Section",
+        titleIcon: <Apps style={{fontSize: FONT_SIZE}}/>,
         body: "In this section you can manage all client application on VAuthenticator. Your will able to " +
             "   create, delete, set parameters like redirect uri, application roles and so on",
         link: "/client-applications/list"
     },
     roles: {
-        title: {
-            text: "Roles Management Section",
-            icon: (classes) => <AssignmentInd style={classes.homeMenuItemIcon}/>
-        },
+        titleText: "Roles Management Section",
+        titleIcon: <AssignmentInd style={{fontSize: FONT_SIZE}}/>,
         body: "In this section you can manage all Role used in all applications federated with VAuthenticator. Your will able to " +
             "   create, delete or modify descriptions",
         link: "/roles"
     },
     accounts: {
-        title: {
-            text: "Account Management Section",
-            icon: (classes) => <PeopleAlt style={classes.homeMenuItemIcon}/>
-        },
+        titleText: "Account Management Section",
+        titleIcon: <PeopleAlt style={{fontSize: FONT_SIZE}}/>,
         body: "In this section you can manage Accounts in VAuthenticator from OpenIdConnect prospective. Your will able to " +
             " disable accounts, invalidate and force password reset",
         link: "/accounts"
     },
     keys: {
-        title: {
-            text: "Key Management Section",
-            icon: (classes) => <Key style={classes.homeMenuItemIcon}/>
-        },
+        titleText: "Key Management Section",
+        titleIcon: <Key style={{fontSize: FONT_SIZE}}/>,
         body: "In this section you can manage Keys in VAuthenticator for token signature",
         link: "/keys"
     },
     mails: {
-        title: {
-            text: "Mail Template Management Section",
-            icon: (classes) => <LocalPostOfficeIcon style={classes.homeMenuItemIcon}/>
-        },
+        titleText: "Mail Template Management Section",
+        titleIcon: <LocalPostOfficeIcon style={{fontSize: FONT_SIZE}}/>,
         body: "In this section you can manage Mail templates in VAuthenticator",
         link: "/mail-templates"
     }
 }
+export default HomePageMenuItem

@@ -1,14 +1,14 @@
 import React from "react";
 import themeProvider from "../theme/ThemeProvider";
 import vauthenticatorStyles from "../theme/styles";
-import {AppBar, Container, IconButton, Paper, ThemeProvider, Toolbar, Typography, useTheme} from "@mui/material";
+import {AppBar, Container, IconButton, Paper, ThemeProvider, Toolbar, Typography} from "@mui/material";
 import {ExitToApp} from "@mui/icons-material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {Link} from "react-router-dom";
 
 export default (props) => {
     let theme = themeProvider
-    const classes = vauthenticatorStyles(useTheme());
+    const classes = vauthenticatorStyles();
     return (
         <ThemeProvider theme={theme}>
             <AppBar position="static">
@@ -39,7 +39,7 @@ export default (props) => {
             </AppBar>
 
             <Container maxWidth={props.maxWidth}>
-                <Paper style={classes.padding} elevation={3}>
+                <Paper elevation={3}>
                     {props.children}
                 </Paper>
             </Container>

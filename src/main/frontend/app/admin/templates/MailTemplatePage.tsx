@@ -10,7 +10,7 @@ import FormSelect from "../../component/FormSelect";
 
 const MailTemplatePage = () => {
     const pageTitle = "Mail Template Management"
-    const classes = vauthenticatorStyles(useTheme());
+    const classes = vauthenticatorStyles();
 
     let mailContent = useRef<HTMLDivElement>(null)
     const [mailType, setMailType] = useState("")

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {Link} from "react-router-dom";
 import {Card, CardActionArea, CardContent, CardHeader, Grid} from "@mui/material";
+import {SvgIconComponent} from "@mui/icons-material";
 
 const classes = {
     root: {
@@ -11,15 +12,20 @@ const classes = {
     }
 }
 
-export default function MenuCard({title, content, linkTo}) {
+interface MenuCardProps {
+    title?: string
+    content: any
+    linkTo: string
+}
+
+const MenuCard: React.FC<MenuCardProps> = ({title, content, linkTo}) => {
     return (
-        <Grid item xs={4}>
-            <Link to={linkTo} style={{textDecoration: 'none'}}>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <Link to={linkTo} style={{textDecoration: 'none', textAlign: 'center'}}>
                 <Card style={classes.root}>
                     <CardActionArea>
                         <CardHeader
                             style={classes.media}
-
                             title={title}
                         />
                         <CardContent>
@@ -31,3 +37,5 @@ export default function MenuCard({title, content, linkTo}) {
         </Grid>
     );
 }
+
+export default MenuCard

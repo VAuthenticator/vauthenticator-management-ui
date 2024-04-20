@@ -1,20 +1,10 @@
-import {Theme} from "@mui/material/styles/createTheme";
-
-const vauthenticatorStyles = (theme: Theme) => {
+const vauthenticatorStyles = () => {
     return {
         tabs: {
             flexGrow: 1,
             display: 'flex'
         },
-        homeMenuItemTitle: {
-            textAlign: "center",
-        },
-        homeMenuItemText: {
-            textAlign: "justify",
-        },
-        homeMenuItemIcon: {
-            fontSize: 150
-        },
+
         menuButton: {
             textDecoration: 'none',
             color: 'white',
