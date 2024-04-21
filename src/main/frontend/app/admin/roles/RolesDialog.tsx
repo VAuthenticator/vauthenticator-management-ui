@@ -5,8 +5,16 @@ import Separator from "../../component/Separator";
 import FormInputTextField from "../../component/FormInputTextField";
 import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 
-export default function RoleDialog({onClose, open, title, role, setRole, isRoleReadOnly}) {
+interface RoleDialogProps {
+    onClose: any,
+    open: boolean,
+    title: string,
+    role: any,
+    setRole: any,
+    isRoleReadOnly: boolean
+}
 
+const RoleDialog: React.FC<RoleDialogProps> = ({onClose, open, title, role, setRole, isRoleReadOnly}) => {
     return (
         <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="md">
             <DialogTitle id="simple-dialog-title">{title}</DialogTitle>
@@ -21,7 +29,7 @@ export default function RoleDialog({onClose, open, title, role, setRole, isRoleR
                                     }}/>
 
                 <FormInputTextField id="description"
-                                    label="Role Description" t
+                                    label="Role Description"
                                     type="text"
                                     value={role.description}
                                     handler={(value) => {
@@ -45,3 +53,5 @@ export default function RoleDialog({onClose, open, title, role, setRole, isRoleR
         </Dialog>
     );
 }
+
+export default RoleDialog
