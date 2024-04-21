@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {SyntheticEvent, useEffect} from 'react';
 import AdminTemplate from "../../component/AdminTemplate";
 import StickyHeadTable from "../../component/StickyHeadTable";
 import {deleteRoleFor, findAllRoles, Role} from "./RoleRepository";
@@ -6,6 +6,7 @@ import FormButton from "../../component/FormButton";
 import ConfirmationDialog from "../../component/ConfirmationDialog";
 import RolesDialog from "./RolesDialog";
 import {AssignmentInd, Delete, Edit} from "@mui/icons-material";
+import {Alert, Snackbar} from "@mui/material";
 
 const columns = [
     {id: 'name', label: 'Role', minWidth: 170},
@@ -22,7 +23,10 @@ const RolesManagementPage = () => {
     const [selectedRole, setSelectedRole] = React.useState("")
     const [role, setRole] = React.useState<Role>({name: "", description: ""})
     const [isRoleReadOnly, setIsRoleReadOnly] = React.useState(false)
-
+    const [openFailure, setOpenFailure] = React.useState(false);
+    const handleClose = (event: SyntheticEvent<Element, Event>) => {
+        setOpenFailure(false);
+    };
     const getEditLinkFor = (role: Role) => {
         return <Edit onClick={() => {
             setRole(role)
@@ -55,9 +59,10 @@ const RolesManagementPage = () => {
     const deleteRole = () => {
         deleteRoleFor(selectedRole)
             .then(response => {
-                if (response.status === 204) {
-                    handleCloseConfirmationDialog(true)
+                if (response.status !== 204) {
+                    setOpenFailure(true);
                 }
+                handleCloseConfirmationDialog(true)
             })
     }
 
@@ -107,6 +112,11 @@ const RolesManagementPage = () => {
 
             <StickyHeadTable columns={columns} rows={roles}/>
 
+            <Snackbar open={openFailure} autoHideDuration={600}>
+                <Alert onClose={handleClose} severity="error" sx={{whiteSpace: 'pre-line'}}>
+                    Delete this Role is not allowed it is a default role
+                </Alert>
+            </Snackbar>
         </AdminTemplate>
     )
 }
