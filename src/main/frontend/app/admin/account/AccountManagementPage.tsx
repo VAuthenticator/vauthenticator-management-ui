@@ -19,12 +19,12 @@ const columns = [
 ];
 
 export default () => {
-    let {accountMail} = useParams();
+    let {accountMail} = useParams<string>()!;
     const navigate = useNavigate();
-    const [email, setEmail] = useState(accountMail)
+    const [email, setEmail] = useState<string>(accountMail!)
     const [enabled, setEnabled] = useState({enabled: false})
     const [accountLocked, setAccountLocked] = useState({accountLocked: false})
-    const [authorities, setAuthorities] = useState([])
+    const [authorities, setAuthorities] = useState<string[]>([])
     const [authorityRows, setAuthorityRows] = useState([])
 
     let pageTitle = "Account Management";
@@ -32,7 +32,7 @@ export default () => {
     useEffect(() => {
             findAllRoles()
                 .then(roleValues => {
-                    findAccountFor(email)
+                    findAccountFor(email!)
                         .then(value => {
                             if (value) {
                                 setEnabled({enabled: value.enabled})
@@ -107,7 +107,8 @@ export default () => {
                                                                        onClickHandler={() => navigate(-1)}/>}
 
                                            rightComponentsColumnSize={2}
-                                           rightComponents={<FormButton label="Save" direction="rtl" onClickHandler={save}/>}
+                                           rightComponents={<FormButton label="Save" direction="rtl"
+                                                                        onClickHandler={save}/>}
                     />
 
                 </CardContent>

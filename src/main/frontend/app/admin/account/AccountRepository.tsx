@@ -3,7 +3,6 @@ interface Account {
     enabled: boolean,
     accountLocked: boolean,
     authorities: string[],
-    authorityRows: string[],
 }
 
 export async function findAccountFor(email: string) {
@@ -19,7 +18,7 @@ export async function findAccountFor(email: string) {
 }
 
 export function saveAccountFor(account: Account) {
-    return fetch(`/secure/api/admin/accounts/${account.email}/email`,
+    return fetch(`/secure/api/admin/accounts`,
         {
             method: "PUT",
             headers: {
