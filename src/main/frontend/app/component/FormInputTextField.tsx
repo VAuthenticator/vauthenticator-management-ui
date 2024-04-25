@@ -1,4 +1,4 @@
-import React, {MouseEventHandler} from "react";
+import React from "react";
 import {Grid, TextField} from "@mui/material";
 
 interface FormInputTextFieldProps {
