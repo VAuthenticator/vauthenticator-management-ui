@@ -10,8 +10,15 @@ const classes = {
     }
 
 };
-// choicesRegistry = [{name, checked, label}, ...]
-export default function CheckboxesGroup({id, legend, choicesRegistry, handler}) {
+
+interface CheckboxesGroupProps {
+    id: string,
+    legend: string,
+    choicesRegistry: { [key: string]: boolean },
+    handler: (input : any) => void
+}
+
+const CheckboxesGroup: React.FC<CheckboxesGroupProps> = ({id, legend, choicesRegistry, handler}) => {
     const choicesRegistryKeys = Object.keys(choicesRegistry)
     return (
         <div style={classes.root}>
@@ -31,3 +38,5 @@ export default function CheckboxesGroup({id, legend, choicesRegistry, handler}) 
         </div>
     );
 }
+
+export default CheckboxesGroup

@@ -1,9 +1,7 @@
-import React, {MouseEventHandler, ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import MenuCard from "../../component/MenuCard";
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
-import vauthenticatorStyles from "../../theme/styles";
-import {Apps, AssignmentInd, Key, PeopleAlt, SvgIconComponent} from "@mui/icons-material";
-import {useTheme} from "@mui/material";
+import {Apps, AssignmentInd, Key, PeopleAlt} from "@mui/icons-material";
 
 const FONT_SIZE: number = 150
 

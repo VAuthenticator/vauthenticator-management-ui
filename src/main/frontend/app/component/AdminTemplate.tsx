@@ -4,9 +4,15 @@ import vauthenticatorStyles from "../theme/styles";
 import {AppBar, Container, IconButton, Paper, ThemeProvider, Toolbar, Typography} from "@mui/material";
 import {ExitToApp} from "@mui/icons-material";
 import MenuIcon from '@mui/icons-material/Menu';
-import {Link} from "react-router-dom";
+import {Breakpoint} from "@mui/system";
 
-export default (props) => {
+interface AdminTemplateProps {
+    page: string,
+    maxWidth: Breakpoint,
+    children: React.ReactNode;
+}
+
+const AdminTemplate: React.FC<AdminTemplateProps> = ({page, maxWidth, children}) => {
     let theme = themeProvider
     const classes = vauthenticatorStyles();
     return (
@@ -19,31 +25,33 @@ export default (props) => {
                                     color="default"
                                     aria-label="menu">
                             <MenuIcon style={classes.menuButton}
-                                  color="inherit"/>
+                                      color="inherit"/>
                         </IconButton>
                     </a>
 
                     <Typography variant="h6" style={classes.title}>
-                        VAuthenticator Administration {props.page}
+                        VAuthenticator Administration {page}
                     </Typography>
 
-                    <Link href="/oidc_logout.html">
+                    <a href="/oidc_logout.html">
                         <IconButton edge="start"
                                     style={classes.menuButton}
                                     color="inherit"
                                     aria-label="menu">
                             <ExitToApp/> Logout
                         </IconButton>
-                    </Link>
+                    </a>
                 </Toolbar>
             </AppBar>
 
-            <Container maxWidth={props.maxWidth}>
+            <Container maxWidth={maxWidth}>
                 <Paper elevation={3}>
-                    {props.children}
+                    {children}
                 </Paper>
             </Container>
         </ThemeProvider>
     )
 
 }
+
+export default AdminTemplate

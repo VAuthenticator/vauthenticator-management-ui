@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {Box, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 
 
 interface MenuCardContainerProps {
