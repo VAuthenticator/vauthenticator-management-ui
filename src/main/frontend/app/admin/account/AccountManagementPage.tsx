@@ -4,13 +4,14 @@ import FormInputTextField from "../../component/FormInputTextField";
 import AdminTemplate from "../../component/AdminTemplate";
 import Separator from "../../component/Separator";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
-import {findAccountFor, saveAccountFor} from "./AccountRepository";
+import {convertToMandatoryAction, findAccountFor, saveAccountFor} from "./AccountRepository";
 import FormButton from "../../component/FormButton";
 import {findAllRoles} from "../roles/RoleRepository";
 import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import {Card, CardContent, CardHeader, Typography} from "@mui/material";
 import {PeopleAlt} from "@mui/icons-material";
+import FormSelect, {SelectOption} from "../../component/FormSelect";
 
 const columns = [
     {id: 'name', label: 'Role', minWidth: 170},
@@ -24,6 +25,7 @@ export default () => {
     const [email, setEmail] = useState<string>(accountMail!)
     const [enabled, setEnabled] = useState({enabled: false})
     const [accountLocked, setAccountLocked] = useState({accountLocked: false})
+    const [mandatoryAction, setMandatoryAction] = useState<SelectOption>({value:"NO_ACTION", label:"NO_ACTION"})
     const [authorities, setAuthorities] = useState<string[]>([])
     const [authorityRows, setAuthorityRows] = useState([])
 
@@ -41,6 +43,7 @@ export default () => {
                                 setAuthorityRows(
                                     drawAuthorityRows(setAuthorityRows, setAuthorities, value.authorities, roleValues)
                                 )
+                                setMandatoryAction({value:value.mandatoryAction, label:value.mandatoryAction})
                             } else {
                                 navigate(-1)
                             }
@@ -54,7 +57,8 @@ export default () => {
             email: email,
             enabled: enabled.enabled,
             accountLocked: accountLocked.accountLocked,
-            authorities: authorities
+            authorities: authorities,
+            mandatoryAction: convertToMandatoryAction(mandatoryAction.value)
         }
 
         saveAccountFor(account)
@@ -97,6 +101,19 @@ export default () => {
                                      }}
                                      choicesRegistry={accountLocked}
                                      legend="Account Locked"/>
+
+                    <FormSelect id="mandatoryAction"
+                                label="Mandatory Action"
+                                multi={false}
+                                value={mandatoryAction}
+                                onChangeHandler={(event) => {
+                                    setMandatoryAction(event)
+                                }}
+                                options={[
+                                    {value: "NO_ACTION", label: "NO_ACTION"},
+                                    {value: "RESET_PASSWORD", label: "RESET_PASSWORD"},
+                                ]}
+                    />
 
                     <AuthorityTable authorityRows={authorityRows} columns={columns}/>
 

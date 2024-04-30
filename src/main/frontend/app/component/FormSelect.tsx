@@ -3,7 +3,7 @@ import Select from "react-select";
 import {Grid, InputLabel} from "@mui/material";
 import {GroupBase, OptionsOrGroups} from "react-select/dist/declarations/src/types";
 
-interface SelectOption {
+export interface SelectOption {
     value: string
     label: string
 }
