@@ -2,6 +2,7 @@ package com.vauthenticator.management.web
 
 import com.vauthenticator.document.repository.Document
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.caffeine.CaffeineCache
 import org.springframework.http.ResponseEntity
@@ -11,15 +12,23 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @ConditionalOnProperty("asset-server.on-s3.enabled", havingValue = "true", matchIfMissing = true)
-class StaticController(private val staticAssetDocumentLocalCache: CaffeineCache) {
+class StaticController(
+    @Value("\${asset-server.on-s3.bundle-version:}") private val bundleVersionPath: String,
+    private val staticAssetDocumentLocalCache: CaffeineCache
+) {
 
     private val logger = LoggerFactory.getLogger(StaticController::class.java)
 
     @GetMapping("/static/content/asset/{assetName}")
     fun assetContent(@PathVariable assetName: String): ResponseEntity<*> {
-        logger.info("assetName : $assetName")
-        val document = staticAssetDocumentLocalCache.get(assetName, Document::class.java)!!
+        var finalAssetName = assetName
+        logger.debug("assetName : $assetName")
+        if(bundleVersionPath.isNotBlank()){
+            finalAssetName = "$bundleVersionPath/$assetName"
+        }
+        logger.debug("finalAssetName : $finalAssetName")
 
+        val document = staticAssetDocumentLocalCache.get(finalAssetName, Document::class.java)!!
 
         return ResponseEntity.ok()
             .header("Content-Type", document.contentType)
