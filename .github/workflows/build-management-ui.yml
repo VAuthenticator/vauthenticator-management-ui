@@ -117,5 +117,6 @@ jobs:
           cd src/main/frontend/dist/asset
           ls *.js | while read line
           do 
+            aws s3 cp $line s3://${{ secrets.VAUTHENTICATOR_BUCKET }}/static-asset/content/asset/${GITHUB_REF##*/}/$line
             aws s3 cp $line s3://${{ secrets.VAUTHENTICATOR_BUCKET }}/static-asset/content/asset/$line
           done

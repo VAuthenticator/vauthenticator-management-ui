@@ -1,7 +1,17 @@
+export enum MandatoryAction {
+    NO_ACTION = "NO_ACTION",
+    RESET_PASSWORD = "RESET_PASSWORD"
+
+
+}
+export function convertToMandatoryAction(str: string): MandatoryAction {
+    return MandatoryAction[str as keyof typeof MandatoryAction];
+}
 interface Account {
     email: string,
     enabled: boolean,
     accountLocked: boolean,
+    mandatoryAction: MandatoryAction,
     authorities: string[],
 }
 
