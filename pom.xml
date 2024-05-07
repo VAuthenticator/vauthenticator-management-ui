@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.5</version>
         <relativePath/>
     </parent>
 
@@ -18,12 +18,12 @@
 
     <properties>
         <java.version>21</java.version>
-        <kotlin.version>1.9.22</kotlin.version>
+        <kotlin.version>1.9.23</kotlin.version>
 
-        <io.mockk.version>1.13.9</io.mockk.version>
+        <io.mockk.version>1.13.10</io.mockk.version>
         <wiremock.version>3.0.1</wiremock.version>
-        <aws.sdk.version>2.23.19</aws.sdk.version>
-        <vauthenticator-starters.version>0.6</vauthenticator-starters.version>
+        <aws.sdk.version>2.25.46</aws.sdk.version>
+        <vauthenticator-starters.version>0.7</vauthenticator-starters.version>
     </properties>
 
     <dependencies>
@@ -165,4 +165,11 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 </project>
