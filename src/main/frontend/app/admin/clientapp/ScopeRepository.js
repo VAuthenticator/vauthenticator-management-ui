@@ -1,12 +1,11 @@
-export function findAllScopes() {
-    return fetch("/scopes",
+export async function findAllScopes() {
+    let response = await fetch("/scopes",
         {
             method: "GET",
             headers: {
                 'Accept': 'application/json'
             },
             credentials: 'same-origin'
-        }).then(response => {
-        return response.json()
-    })
+        });
+    return response.json()
 }
