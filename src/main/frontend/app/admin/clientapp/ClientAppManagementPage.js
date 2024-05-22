@@ -9,8 +9,7 @@ import TabPanel from "../../component/TabPanel";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
 import {authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
-import {findAllRoles} from "../roles/RoleRepository";
-import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
+import AuthorityTable from "../../component/AuthorityTable";
 import vauthenticatorStyles from "../../theme/styles";
 import FormSelect from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
@@ -45,9 +44,6 @@ const ClientAppManagementPage = () => {
     const [webServerRedirectUri, setWebServerRedirectUri] = useState("")
     const [withPkce, setWithPkce] = useState(false)
 
-    const [authorities, setAuthorities] = useState([])
-    const [authorityRows, setAuthorityRows] = useState([])
-
     const [accessTokenValidity, setAccessTokenValidity] = useState("")
     const [refreshTokenValidity, setRefreshTokenValidity] = useState("")
     const [postLogoutRedirectUri, setPostLogoutRedirectUri] = useState("")
@@ -77,55 +73,34 @@ const ClientAppManagementPage = () => {
     }
 
     useEffect(() => {
-        findAllScopes()
-            .then(scopes => {
-                    setAvailableScopes(scopes.map(scope => {
-                        return {value: scope, label: scope}
-                    }))
-                }
-            )
+        async function init() {
+            let scopes = await findAllScopes()
+            setAvailableScopes(scopes.map(scope => {
+                return {value: scope, label: scope}
+            }))
 
-        findAllRoles()
-            .then(roleValues => {
-                findClientApplicationFor(clientApplicationId)
-                    .then(clientApp => {
-                        try {
-                            setClientAppName(clientApp.clientAppName)
-                            setSecret(clientApp.secret)
-                            setScopes(clientApp.scopes.map(scope => {
-                                return {value: scope, label: scope};
-                            }))
-                            setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes))
-                            setWithPkce(clientApp.withPkce)
-                            setWebServerRedirectUri(clientApp.webServerRedirectUri)
-                            setAccessTokenValidity(clientApp.accessTokenValidity)
-                            setRefreshTokenValidity(clientApp.refreshTokenValidity)
-                            setPostLogoutRedirectUri(clientApp.postLogoutRedirectUri)
-                            setLogoutUri(clientApp.logoutUri)
+            let clientApp = await findClientApplicationFor(clientApplicationId)
 
-                            setAuthorities(clientApp.authorities)
-                        } catch (e) {
+            setClientAppName(clientApp.clientAppName)
+            setSecret(clientApp.secret)
+            setScopes(clientApp.scopes.map(scope => {
+                return {value: scope, label: scope};
+            }))
+            setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes))
+            setWithPkce(clientApp.withPkce)
+            setWebServerRedirectUri(clientApp.webServerRedirectUri)
+            setAccessTokenValidity(clientApp.accessTokenValidity)
+            setRefreshTokenValidity(clientApp.refreshTokenValidity)
+            setPostLogoutRedirectUri(clientApp.postLogoutRedirectUri)
+            setLogoutUri(clientApp.logoutUri)
+        }
 
-                        }
-
-                        setAuthorityRows(
-                            drawAuthorityRows(setAuthorityRows, setAuthorities, getClientAppAuthorities(clientApp), roleValues)
-                        )
-                    })
-            })
+        init()
     }, [])
     const [value, setValue] = React.useState('0');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-    let getClientAppAuthorities = (clientApp) => {
-        if (clientApp) {
-            return clientApp.authorities || []
-        } else {
-            return []
-        }
-    }
 
     let pageTitle = clientApplicationId ? `: Client Application: ${clientApplicationId}` : "";
     return <AdminTemplate maxWidth="xl" age={pageTitle}>
@@ -244,7 +219,6 @@ const ClientAppManagementPage = () => {
                                             }}
                                             value={refreshTokenValidity}/>
 
-                        <AuthorityTable columns={columns} authorityRows={authorityRows}/>
                     </CardContent>
                 </Card>
                 <Separator/>
