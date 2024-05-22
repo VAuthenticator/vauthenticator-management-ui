@@ -9,7 +9,6 @@ import TabPanel from "../../component/TabPanel";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
 import {authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
-import AuthorityTable from "../../component/AuthorityTable";
 import vauthenticatorStyles from "../../theme/styles";
 import FormSelect from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";

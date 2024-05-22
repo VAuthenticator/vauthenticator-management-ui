@@ -7,7 +7,7 @@ export enum MandatoryAction {
 export function convertToMandatoryAction(str: string): MandatoryAction {
     return MandatoryAction[str as keyof typeof MandatoryAction];
 }
-interface Account {
+type Account =  {
     email: string,
     enabled: boolean,
     accountLocked: boolean,
@@ -24,7 +24,8 @@ export async function findAccountFor(email: string) {
             },
             credentials: 'same-origin'
         });
-    return response.json()
+    let body = await response.json();
+    return Promise.resolve(body as Account)
 }
 
 export function saveAccountFor(account: Account) {
