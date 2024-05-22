@@ -7,17 +7,10 @@ import CheckboxesGroup from "../../component/CheckboxesGroup";
 import {convertToMandatoryAction, findAccountFor, saveAccountFor} from "./AccountRepository";
 import FormButton from "../../component/FormButton";
 import {findAllRoles} from "../roles/RoleRepository";
-import AuthorityTable, {drawAuthorityRows} from "../../component/AuthorityTable";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import {Card, CardContent, CardHeader, Typography} from "@mui/material";
 import {PeopleAlt} from "@mui/icons-material";
 import FormSelect, {SelectOption} from "../../component/FormSelect";
-
-const columns = [
-    {id: 'name', label: 'Role', minWidth: 170},
-    {id: 'description', label: 'Description Role', minWidth: 170},
-    {id: 'delete', label: 'Delete Role', minWidth: 170}
-];
 
 export default () => {
     let {accountMail} = useParams<string>()!;
@@ -25,30 +18,33 @@ export default () => {
     const [email, setEmail] = useState<string>(accountMail!)
     const [enabled, setEnabled] = useState({enabled: false})
     const [accountLocked, setAccountLocked] = useState({accountLocked: false})
-    const [mandatoryAction, setMandatoryAction] = useState<SelectOption>({value:"NO_ACTION", label:"NO_ACTION"})
-    const [authorities, setAuthorities] = useState<string[]>([])
-    const [authorityRows, setAuthorityRows] = useState([])
+    const [mandatoryAction, setMandatoryAction] = useState<SelectOption>({value: "NO_ACTION", label: "NO_ACTION"})
+    const [roles, setRoles] = useState<SelectOption[]>([])
+    const [availableRoles, setAvailableRoles] = useState<SelectOption[]>([])
 
     let pageTitle = "Account Management";
 
     useEffect(() => {
-            findAllRoles()
-                .then(roleValues => {
-                    findAccountFor(email!)
-                        .then(value => {
-                            if (value) {
-                                setEnabled({enabled: value.enabled})
-                                setAccountLocked({accountLocked: value.accountLocked})
-                                setAuthorities(value.authorities)
-                                setAuthorityRows(
-                                    drawAuthorityRows(setAuthorityRows, setAuthorities, value.authorities, roleValues)
-                                )
-                                setMandatoryAction({value:value.mandatoryAction, label:value.mandatoryAction})
-                            } else {
-                                navigate(-1)
-                            }
-                        })
-                })
+            async function init() {
+                let roles = await findAllRoles()
+                let account = await findAccountFor(email!)
+                if (account) {
+                    setEnabled({enabled: account.enabled})
+                    setAccountLocked({accountLocked: account.accountLocked})
+                    setAvailableRoles(roles.map(role => {
+                        return {value: role.name, label: role.name}
+                    }))
+                    setRoles(account.authorities.map(authority => {
+                        return {value: authority, label: authority}
+                    }))
+
+                    setMandatoryAction({value: account.mandatoryAction, label: account.mandatoryAction})
+                } else {
+                    navigate(-1)
+                }
+            }
+
+            init();
         }, []
     )
 
@@ -57,7 +53,7 @@ export default () => {
             email: email,
             enabled: enabled.enabled,
             accountLocked: accountLocked.accountLocked,
-            authorities: authorities,
+            authorities: roles.map(role => role.value),
             mandatoryAction: convertToMandatoryAction(mandatoryAction.value)
         }
 
@@ -115,8 +111,14 @@ export default () => {
                                 ]}
                     />
 
-                    <AuthorityTable authorityRows={authorityRows} columns={columns}/>
-
+                    <FormSelect id="roles"
+                                label="Roles"
+                                multi={true}
+                                onChangeHandler={(event) => {
+                                    setRoles(event)
+                                }}
+                                options={availableRoles}
+                                value={roles}/>
                     <Separator/>
 
                     <LeftRightComponentRow leftComponentColumnsSize={2}

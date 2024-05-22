@@ -12,7 +12,7 @@ interface FormSelectProps {
     label: string
     multi: boolean
     options: OptionsOrGroups<SelectOption, GroupBase<SelectOption>>
-    value?: SelectOption
+    value?: SelectOption[] | SelectOption
     onChangeHandler: (...args: any) => void
     suffix?: string
 }
