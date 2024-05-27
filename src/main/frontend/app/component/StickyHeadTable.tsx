@@ -1,40 +1,42 @@
 import React from 'react';
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 
-const classes = {
-        root: {
-            width: '100%',
-        },
-        container: {
-            maxHeight: 440,
-        }
-    }
-;
+type StickyHeadTableProps = {
+    columns: StickyHeadTableColumn[]
+    rows: any[]
+}
 
-export default function StickyHeadTable({columns, rows}) {
+export type StickyHeadTableColumn = {
+    id: string,
+    label: string,
+    minWidth: number
+}
+
+const StickyHeadTable: React.FC<StickyHeadTableProps> = ({columns, rows}) => {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
 
     return (
-        <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
+        <Paper style={{width: '100%'}}>
+            <TableContainer style={{maxHeight: 440}}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
-                                    align={column.align}
                                     style={{minWidth: column.minWidth}}>
                                     {column.label}
                                 </TableCell>
@@ -48,7 +50,7 @@ export default function StickyHeadTable({columns, rows}) {
                                     {columns.map((column) => {
                                         const value = row[column.id];
                                         return (
-                                            <TableCell key={column.id} align={column.align}>
+                                            <TableCell key={column.id}>
                                                 {value}
                                             </TableCell>
                                         );
@@ -65,9 +67,11 @@ export default function StickyHeadTable({columns, rows}) {
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Paper>
     );
 }
+
+export default StickyHeadTable

@@ -1,6 +1,6 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {deleteKeyFor, findAllKeys, rotateKeyFor, VAuthenticatorKey} from "./KeyRepository";
-import StickyHeadTable from "../../component/StickyHeadTable";
+import StickyHeadTable, {StickyHeadTableColumn} from "../../component/StickyHeadTable";
 import AdminTemplate from "../../component/AdminTemplate";
 import {Alert, Snackbar} from "@mui/material";
 import {Delete} from "@mui/icons-material";
@@ -8,7 +8,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import KeyDialog from "./KeyDialog";
 import moment from "moment";
 
-const columns = [
+const columns: StickyHeadTableColumn[] = [
     {id: 'masterKey', label: 'Maser Key', minWidth: 170},
     {id: 'kid', label: 'Key Id', minWidth: 170},
     {id: 'delete', label: 'Delete Key', minWidth: 170},

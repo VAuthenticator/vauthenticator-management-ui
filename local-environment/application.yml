@@ -14,7 +14,7 @@ spring:
       client:
         registration:
           client:
-            client-id: mfa-vauthenticator-management-ui
+            client-id: vauthenticator-management-ui
             client-secret: secret
             client-name: VAuthenticator Management UI
             provider: vauthenticator
