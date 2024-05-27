@@ -11,7 +11,7 @@ export function findAllClientApplications() {
     })
 }
 
-export function findClientApplicationFor(clientAppId) {
+export function findClientApplicationFor(clientAppId: string) {
     return fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "GET",
@@ -24,7 +24,7 @@ export function findClientApplicationFor(clientAppId) {
     })
 }
 
-export function saveClientApplicationFor(clientAppId, clientApp) {
+export function saveClientApplicationFor(clientAppId: string, clientApp: string) {
     return fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "PUT",
@@ -37,7 +37,7 @@ export function saveClientApplicationFor(clientAppId, clientApp) {
         })
 }
 
-export function resetSecretFor(clientAppId, secret) {
+export function resetSecretFor(clientAppId: string, secret: string) {
     return fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "PATCH",
@@ -50,7 +50,7 @@ export function resetSecretFor(clientAppId, secret) {
         })
 }
 
-export function deleteClientApplicationFor(clientAppId) {
+export function deleteClientApplicationFor(clientAppId: string) {
     return fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "DELETE",
