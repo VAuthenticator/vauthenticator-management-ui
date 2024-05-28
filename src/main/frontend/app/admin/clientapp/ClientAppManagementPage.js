@@ -22,12 +22,6 @@ function allProps(index) {
     };
 }
 
-const columns = [
-    {id: 'name', label: 'Role', minWidth: 170},
-    {id: 'description', label: 'Description Role', minWidth: 170},
-    {id: 'delete', label: 'Delete Role', minWidth: 170}
-];
-
 const ClientAppManagementPage = () => {
     const classes = vauthenticatorStyles();
     let {clientAppId} = useParams();
