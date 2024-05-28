@@ -9,7 +9,7 @@ module.exports = {
         "404_error": path.resolve(__dirname, './app/errors/DefaultGenericErrorPage.tsx'),
         "400_error": path.resolve(__dirname, './app/errors/DefaultGenericErrorPage.tsx'),
         "500_error": path.resolve(__dirname, './app/errors/DefaultGenericErrorPage.tsx'),
-        "admin": path.resolve(__dirname, './app/admin/index.js')
+        "admin": path.resolve(__dirname, './app/admin/index.tsx')
     },
     resolve: {
         extensions: ['.tsx', '.ts', ".js", ".jsx"]
