@@ -1,27 +1,25 @@
-export function findAllClientApplications() {
-    return fetch("/secure/api/client-applications",
+export async function findAllClientApplications() {
+    let response = await fetch("/secure/api/client-applications",
         {
             method: "GET",
             headers: {
                 'Accept': 'application/json'
             },
             credentials: 'same-origin'
-        }).then(response => {
-        return response.json()
-    })
+        });
+    return response.json()
 }
 
-export function findClientApplicationFor(clientAppId: string) {
-    return fetch(`/secure/api/client-applications/${clientAppId}`,
+export async function findClientApplicationFor(clientAppId: string) {
+    let response = await fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "GET",
             headers: {
                 'Accept': 'application/json'
             },
             credentials: 'same-origin'
-        }).then(response => {
-        return response.json()
-    })
+        });
+    return response.json()
 }
 
 export function saveClientApplicationFor(clientAppId: string, clientApp: string) {
