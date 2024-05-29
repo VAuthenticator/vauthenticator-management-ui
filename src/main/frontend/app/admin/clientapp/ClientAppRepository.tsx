@@ -1,15 +1,15 @@
-type ClientApplicationInList = {
+export type ClientApplicationInList = {
     clientAppId: string
     clientAppName: string
     scopes: string[]
     authorizedGrantTypes: string[]
 }
 
-type ClientApplicationDetails = {
+export type ClientApplicationDetails = {
     clientAppName: string
     secret: string
     withPkce: boolean
-    storePassword: string
+    storePassword: boolean
     scopes: string[]
     authorizedGrantTypes: string[]
     webServerRedirectUri: string
@@ -19,7 +19,7 @@ type ClientApplicationDetails = {
     logoutUri: string
 }
 
-export async function findAllClientApplications() : Promise<Awaited<ClientApplicationInList[]>> {
+export async function findAllClientApplications(): Promise<Awaited<ClientApplicationInList[]>> {
     let response = await fetch("/secure/api/client-applications",
         {
             method: "GET",
@@ -32,7 +32,7 @@ export async function findAllClientApplications() : Promise<Awaited<ClientApplic
     return Promise.resolve(clientApplications)
 }
 
-export async function findClientApplicationFor(clientAppId: string) :Promise<ClientApplicationDetails>{
+export async function findClientApplicationFor(clientAppId: string): Promise<ClientApplicationDetails> {
     let response = await fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "GET",
@@ -45,7 +45,7 @@ export async function findClientApplicationFor(clientAppId: string) :Promise<Cli
     return Promise.resolve(clientApplication)
 }
 
-export function saveClientApplicationFor(clientAppId: string, clientApp: string) {
+export function saveClientApplicationFor(clientAppId: string, clientApp: ClientApplicationDetails) {
     return fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "PUT",

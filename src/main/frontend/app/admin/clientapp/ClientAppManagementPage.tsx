@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
-import {findClientApplicationFor, saveClientApplicationFor} from "./ClientAppRepository";
+import {ClientApplicationDetails, findClientApplicationFor, saveClientApplicationFor} from "./ClientAppRepository";
 import FormInputTextField from "../../component/FormInputTextField";
 import AdminTemplate from "../../component/AdminTemplate";
 import Separator from "../../component/Separator";
@@ -10,12 +10,12 @@ import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
 import {authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
 import vauthenticatorStyles from "../../theme/styles";
-import FormSelect from "../../component/FormSelect";
+import FormSelect, {SelectOption} from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
 import {Box, Card, CardContent, CardHeader, Tab, Tabs, Typography} from "@mui/material";
 import {Apps} from "@mui/icons-material";
 
-function allProps(index) {
+function allProps(index: string) {
     return {
         id: `vertical-tab-${index}`,
         'aria-controls': `vertical-tabpanel-${index}`,
@@ -28,11 +28,11 @@ const ClientAppManagementPage = () => {
     const storePassword = !clientAppId
     const navigate = useNavigate();
 
-    const [clientApplicationId, setClientApplicationId] = useState(clientAppId)
+    const [clientApplicationId, setClientApplicationId] = useState<string | undefined>(clientAppId)
     const [clientAppName, setClientAppName] = useState("")
     const [secret, setSecret] = useState("*********")
-    const [scopes, setScopes] = useState([])
-    const [availableScopes, setAvailableScopes] = useState([])
+    const [scopes, setScopes] = useState<SelectOption[]>([])
+    const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
     const [authorizedGrantTypes, setAuthorizedGrantTypes] = useState(authorizedGrantTypesRegistry)
     const [webServerRedirectUri, setWebServerRedirectUri] = useState("")
     const [withPkce, setWithPkce] = useState(false)
@@ -42,22 +42,23 @@ const ClientAppManagementPage = () => {
     const [postLogoutRedirectUri, setPostLogoutRedirectUri] = useState("")
     const [logoutUri, setLogoutUri] = useState("")
 
+
     const saveClientApp = () => {
-        let clientApplication = {
-            "clientAppName": clientAppName,
-            "secret": secret,
-            "scopes": scopes.map(scope => scope.value),
-            "authorizedGrantTypes": authorizedGrantTypesParam(authorizedGrantTypes),
-            "withPkce": withPkce,
-            "webServerRedirectUri": webServerRedirectUri,
-            "authorities": authorities,
-            "accessTokenValidity": accessTokenValidity,
-            "refreshTokenValidity": refreshTokenValidity,
-            "postLogoutRedirectUri": postLogoutRedirectUri,
-            "logoutUri": logoutUri,
-            "storePassword": storePassword
+        let clientApplication: ClientApplicationDetails = {
+            clientAppName: clientAppName,
+            secret: secret,
+            withPkce: withPkce,
+            storePassword: storePassword,
+            scopes: scopes.map(scope => scope.value),
+            authorizedGrantTypes: authorizedGrantTypesParam(authorizedGrantTypes),
+            webServerRedirectUri: webServerRedirectUri,
+            accessTokenValidity: accessTokenValidity,
+            refreshTokenValidity: refreshTokenValidity,
+            postLogoutRedirectUri: postLogoutRedirectUri,
+            logoutUri: logoutUri
         }
-        saveClientApplicationFor(clientApplicationId, clientApplication)
+
+        saveClientApplicationFor(clientApplicationId!!, clientApplication)
             .then(response => {
                 if (response.status === 204) {
                     navigate(-1);
@@ -68,11 +69,12 @@ const ClientAppManagementPage = () => {
     useEffect(() => {
         async function init() {
             let scopes = await findAllScopes()
+            console.log("scopes: " + scopes)
             setAvailableScopes(scopes.map(scope => {
                 return {value: scope, label: scope}
             }))
 
-            let clientApp = await findClientApplicationFor(clientApplicationId)
+            let clientApp = await findClientApplicationFor(clientApplicationId!!)
 
             setClientAppName(clientApp.clientAppName)
             setSecret(clientApp.secret)
@@ -91,12 +93,12 @@ const ClientAppManagementPage = () => {
         init()
     }, [])
     const [value, setValue] = React.useState('0');
-    const handleChange = (event, newValue) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: any) => {
         setValue(newValue);
     };
 
     let pageTitle = clientApplicationId ? `: Client Application: ${clientApplicationId}` : "";
-    return <AdminTemplate maxWidth="xl" age={pageTitle}>
+    return <AdminTemplate maxWidth="xl" page={pageTitle}>
 
         <Typography variant="h3" component="h3">
             <Apps fontSize="large"/> Client Application: {clientApplicationId}
@@ -136,7 +138,7 @@ const ClientAppManagementPage = () => {
                                             label="Password"
                                             required={true}
                                             type="Password"
-                                            disabled={clientAppId}
+                                            disabled={clientAppId != undefined}
                                             handler={(value) => {
                                                 setSecret(value.target.value)
                                             }}

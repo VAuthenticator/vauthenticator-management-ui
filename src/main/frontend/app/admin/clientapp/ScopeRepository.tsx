@@ -1,4 +1,4 @@
-export async function findAllScopes() {
+export async function findAllScopes(): Promise<string[]> {
     let response = await fetch("/scopes",
         {
             method: "GET",
@@ -7,5 +7,6 @@ export async function findAllScopes() {
             },
             credentials: 'same-origin'
         });
-    return response.json()
+    let promise = await response.json() as string[];
+    return Promise.resolve(promise)
 }
