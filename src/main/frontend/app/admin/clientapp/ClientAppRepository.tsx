@@ -1,4 +1,25 @@
-export async function findAllClientApplications() {
+type ClientApplicationInList = {
+    clientAppId: string
+    clientAppName: string
+    scopes: string[]
+    authorizedGrantTypes: string[]
+}
+
+type ClientApplicationDetails = {
+    clientAppName: string
+    secret: string
+    withPkce: boolean
+    storePassword: string
+    scopes: string[]
+    authorizedGrantTypes: string[]
+    webServerRedirectUri: string
+    accessTokenValidity: string
+    refreshTokenValidity: string
+    postLogoutRedirectUri: string
+    logoutUri: string
+}
+
+export async function findAllClientApplications() : Promise<Awaited<ClientApplicationInList[]>> {
     let response = await fetch("/secure/api/client-applications",
         {
             method: "GET",
@@ -7,10 +28,11 @@ export async function findAllClientApplications() {
             },
             credentials: 'same-origin'
         });
-    return response.json()
+    let clientApplications = await response.json() as ClientApplicationInList[];
+    return Promise.resolve(clientApplications)
 }
 
-export async function findClientApplicationFor(clientAppId: string) {
+export async function findClientApplicationFor(clientAppId: string) :Promise<ClientApplicationDetails>{
     let response = await fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "GET",
@@ -19,7 +41,8 @@ export async function findClientApplicationFor(clientAppId: string) {
             },
             credentials: 'same-origin'
         });
-    return response.json()
+    let clientApplication = await response.json() as ClientApplicationDetails;
+    return Promise.resolve(clientApplication)
 }
 
 export function saveClientApplicationFor(clientAppId: string, clientApp: string) {
