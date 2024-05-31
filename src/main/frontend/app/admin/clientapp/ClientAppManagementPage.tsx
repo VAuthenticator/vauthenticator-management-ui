@@ -8,7 +8,7 @@ import FormButton from "../../component/FormButton";
 import TabPanel from "../../component/TabPanel";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
-import {AuthorizedGrantType, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
+import {AuthorizedGrantType, authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
 import vauthenticatorStyles from "../../theme/styles";
 import FormSelect, {SelectOption} from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
@@ -50,8 +50,7 @@ const ClientAppManagementPage = () => {
             withPkce: withPkce,
             storePassword: storePassword,
             scopes: scopes.map(scope => scope.value),
-            // authorizedGrantTypes: authorizedGrantTypesParam(authorizedGrantTypes),
-            authorizedGrantTypes: [],
+            authorizedGrantTypes: authorizedGrantTypesParam(authorizedGrantTypes),
             webServerRedirectUri: webServerRedirectUri,
             accessTokenValidity: accessTokenValidity,
             refreshTokenValidity: refreshTokenValidity,

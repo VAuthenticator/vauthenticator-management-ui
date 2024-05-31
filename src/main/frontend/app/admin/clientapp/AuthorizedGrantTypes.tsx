@@ -4,9 +4,19 @@ export enum AuthorizedGrantType {
     client_credentials = "client_credentials"
 }
 
+export type ClientAppAuthorizedGrantType = {
+    authorization_code: boolean
+    refresh_token: boolean
+    client_credentials: boolean
+}
 
-export const authorizedGrantTypesRegistry = (authorizedGrantTypes: AuthorizedGrantType[]) => {
-    let registry  = {
+export function authorizedGrantTypesParam(input: ClientAppAuthorizedGrantType): string[] {
+    return Object.keys(input)
+        .filter(obj => Object.call(input, obj))
+}
+
+export const authorizedGrantTypesRegistry = (authorizedGrantTypes: AuthorizedGrantType[]): ClientAppAuthorizedGrantType => {
+    let registry: ClientAppAuthorizedGrantType = {
         authorization_code: false,
         refresh_token: false,
         client_credentials: false
