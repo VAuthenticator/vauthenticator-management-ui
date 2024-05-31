@@ -33,7 +33,7 @@ const ClientAppManagementPage = () => {
     const [secret, setSecret] = useState("*********")
     const [scopes, setScopes] = useState<SelectOption[]>([])
     const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
-    const [authorizedGrantTypes, setAuthorizedGrantTypes] = useState(authorizedGrantTypesRegistry)
+    const [authorizedGrantTypes, setAuthorizedGrantTypes] = useState(authorizedGrantTypesRegistry([]))
     const [webServerRedirectUri, setWebServerRedirectUri] = useState("")
     const [withPkce, setWithPkce] = useState(false)
 

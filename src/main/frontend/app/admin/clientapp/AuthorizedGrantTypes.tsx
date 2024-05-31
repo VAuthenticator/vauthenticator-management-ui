@@ -1,4 +1,11 @@
-export const authorizedGrantTypesParam = (authorizedGrantTypes) => {
+enum AuthorizedGrantType {
+    authorization_code = "authorization_code",
+    refresh_token = "refresh_token",
+    client_credentials = "client_credentials"
+}
+
+
+export const authorizedGrantTypesParam = (authorizedGrantTypes: AuthorizedGrantType[]) => {
     return Object.keys(authorizedGrantTypes)
         .map((key, _) => {
             return {[key]: authorizedGrantTypes[key]};
@@ -9,7 +16,7 @@ export const authorizedGrantTypesParam = (authorizedGrantTypes) => {
             return Object.keys(obj)[0]
         })
 }
-export const authorizedGrantTypesRegistry = (authorizedGrantTypes) => {
+export const authorizedGrantTypesRegistry = (authorizedGrantTypes: AuthorizedGrantType[]) => {
     let registry = {
         authorization_code: false,
         refresh_token: false,
