@@ -8,7 +8,7 @@ import FormButton from "../../component/FormButton";
 import TabPanel from "../../component/TabPanel";
 import LeftRightComponentRow from "../../component/LeftRightComponentRow";
 import CheckboxesGroup from "../../component/CheckboxesGroup";
-import {authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
+import {AuthorizedGrantType, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
 import vauthenticatorStyles from "../../theme/styles";
 import FormSelect, {SelectOption} from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
@@ -50,7 +50,8 @@ const ClientAppManagementPage = () => {
             withPkce: withPkce,
             storePassword: storePassword,
             scopes: scopes.map(scope => scope.value),
-            authorizedGrantTypes: authorizedGrantTypesParam(authorizedGrantTypes),
+            // authorizedGrantTypes: authorizedGrantTypesParam(authorizedGrantTypes),
+            authorizedGrantTypes: [],
             webServerRedirectUri: webServerRedirectUri,
             accessTokenValidity: accessTokenValidity,
             refreshTokenValidity: refreshTokenValidity,
@@ -81,7 +82,7 @@ const ClientAppManagementPage = () => {
             setScopes(clientApp.scopes.map(scope => {
                 return {value: scope, label: scope};
             }))
-            setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes))
+            setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes as AuthorizedGrantType[]))
             setWithPkce(clientApp.withPkce)
             setWebServerRedirectUri(clientApp.webServerRedirectUri)
             setAccessTokenValidity(clientApp.accessTokenValidity)

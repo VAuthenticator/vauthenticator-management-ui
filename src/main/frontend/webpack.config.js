@@ -12,7 +12,7 @@ module.exports = {
         "admin": path.resolve(__dirname, './app/admin/index.tsx')
     },
     resolve: {
-        extensions: ['.tsx', '.ts']
+        extensions: ['.tsx', '.ts', ".js", ".jsx"]
     },
     plugins: [],
     module: {
@@ -25,6 +25,17 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: ['ts-loader'],
                 exclude: /node_modules$/,
+            },
+            {
+                test: /\.js?$/,
+                exclude: path.resolve(__dirname, "node_modules"),
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/env', '@babel/react']
+                    }
+                }
+
             }
         ]
     },
