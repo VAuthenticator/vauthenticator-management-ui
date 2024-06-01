@@ -6,7 +6,12 @@ import Separator from "../../component/Separator";
 import {resetSecretFor} from "./ClientAppRepository";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
-export default function ResetClientAppSecretDialog({onClose, open, clientAppId}) {
+type ResetClientAppSecretDialogProps = {
+    onClose: () => void
+    open: boolean
+    clientAppId: string
+}
+const ResetClientAppSecretDialog: React.FC<ResetClientAppSecretDialogProps> = ({onClose, open, clientAppId}) => {
     const [secret, setSecret] = useState("")
     return (
         <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="lg">
@@ -19,16 +24,16 @@ export default function ResetClientAppSecretDialog({onClose, open, clientAppId})
                 <FormInputTextField id="resetSecretKeyField"
                                     label="Client App Secret"
                                     required={true}
+                                    value={secret}
                                     handler={(value) => {
                                         setSecret(value.target.value)
                                     }}/>
-
                 <Separator/>
 
                 <DialogActions>
                     <FormButton label="Save" onClickHandler={() => {
                         resetSecretFor(clientAppId, secret)
-                            .then(value => onClose())
+                            .then(_ => onClose())
                     }}/>
                     <FormButton label="Close" onClickHandler={onClose}/>
                 </DialogActions>
@@ -36,3 +41,5 @@ export default function ResetClientAppSecretDialog({onClose, open, clientAppId})
         </Dialog>
     );
 }
+
+export default ResetClientAppSecretDialog

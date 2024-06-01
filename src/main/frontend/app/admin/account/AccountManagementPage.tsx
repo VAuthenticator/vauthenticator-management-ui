@@ -12,7 +12,7 @@ import {Card, CardContent, CardHeader, Typography} from "@mui/material";
 import {PeopleAlt} from "@mui/icons-material";
 import FormSelect, {SelectOption} from "../../component/FormSelect";
 
-export default () => {
+const AccountManagementPage : React.FC = () => {
     let {accountMail} = useParams<string>()!;
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>(accountMail!)
@@ -136,3 +136,5 @@ export default () => {
         </AdminTemplate>
     );
 }
+
+export default AccountManagementPage

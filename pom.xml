@@ -22,7 +22,7 @@
 
         <io.mockk.version>1.13.10</io.mockk.version>
         <wiremock.version>3.0.1</wiremock.version>
-        <aws.sdk.version>2.25.46</aws.sdk.version>
+        <aws.sdk.version>2.25.57</aws.sdk.version>
         <vauthenticator-starters.version>0.7</vauthenticator-starters.version>
     </properties>
 
@@ -43,6 +43,11 @@
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
             <version>${aws.sdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
 
         <dependency>

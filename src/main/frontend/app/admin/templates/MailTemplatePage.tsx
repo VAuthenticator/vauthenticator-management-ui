@@ -55,7 +55,7 @@ const MailTemplatePage = () => {
                         label="Mail Template Type"
                         multi={false}
                         onChangeHandler={(event) => {
-                             setMailType(event)
+                             setMailType(event.value)
                              getMailTemplateFor(event.value)
                                  .then(content => {
                                      if(mailContent && mailContent.current) {

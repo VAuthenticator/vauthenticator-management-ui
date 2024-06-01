@@ -7,9 +7,11 @@ import com.vauthenticator.springbootclientstarter.user.VAuthenticatorOidcUserSer
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
+
 
 const val adminRole = "VAUTHENTICATOR_ADMIN"
 
@@ -49,6 +51,7 @@ class WebSecurityConfig(
     fun vauthenticatorRestTemplate(oAuth2TokenResolver: OAuth2TokenResolver) =
         RestTemplateBuilder()
             .additionalInterceptors(BearerTokenInterceptor(oAuth2TokenResolver))
+            .requestFactory(HttpComponentsClientHttpRequestFactory::class.java)
             .build()
 
 }

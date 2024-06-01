@@ -1,6 +1,6 @@
 import React, {SyntheticEvent, useEffect} from 'react';
 import AdminTemplate from "../../component/AdminTemplate";
-import StickyHeadTable from "../../component/StickyHeadTable";
+import StickyHeadTable, {StickyHeadTableColumn} from "../../component/StickyHeadTable";
 import {deleteRoleFor, findAllRoles, Role} from "./RoleRepository";
 import FormButton from "../../component/FormButton";
 import ConfirmationDialog from "../../component/ConfirmationDialog";
@@ -8,7 +8,7 @@ import RolesDialog from "./RolesDialog";
 import {AssignmentInd, Delete, Edit} from "@mui/icons-material";
 import {Alert, Snackbar} from "@mui/material";
 
-const columns = [
+const columns: StickyHeadTableColumn[] = [
     {id: 'name', label: 'Role', minWidth: 170},
     {id: 'description', label: 'Description', minWidth: 170},
     {id: 'edit', label: 'Edit Role', minWidth: 170},

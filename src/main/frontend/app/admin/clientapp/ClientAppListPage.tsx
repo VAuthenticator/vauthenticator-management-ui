@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import StickyHeadTable from "../../component/StickyHeadTable";
+import StickyHeadTable, {StickyHeadTableColumn} from "../../component/StickyHeadTable";
 import {deleteClientApplicationFor, findAllClientApplications} from "./ClientAppRepository";
 import {Link} from "react-router-dom";
 import AdminTemplate from "../../component/AdminTemplate";
@@ -7,8 +7,10 @@ import FormButton from "../../component/FormButton";
 import ResetClientAppSecretDialog from "./ResetClientAppSecretDialog";
 import {useNavigate} from "react-router";
 import {Apps, Delete, Edit, VpnKey} from "@mui/icons-material";
+import {jsx} from "@emotion/react";
+import JSX = jsx.JSX;
 
-const columns = [
+const columns: StickyHeadTableColumn[] = [
     {id: 'clientAppName', label: 'Client Application Name', minWidth: 170},
     {id: 'clientAppId', label: 'Client Application Id', minWidth: 170},
     {id: 'scopes', label: 'Client Scopes', minWidth: 170},
@@ -18,14 +20,24 @@ const columns = [
     {id: 'secretKey', label: 'Reset Password', minWidth: 170}
 ];
 
+type ClientAppListPageTableRow = {
+    clientAppName: string
+    clientAppId: string
+    scopes: string
+    authorizedGrantTypes: string
+    edit: JSX.Element
+    delete: JSX.Element
+    secretKey: JSX.Element
+}
+
 const ClientAppListPage = () => {
-    const [applications, setApplications] = React.useState([])
+    const [applications, setApplications] = React.useState<ClientAppListPageTableRow[]>([])
     const [open, setOpen] = React.useState(false)
     const [currentClientAppId, setCurrentClientAppId] = React.useState("")
 
     const navigate = useNavigate()
 
-    const getEditLinkFor = (clientAppId) => {
+    const getEditLinkFor = (clientAppId: string) => {
         return <Edit onClick={() => {
             navigate(`/client-applications/edit/${clientAppId}`)
         }}/>
@@ -35,7 +47,7 @@ const ClientAppListPage = () => {
         setOpen(false);
     };
 
-    const getDeleteLinkFor = (clientAppId) => {
+    const getDeleteLinkFor = (clientAppId: string) => {
         return <Delete onClick={() => {
             deleteClientApplicationFor(clientAppId)
                 .then(response => {
@@ -45,7 +57,7 @@ const ClientAppListPage = () => {
                 })
         }}/>;
     }
-    const resetSecretKeyFor = (clientAppId) => {
+    const resetSecretKeyFor = (clientAppId: string) => {
         return <VpnKey onClick={() => {
             setOpen(true)
             setCurrentClientAppId(clientAppId)
@@ -56,12 +68,15 @@ const ClientAppListPage = () => {
         findAllClientApplications()
             .then(val => {
                 let rows = val.map(value => {
-                    value.scopes = value.scopes.join(",")
-                    value.authorizedGrantTypes = value.authorizedGrantTypes.join(",")
-                    value.edit = getEditLinkFor(value["clientAppId"])
-                    value.delete = getDeleteLinkFor(value["clientAppId"])
-                    value.secretKey = resetSecretKeyFor(value["clientAppId"])
-                    return value
+                    return {
+                        clientAppId: value.clientAppId,
+                        clientAppName: value.clientAppName,
+                        scopes: value.scopes.join(","),
+                        authorizedGrantTypes: value.authorizedGrantTypes.join(","),
+                        edit: getEditLinkFor(value["clientAppId"]),
+                        delete: getDeleteLinkFor(value["clientAppId"]),
+                        secretKey: resetSecretKeyFor(value["clientAppId"])
+                    }
                 })
                 setApplications(rows)
             });

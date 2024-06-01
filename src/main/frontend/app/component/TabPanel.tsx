@@ -2,8 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Box, Typography} from "@mui/material";
 
-export default function TabPanel(props) {
-    const {children, value, index, ...other} = props;
+type TabPanelProps = {
+    children: any
+    value: string
+    index: string
+}
+
+const TabPanel: React.FC<TabPanelProps> = ({children, value, index}) => {
 
     return (
         <div
@@ -11,9 +16,7 @@ export default function TabPanel(props) {
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
+            aria-labelledby={`simple-tab-${index}`}>
             {value === index && (
                 <Box p={3}>
                     <Typography>{children}</Typography>
@@ -22,9 +25,4 @@ export default function TabPanel(props) {
         </div>
     );
 }
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
+export default TabPanel
