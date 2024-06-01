@@ -11,8 +11,9 @@ export type ClientAppAuthorizedGrantType = {
 }
 
 export function authorizedGrantTypesParam(input: ClientAppAuthorizedGrantType): string[] {
-    return Object.keys(input)
-        .filter(obj => Object.call(input, obj))
+    return Object.entries(input)
+        .filter((value: [string, boolean]) => value[1])
+        .map((value: [string, boolean]) => value[0])
 }
 
 export const authorizedGrantTypesRegistry = (authorizedGrantTypes: AuthorizedGrantType[]): ClientAppAuthorizedGrantType => {

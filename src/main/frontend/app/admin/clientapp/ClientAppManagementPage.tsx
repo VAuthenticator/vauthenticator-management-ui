@@ -44,6 +44,8 @@ const ClientAppManagementPage = () => {
 
 
     const saveClientApp = () => {
+        console.log("authorizedGrantTypes " + JSON.stringify(authorizedGrantTypes))
+        console.log("authorizedGrantTypesParam(authorizedGrantTypes) " +authorizedGrantTypesParam(authorizedGrantTypes))
         let clientApplication: ClientApplicationDetails = {
             clientAppName: clientAppName,
             secret: secret,
@@ -193,6 +195,9 @@ const ClientAppManagementPage = () => {
                                                  ...authorizedGrantTypes,
                                                  [value.target.name]: value.target.checked
                                              })
+                                             console.log(authorizedGrantTypes)
+                                             console.log(authorizedGrantTypes)
+                                             console.log(JSON.stringify(authorizedGrantTypes))
                                          }}
                                          choicesRegistry={authorizedGrantTypes}
                                          legend="Authorized Grant Types"/>
