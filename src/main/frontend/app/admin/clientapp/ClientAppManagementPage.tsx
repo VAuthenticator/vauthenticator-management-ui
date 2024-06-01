@@ -44,8 +44,6 @@ const ClientAppManagementPage = () => {
 
 
     const saveClientApp = () => {
-        console.log("authorizedGrantTypes " + JSON.stringify(authorizedGrantTypes))
-        console.log("authorizedGrantTypesParam(authorizedGrantTypes) " +authorizedGrantTypesParam(authorizedGrantTypes))
         let clientApplication: ClientApplicationDetails = {
             clientAppName: clientAppName,
             secret: secret,
@@ -71,7 +69,6 @@ const ClientAppManagementPage = () => {
     useEffect(() => {
         async function init() {
             let scopes = await findAllScopes()
-            console.log("scopes: " + scopes)
             setAvailableScopes(scopes.map(scope => {
                 return {value: scope, label: scope}
             }))
@@ -195,9 +192,6 @@ const ClientAppManagementPage = () => {
                                                  ...authorizedGrantTypes,
                                                  [value.target.name]: value.target.checked
                                              })
-                                             console.log(authorizedGrantTypes)
-                                             console.log(authorizedGrantTypes)
-                                             console.log(JSON.stringify(authorizedGrantTypes))
                                          }}
                                          choicesRegistry={authorizedGrantTypes}
                                          legend="Authorized Grant Types"/>
