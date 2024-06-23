@@ -21,7 +21,7 @@ rm -rf src/main/frontend/dist
 mkdir -p dist/static-asset/content/asset/
 
 cd src/main/frontend
-npm install --legacy-peer-deps
+npm install --legacy-peer-deps 
 npm run-script build
 
 cd dist/asset

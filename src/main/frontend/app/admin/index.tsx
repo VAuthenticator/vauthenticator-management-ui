@@ -32,7 +32,7 @@ const VAuthenticatorAdminApp = () =>
             <Route path="/accounts/edit/:accountMail" element={<AccountManagementPage/>}/>
 
             <Route path="/keys" element={<KeyManagementPage/>}/>
-            <Route path="/mail-templates" element={<MailTemplatePage/>}/>
+            <Route path="/email-templates" element={<MailTemplatePage/>}/>
         </Routes>
     </HashRouter>
 

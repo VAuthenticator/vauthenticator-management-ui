@@ -62,10 +62,10 @@ export const homeMenuContent = {
         link: "/keys"
     },
     mails: {
-        titleText: "Mail Template Management Section",
+        titleText: "EMail Template Management Section",
         titleIcon: <LocalPostOfficeIcon style={{fontSize: FONT_SIZE}}/>,
-        body: "In this section you can manage Mail templates in VAuthenticator",
-        link: "/mail-templates"
+        body: "In this section you can manage EMail templates in VAuthenticator",
+        link: "/email-templates"
     }
 }
 export default HomePageMenuItem
