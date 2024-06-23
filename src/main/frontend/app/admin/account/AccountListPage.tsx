@@ -18,7 +18,7 @@ export default () => {
             <CardHeader title="Account Search" color="textSecondary"/>
             <CardContent>
                 <FormInputTextField id="email"
-                                    label="Account Mail"
+                                    label="Account EMail"
                                     required={true}
                                     disabled={false}
                                     handler={(value) => {

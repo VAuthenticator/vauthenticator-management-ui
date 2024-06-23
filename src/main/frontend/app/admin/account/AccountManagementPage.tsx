@@ -13,9 +13,9 @@ import {PeopleAlt} from "@mui/icons-material";
 import FormSelect, {SelectOption} from "../../component/FormSelect";
 
 const AccountManagementPage : React.FC = () => {
-    let {accountMail} = useParams<string>()!;
+    let {accountEMail} = useParams<string>()!;
     const navigate = useNavigate();
-    const [email, setEmail] = useState<string>(accountMail!)
+    const [email, setEmail] = useState<string>(accountEMail!)
     const [enabled, setEnabled] = useState({enabled: false})
     const [accountLocked, setAccountLocked] = useState({accountLocked: false})
     const [mandatoryAction, setMandatoryAction] = useState<SelectOption>({value: "NO_ACTION", label: "NO_ACTION"})
@@ -69,14 +69,14 @@ const AccountManagementPage : React.FC = () => {
         <AdminTemplate maxWidth="xl" page={pageTitle}>
 
             <Typography variant="h3" component="h3">
-                <PeopleAlt fontSize="large"/> Account mail: {accountMail}
+                <PeopleAlt fontSize="large"/> Account email: {accountEMail}
             </Typography>
 
             <Card>
                 <CardHeader title="Account definition" color="textSecondary"/>
                 <CardContent>
                     <FormInputTextField id="email"
-                                        label="Account Mail"
+                                        label="Account EMail"
                                         required={true}
                                         disabled={true}
                                         handler={(value) => {

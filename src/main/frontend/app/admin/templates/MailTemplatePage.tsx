@@ -9,7 +9,7 @@ import {getMailTemplateFor, saveMailTemplateFor} from "./MailTemplateRepository"
 import FormSelect from "../../component/FormSelect";
 
 const MailTemplatePage = () => {
-    const pageTitle = "Mail Template Management"
+    const pageTitle = "EMail Template Management"
     const classes = vauthenticatorStyles();
 
     let mailContent = useRef<HTMLDivElement>(null)
@@ -24,7 +24,7 @@ const MailTemplatePage = () => {
 
     let saveMailTemplate = () => {
         saveMailTemplateFor({
-            mailType: mailType,
+            emailType: mailType,
             body: mailContent?.current?.innerText
         })
             .then(r => {
@@ -39,20 +39,20 @@ const MailTemplatePage = () => {
         <AdminTemplate maxWidth="xl" page={pageTitle}>
             <Snackbar open={openSucceeded} autoHideDuration={6000}>
                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                    Mail Template save succeeded
+                    EMail Template save succeeded
                 </Alert>
             </Snackbar>
             <Snackbar open={openFailure} autoHideDuration={6000}>
                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                    Mail Template save failed
+                    EMail Template save failed
                 </Alert>
             </Snackbar>
             <Typography variant="h2">
-                Mail Template
+                EMail Template
             </Typography>
 
-            <FormSelect id="mail-template-type"
-                        label="Mail Template Type"
+            <FormSelect id="email-template-type"
+                        label="EMail Template Type"
                         multi={false}
                         onChangeHandler={(event) => {
                              setMailType(event.value)

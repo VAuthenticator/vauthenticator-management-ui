@@ -1,10 +1,10 @@
 interface MailTemplateRequest {
-    mailType: string
+    emailType: string
     body?: string
 }
 
 export function saveMailTemplateFor(mailTemplate: MailTemplateRequest) {
-    return fetch("/secure/api/mail-template",
+    return fetch("/secure/api/email-template",
         {
             method: "PUT",
             headers: {
@@ -16,7 +16,7 @@ export function saveMailTemplateFor(mailTemplate: MailTemplateRequest) {
 }
 
 export function getMailTemplateFor(mailType: string) {
-    return fetch(`/secure/api/mail-template/${mailType}`,
+    return fetch(`/secure/api/email-template/${mailType}`,
         {
             method: "GET",
             headers: {
