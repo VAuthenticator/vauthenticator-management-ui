@@ -29,7 +29,7 @@ const VAuthenticatorAdminApp = () =>
             <Route path="/roles" element={<RolesManagementPage/>}/>
 
             <Route path="/accounts" element={<AccountListPage/>}/>
-            <Route path="/accounts/edit/:accountMail" element={<AccountManagementPage/>}/>
+            <Route path="/accounts/edit/:accountEMail" element={<AccountManagementPage/>}/>
 
             <Route path="/keys" element={<KeyManagementPage/>}/>
             <Route path="/email-templates" element={<MailTemplatePage/>}/>
