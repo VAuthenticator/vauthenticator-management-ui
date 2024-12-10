@@ -14,7 +14,7 @@
     <version>0.8-SNAPSHOT</version>
 
     <name>vauthenticator-management-ui</name>
-    <description>VAuthentiator Authorization Server Management Application</description>
+    <description>VAuthenticator Authorization Server Management Application</description>
 
     <properties>
         <java.version>21</java.version>

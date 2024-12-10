@@ -22,10 +22,19 @@ spring:
               - openid
               - profile
               - email
+              - admin:signup
+              - admin:welcome
+              - admin:email-verify
+              - admin:reset-password
+              - admin:change-password
               - admin:key-reader
               - admin:key-editor
-              - admin:mail-template-writer
-              - admin:mail-template-reader
+              - admin:email-template-reader
+              - admin:email-template-writer
+              - mfa:enrollment
+              - admin:client-app-reader
+              - admin:client-app-writer
+              - admin:client-app-eraser
             redirect-uri: http://local.management.vauthenticator.com:8080/login/oauth2/code/client
             authorization-grant-type: authorization_code
         provider:
