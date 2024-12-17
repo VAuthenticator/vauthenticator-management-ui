@@ -22,7 +22,7 @@
 
         <io.mockk.version>1.13.10</io.mockk.version>
         <wiremock.version>3.0.1</wiremock.version>
-        <aws.sdk.version>2.26.6</aws.sdk.version>
+        <aws.sdk.version>2.29.19</aws.sdk.version>
         <vauthenticator-starters.version>0.7</vauthenticator-starters.version>
     </properties>
 
