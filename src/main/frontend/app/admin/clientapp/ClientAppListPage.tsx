@@ -108,7 +108,7 @@ const ClientAppListPage = () => {
                                 onExecute={deleteClientApp}
                                 onClose={handleCloseDeleteClientAppDialog}
                                 message="Are you sure delete the selected Client App"
-                                title="Client App delete"/>
+                                title="Client App deletion"/>
 
             <Link to={"/client-applications/save"}>
                 <FormButton type="button"
