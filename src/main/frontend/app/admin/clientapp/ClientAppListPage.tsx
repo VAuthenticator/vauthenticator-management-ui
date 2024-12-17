@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import StickyHeadTable, {StickyHeadTableColumn} from "../../component/StickyHeadTable";
 import {deleteClientApplicationFor, findAllClientApplications} from "./ClientAppRepository";
 import {Link} from "react-router-dom";
@@ -9,6 +9,7 @@ import {useNavigate} from "react-router";
 import {Apps, Delete, Edit, VpnKey} from "@mui/icons-material";
 import {jsx} from "@emotion/react";
 import JSX = jsx.JSX;
+import ConfirmationDialog from "../../component/ConfirmationDialog";
 
 const columns: StickyHeadTableColumn[] = [
     {id: 'clientAppName', label: 'Client Application Name', minWidth: 170},
@@ -31,35 +32,46 @@ type ClientAppListPageTableRow = {
 }
 
 const ClientAppListPage = () => {
-    const [applications, setApplications] = React.useState<ClientAppListPageTableRow[]>([])
-    const [open, setOpen] = React.useState(false)
-    const [currentClientAppId, setCurrentClientAppId] = React.useState("")
+    const [applications, setApplications] = useState<ClientAppListPageTableRow[]>([])
+    const [openResetClientAppSecretDialog, setOpenResetClientAppSecretDialog] = useState(false)
+    const [openDeleteClientAppDialog, setOpenDeleteClientAppDialog] = useState(false)
+    const [currentClientAppId, setCurrentClientAppId] = useState("")
 
     const navigate = useNavigate()
 
-    const getEditLinkFor = (clientAppId: string) => {
+    const editLinkFor = (clientAppId: string) => {
         return <Edit onClick={() => {
             navigate(`/client-applications/edit/${clientAppId}`)
         }}/>
     }
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseResetClientAppSecretDialog = () => {
+        setOpenResetClientAppSecretDialog(false);
     };
 
-    const getDeleteLinkFor = (clientAppId: string) => {
+    const handleCloseDeleteClientAppDialog = () => {
+        setOpenDeleteClientAppDialog(false);
+    };
+
+    const deleteClientAppFor = (clientAppId: string) => {
         return <Delete onClick={() => {
-            deleteClientApplicationFor(clientAppId)
-                .then(response => {
-                    if (response.status === 204) {
-                        fetchAllApplications()
-                    }
-                })
+            setOpenDeleteClientAppDialog(true)
+            setCurrentClientAppId(clientAppId)
         }}/>;
     }
+    const deleteClientApp = () => {
+        deleteClientApplicationFor(currentClientAppId)
+            .then(response => {
+                if (response.status === 204) {
+                    handleCloseDeleteClientAppDialog()
+                    fetchAllApplications()
+                }
+            })
+    }
+
     const resetSecretKeyFor = (clientAppId: string) => {
         return <VpnKey onClick={() => {
-            setOpen(true)
+            setOpenResetClientAppSecretDialog(true)
             setCurrentClientAppId(clientAppId)
         }}/>;
     }
@@ -73,8 +85,8 @@ const ClientAppListPage = () => {
                         clientAppName: value.clientAppName,
                         scopes: value.scopes.join(","),
                         authorizedGrantTypes: value.authorizedGrantTypes.join(","),
-                        edit: getEditLinkFor(value["clientAppId"]),
-                        delete: getDeleteLinkFor(value["clientAppId"]),
+                        edit: editLinkFor(value["clientAppId"]),
+                        delete: deleteClientAppFor(value["clientAppId"]),
                         secretKey: resetSecretKeyFor(value["clientAppId"])
                     }
                 })
@@ -88,7 +100,15 @@ const ClientAppListPage = () => {
 
     return (
         <AdminTemplate maxWidth="xl" page=": Client Application Admin">
-            <ResetClientAppSecretDialog open={open} onClose={handleClose} clientAppId={currentClientAppId}/>
+            <ResetClientAppSecretDialog open={openResetClientAppSecretDialog}
+                                        onClose={handleCloseResetClientAppSecretDialog}
+                                        clientAppId={currentClientAppId}/>
+            <ConfirmationDialog maxWidth="md"
+                                open={openDeleteClientAppDialog}
+                                onExecute={deleteClientApp}
+                                onClose={handleCloseDeleteClientAppDialog}
+                                message="Are you sure delete the selected Client App"
+                                title="Client App delete"/>
 
             <Link to={"/client-applications/save"}>
                 <FormButton type="button"
