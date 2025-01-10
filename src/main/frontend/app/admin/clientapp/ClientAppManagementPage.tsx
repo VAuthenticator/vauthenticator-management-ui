@@ -14,6 +14,8 @@ import FormSelect, {SelectOption} from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
 import {Box, Card, CardContent, CardHeader, Tab, Tabs, Typography} from "@mui/material";
 import {Apps} from "@mui/icons-material";
+import randomClientApplicationIdGenerator from "../password/RandomClientApplicationIdGenerator";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function allProps(index: string) {
     return {
@@ -42,6 +44,12 @@ const ClientAppManagementPage = () => {
     const [postLogoutRedirectUri, setPostLogoutRedirectUri] = useState("")
     const [logoutUri, setLogoutUri] = useState("")
 
+
+    const generateRandomClientApplicationId = () => {
+        setClientApplicationId(randomClientApplicationIdGenerator)
+    }
+
+    const generateRandomClientApplicationIdItem = <AddCircleIcon onClick={generateRandomClientApplicationId}/>
 
     const saveClientApp = () => {
         let clientApplication: ClientApplicationDetails = {
@@ -131,6 +139,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setClientApplicationId(value.target.value)
                                             }}
+                                            suffixItem={generateRandomClientApplicationIdItem}
                                             value={clientApplicationId || ""}/>
 
                         <FormInputTextField id="secret"
