@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
-import {ClientApplicationDetails, findClientApplicationFor, saveClientApplicationFor} from "./ClientAppRepository";
+import {
+    ClientApplicationDetails,
+    findClientApplicationFor,
+    newClientApplicationRandomSecret,
+    saveClientApplicationFor
+} from "./ClientAppRepository";
 import FormInputTextField from "../../component/FormInputTextField";
 import AdminTemplate from "../../component/AdminTemplate";
 import Separator from "../../component/Separator";
@@ -14,8 +19,9 @@ import FormSelect, {SelectOption} from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
 import {Box, Card, CardContent, CardHeader, Tab, Tabs, Typography} from "@mui/material";
 import {Apps} from "@mui/icons-material";
-import randomClientApplicationIdGenerator from "../password/RandomClientApplicationIdGenerator";
+import randomClientApplicationIdGenerator from "./RandomClientApplicationIdGenerator";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import randomClientApplicationSecretGenerator from "./RandomClientApplicationSecretGenerator";
 
 function allProps(index: string) {
     return {
@@ -50,6 +56,13 @@ const ClientAppManagementPage = () => {
     }
 
     const generateRandomClientApplicationIdItem = <AddCircleIcon onClick={generateRandomClientApplicationId}/>
+
+
+    const generateRandomClientApplicationSecret = async () => {
+        setSecret(await newClientApplicationRandomSecret())
+    }
+
+    const generateRandomClientApplicationSecretItem = <AddCircleIcon onClick={generateRandomClientApplicationSecret}/>
 
     const saveClientApp = () => {
         let clientApplication: ClientApplicationDetails = {
@@ -150,6 +163,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setSecret(value.target.value)
                                             }}
+                                            suffixItem={generateRandomClientApplicationSecretItem}
                                             value={secret}/>
 
                         <FormInputTextField id="clientAppName"

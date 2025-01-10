@@ -27,6 +27,7 @@ spring:
               - admin:email-verify
               - admin:reset-password
               - admin:change-password
+              - admin:generate-password
               - admin:key-reader
               - admin:key-editor
               - admin:email-template-reader
