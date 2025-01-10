@@ -14,13 +14,13 @@ interface FormSelectProps {
     options: OptionsOrGroups<SelectOption, GroupBase<SelectOption>>
     value?: SelectOption[] | SelectOption
     onChangeHandler: (...args: any) => void
-    suffix?: string
+    prefix?: string
 }
 
-const FormSelect: React.FC<FormSelectProps> = ({id, label, multi, options, value, onChangeHandler, suffix}) => {
+const FormSelect: React.FC<FormSelectProps> = ({id, label, multi, options, value, onChangeHandler, prefix}) => {
     return <Grid container spacing={8} alignItems="flex-end">
-        {suffix && <Grid item>
-            {suffix}
+        {prefix && <Grid item>
+            {prefix}
         </Grid>}
         <Grid item md={true} sm={true} xs={true}>
             <InputLabel id={id}>{label}</InputLabel>

@@ -8,29 +8,35 @@ interface FormInputTextFieldProps {
     required?: boolean,
     autoFocus?: boolean,
     disabled?: boolean,
-    suffix?: string,
+    prefix?: string,
+    suffixItem?: React.ReactNode,
     value: string,
     handler: (input: any) => void
 }
+
 const FormInputTextField: React.FC<FormInputTextFieldProps> = ({
-                                                           id,
-                                                           label,
-                                                           type,
-                                                           required,
-                                                           autoFocus,
-                                                           disabled,
-                                                           suffix,
-                                                           value,
-                                                           handler
-                                                       }) => {
+                                                                   id,
+                                                                   label,
+                                                                   type,
+                                                                   required,
+                                                                   autoFocus,
+                                                                   disabled,
+                                                                   suffixItem,
+                                                                   prefix,
+                                                                   value,
+                                                                   handler
+                                                               }) => {
     return <Grid container spacing={8} alignItems="flex-end">
-        {suffix && <Grid item>
-            {suffix}
+        {prefix && <Grid item>
+            {prefix}
         </Grid>}
         <Grid item md={true} sm={true} xs={true}>
             <TextField name={id} id={id} label={label} type={type || "text"} disabled={disabled}
                        variant="outlined" fullWidth autoFocus={autoFocus} required={required || false}
                        value={value}
+                       InputProps={{
+                           endAdornment: (suffixItem),
+                       }}
                        onChange={handler}/>
         </Grid>
     </Grid>
