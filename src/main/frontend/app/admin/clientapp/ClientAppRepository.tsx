@@ -19,7 +19,20 @@ export type ClientApplicationDetails = {
     logoutUri: string
 }
 
-export async function findAllClientApplications(): Promise<Awaited<ClientApplicationInList[]>> {
+export type RandomSecret = {
+    pwd: string
+}
+
+export async function newClientApplicationRandomSecret(): Promise<RandomSecret> {
+    let response = await fetch("/secure/api/password",
+        {
+            method: "POST",
+            credentials: 'same-origin'
+        });
+    return await response.json() as RandomSecret
+}
+
+export async function findAllClientApplications(): Promise<ClientApplicationInList[]> {
     let response = await fetch("/secure/api/client-applications",
         {
             method: "GET",
@@ -28,8 +41,7 @@ export async function findAllClientApplications(): Promise<Awaited<ClientApplica
             },
             credentials: 'same-origin'
         });
-    let clientApplications = await response.json() as ClientApplicationInList[];
-    return Promise.resolve(clientApplications)
+    return await response.json() as ClientApplicationInList[]
 }
 
 export async function findClientApplicationFor(clientAppId: string): Promise<ClientApplicationDetails> {
@@ -41,8 +53,7 @@ export async function findClientApplicationFor(clientAppId: string): Promise<Cli
             },
             credentials: 'same-origin'
         });
-    let clientApplication = await response.json() as ClientApplicationDetails;
-    return Promise.resolve(clientApplication)
+    return await response.json() as ClientApplicationDetails
 }
 
 export function saveClientApplicationFor(clientAppId: string, clientApp: ClientApplicationDetails) {
