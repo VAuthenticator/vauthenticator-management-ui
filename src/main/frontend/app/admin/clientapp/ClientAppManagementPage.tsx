@@ -17,11 +17,11 @@ import {AuthorizedGrantType, authorizedGrantTypesParam, authorizedGrantTypesRegi
 import vauthenticatorStyles from "../../theme/styles";
 import FormSelect, {SelectOption} from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
-import {Box, Card, CardContent, CardHeader, Tab, Tabs, Typography} from "@mui/material";
-import {Apps} from "@mui/icons-material";
+import {Alert, Box, Card, CardContent, CardHeader, Snackbar, Tab, Tabs, Typography} from "@mui/material";
+import {Apps, ContentCopy} from "@mui/icons-material";
 import randomClientApplicationIdGenerator from "./RandomClientApplicationIdGenerator";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import randomClientApplicationSecretGenerator from "./RandomClientApplicationSecretGenerator";
+import copy from "copy-to-clipboard";
 
 function allProps(index: string) {
     return {
@@ -49,6 +49,7 @@ const ClientAppManagementPage = () => {
     const [refreshTokenValidity, setRefreshTokenValidity] = useState("")
     const [postLogoutRedirectUri, setPostLogoutRedirectUri] = useState("")
     const [logoutUri, setLogoutUri] = useState("")
+    const [openSecretAlert, setOpenSecretAlert] = useState(false)
 
 
     const generateRandomClientApplicationId = () => {
@@ -59,10 +60,17 @@ const ClientAppManagementPage = () => {
 
 
     const generateRandomClientApplicationSecret = async () => {
-        setSecret(await newClientApplicationRandomSecret())
+        let randomSecret = await newClientApplicationRandomSecret();
+        setSecret(randomSecret.pwd)
+        setOpenSecretAlert(true)
     }
 
     const generateRandomClientApplicationSecretItem = <AddCircleIcon onClick={generateRandomClientApplicationSecret}/>
+
+    const handleCloseSecretAlert = () => {
+        setOpenSecretAlert(false)
+    }
+    let maskedContentWith = (content: string, mask: string = "*") => content.replace(/./g, mask);
 
     const saveClientApp = () => {
         let clientApplication: ClientApplicationDetails = {
@@ -110,7 +118,7 @@ const ClientAppManagementPage = () => {
             setLogoutUri(clientApp.logoutUri)
         }
 
-        init()
+        init().then()
     }, [])
     const [value, setValue] = React.useState('0');
     const handleChange = (event: React.SyntheticEvent, newValue: any) => {
@@ -119,6 +127,18 @@ const ClientAppManagementPage = () => {
 
     let pageTitle = clientApplicationId ? `: Client Application: ${clientApplicationId}` : "";
     return <AdminTemplate maxWidth="xl" page={pageTitle}>
+        <Snackbar open={openSecretAlert}>
+            <Alert onClose={handleCloseSecretAlert} icon={false} severity="success" sx={{whiteSpace: 'pre-line'}}>
+                <span>Secret: {maskedContentWith(secret)} <ContentCopy sx={{margin: "4px 8px -4px 0"}}
+                                                                       onClick={async () => {
+                                                                           if (('clipboard' in navigator)) {
+                                                                               await navigator.clipboard.writeText(maskedContentWith(secret))
+                                                                           } else {
+                                                                               copy(secret)
+                                                                           }
+                                                                       }}/> </span>
+            </Alert>
+        </Snackbar>
 
         <Typography variant="h3" component="h3">
             <Apps fontSize="large"/> Client Application: {clientApplicationId}

@@ -19,13 +19,17 @@ export type ClientApplicationDetails = {
     logoutUri: string
 }
 
-export async function newClientApplicationRandomSecret(): Promise<string> {
+export type RandomSecret = {
+    pwd: string
+}
+
+export async function newClientApplicationRandomSecret(): Promise<RandomSecret> {
     let response = await fetch("/secure/api/password",
         {
             method: "POST",
             credentials: 'same-origin'
         });
-    return await response.text() as string
+    return await response.json() as RandomSecret
 }
 
 export async function findAllClientApplications(): Promise<ClientApplicationInList[]> {
