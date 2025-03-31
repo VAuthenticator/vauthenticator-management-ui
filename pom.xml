@@ -11,7 +11,7 @@
 
     <groupId>com.vauthenticator</groupId>
     <artifactId>vauthenticator-management-ui</artifactId>
-    <version>0.8-SNAPSHOT</version>
+    <version>0.8</version>
 
     <name>vauthenticator-management-ui</name>
     <description>VAuthenticator Authorization Server Management Application</description>
