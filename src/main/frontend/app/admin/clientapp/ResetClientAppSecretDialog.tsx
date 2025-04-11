@@ -23,6 +23,7 @@ const ResetClientAppSecretDialog: React.FC<ResetClientAppSecretDialogProps> = ({
 
                 <FormInputTextField id="resetSecretKeyField"
                                     label="Client App Secret"
+                                    type="password"
                                     required={true}
                                     value={secret}
                                     handler={(value) => {
@@ -33,6 +34,7 @@ const ResetClientAppSecretDialog: React.FC<ResetClientAppSecretDialogProps> = ({
                 <DialogActions>
                     <FormButton label="Save" onClickHandler={() => {
                         resetSecretFor(clientAppId, secret)
+                            .then(_ => setSecret(""))
                             .then(_ => onClose())
                     }}/>
                     <FormButton label="Close" onClickHandler={onClose}/>
