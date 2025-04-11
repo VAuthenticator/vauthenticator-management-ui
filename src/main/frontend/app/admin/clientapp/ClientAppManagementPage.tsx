@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
 import {
     ClientApplicationDetails,
@@ -18,7 +18,7 @@ import vauthenticatorStyles from "../../theme/styles";
 import FormSelect, {SelectOption} from "../../component/FormSelect";
 import {findAllScopes} from "./ScopeRepository";
 import {Alert, Box, Card, CardContent, CardHeader, Snackbar, Tab, Tabs, Typography} from "@mui/material";
-import {Apps, ContentCopy} from "@mui/icons-material";
+import {Apps, Autorenew, ContentCopy} from "@mui/icons-material";
 import randomClientApplicationIdGenerator from "./RandomClientApplicationIdGenerator";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import copy from "copy-to-clipboard";
@@ -30,6 +30,13 @@ function allProps(index: string) {
     };
 }
 
+const CONFIDENTIAL_CLIENT_APP_TYPE = {value: "true", label: "CONFIDENTIAL"}
+const PUBLIC_CLIENT_APP_TYPE = {value: "false", label: "PUBLIC"}
+
+function isClientApplicationConfidential(applicationType: { value: string; label: string }) {
+    return applicationType.value === "true";
+}
+
 const ClientAppManagementPage = () => {
     const classes = vauthenticatorStyles();
     let {clientAppId} = useParams();
@@ -39,6 +46,8 @@ const ClientAppManagementPage = () => {
     const [clientApplicationId, setClientApplicationId] = useState<string | undefined>(clientAppId)
     const [clientAppName, setClientAppName] = useState("")
     const [secret, setSecret] = useState("*********")
+    const [applicationType, setApplicationType] = useState(CONFIDENTIAL_CLIENT_APP_TYPE)
+    const [availableClientApplicationTypes] = useState<SelectOption[]>([CONFIDENTIAL_CLIENT_APP_TYPE, PUBLIC_CLIENT_APP_TYPE])
     const [scopes, setScopes] = useState<SelectOption[]>([])
     const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
     const [authorizedGrantTypes, setAuthorizedGrantTypes] = useState(authorizedGrantTypesRegistry([]))
@@ -65,7 +74,7 @@ const ClientAppManagementPage = () => {
         setOpenSecretAlert(true)
     }
 
-    const generateRandomClientApplicationSecretItem = <AddCircleIcon onClick={generateRandomClientApplicationSecret}/>
+    const generateRandomClientApplicationSecretItem = <Autorenew onClick={generateRandomClientApplicationSecret}/>
 
     const handleCloseSecretAlert = () => {
         setOpenSecretAlert(false)
@@ -75,8 +84,9 @@ const ClientAppManagementPage = () => {
     const saveClientApp = () => {
         let clientApplication: ClientApplicationDetails = {
             clientAppName: clientAppName,
-            secret: secret,
+            secret: isClientApplicationConfidential(applicationType) ? secret : "",
             withPkce: withPkce,
+            confidential: isClientApplicationConfidential(applicationType),
             storePassword: storePassword,
             scopes: scopes.map(scope => scope.value),
             authorizedGrantTypes: authorizedGrantTypesParam(authorizedGrantTypes),
@@ -109,6 +119,7 @@ const ClientAppManagementPage = () => {
             setScopes(clientApp.scopes.map(scope => {
                 return {value: scope, label: scope};
             }))
+            setApplicationType(clientApp.confidential ? CONFIDENTIAL_CLIENT_APP_TYPE : PUBLIC_CLIENT_APP_TYPE)
             setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes as AuthorizedGrantType[]))
             setWithPkce(clientApp.withPkce)
             setWebServerRedirectUri(clientApp.webServerRedirectUri)
@@ -126,6 +137,7 @@ const ClientAppManagementPage = () => {
     };
 
     let pageTitle = clientApplicationId ? `: Client Application: ${clientApplicationId}` : "";
+    console.log(`isClientApplicationConfidential(applicationType): ${isClientApplicationConfidential(applicationType)}`)
     return <AdminTemplate maxWidth="xl" page={pageTitle}>
         <Snackbar open={openSecretAlert}>
             <Alert onClose={handleCloseSecretAlert} icon={false} severity="success" sx={{whiteSpace: 'pre-line'}}>
@@ -175,16 +187,27 @@ const ClientAppManagementPage = () => {
                                             suffixItem={generateRandomClientApplicationIdItem}
                                             value={clientApplicationId || ""}/>
 
-                        <FormInputTextField id="secret"
-                                            label="Password"
-                                            required={true}
-                                            type="Password"
-                                            disabled={clientAppId != undefined}
-                                            handler={(value) => {
-                                                setSecret(value.target.value)
-                                            }}
-                                            suffixItem={generateRandomClientApplicationSecretItem}
-                                            value={secret}/>
+                        <FormSelect id="applicationType"
+                                    label="Application Type"
+                                    multi={false}
+                                    onChangeHandler={(event) => {
+                                        setApplicationType(event)
+                                    }}
+                                    options={availableClientApplicationTypes}
+                                    value={applicationType}/>
+
+                        {isClientApplicationConfidential(applicationType) &&
+                            <FormInputTextField id="secret"
+                                                label="Password"
+                                                required={true}
+                                                type="Password"
+                                                disabled={clientAppId != undefined}
+                                                handler={(value) => {
+                                                    setSecret(value.target.value)
+                                                }}
+                                                suffixItem={clientAppId != undefined ?  <div/> : generateRandomClientApplicationSecretItem}
+                                                value={secret}/>}
+
 
                         <FormInputTextField id="clientAppName"
                                             label="Client Application Displayed Name"

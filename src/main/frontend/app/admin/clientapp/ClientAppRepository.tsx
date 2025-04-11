@@ -8,6 +8,7 @@ export type ClientApplicationInList = {
 export type ClientApplicationDetails = {
     clientAppName: string
     secret: string
+    confidential: boolean
     withPkce: boolean
     storePassword: boolean
     scopes: string[]
@@ -57,6 +58,9 @@ export async function findClientApplicationFor(clientAppId: string): Promise<Cli
 }
 
 export function saveClientApplicationFor(clientAppId: string, clientApp: ClientApplicationDetails) {
+    console.log("clientApp")
+    console.log(clientApp)
+    console.log("clientApp")
     return fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "PUT",
@@ -70,7 +74,7 @@ export function saveClientApplicationFor(clientAppId: string, clientApp: ClientA
 }
 
 export function resetSecretFor(clientAppId: string, secret: string) {
-    return fetch(`/secure/api/client-applications/${clientAppId}`,
+    return fetch(`/secure/api/client-applications/${clientAppId}/client-secret`,
         {
             method: "PATCH",
             headers: {
