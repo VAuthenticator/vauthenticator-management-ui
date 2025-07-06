@@ -7,8 +7,8 @@ import HomePage from "./home/HomePage";
 import RolesManagementPage from "./roles/RolesManagementPage";
 import AccountManagementPage from "./account/AccountManagementPage";
 import AccountListPage from "./account/AccountListPage";
-import ClientAppListPage from "./clientapp/ClientAppListPage";
-import ClientAppManagementPage from "./clientapp/ClientAppManagementPage";
+import ClientAppListPage from "./clientapp/pages/ClientAppListPage";
+import ClientAppManagementPage from "./clientapp/pages/ClientAppManagementPage";
 import KeyManagementPage from "./key/KeyManagementPage";
 import MailTemplatePage from "./templates/MailTemplatePage";
 

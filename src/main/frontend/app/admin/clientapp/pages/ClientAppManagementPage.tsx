@@ -1,25 +1,25 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
 import {
     ClientApplicationDetails,
     findClientApplicationFor,
     newClientApplicationRandomSecret,
     saveClientApplicationFor
-} from "./ClientAppRepository";
-import FormInputTextField from "../../component/FormInputTextField";
-import AdminTemplate from "../../component/AdminTemplate";
-import Separator from "../../component/Separator";
-import FormButton from "../../component/FormButton";
-import TabPanel from "../../component/TabPanel";
-import LeftRightComponentRow from "../../component/LeftRightComponentRow";
-import CheckboxesGroup from "../../component/CheckboxesGroup";
-import {AuthorizedGrantType, authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "./AuthorizedGrantTypes";
-import vauthenticatorStyles from "../../theme/styles";
-import FormSelect, {SelectOption} from "../../component/FormSelect";
-import {findAllScopes} from "./ScopeRepository";
+} from "../ClientAppRepository";
+import FormInputTextField from "../../../component/FormInputTextField";
+import AdminTemplate from "../../../component/AdminTemplate";
+import Separator from "../../../component/Separator";
+import FormButton from "../../../component/FormButton";
+import TabPanel from "../../../component/TabPanel";
+import LeftRightComponentRow from "../../../component/LeftRightComponentRow";
+import CheckboxesGroup from "../../../component/CheckboxesGroup";
+import {AuthorizedGrantType, authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "../AuthorizedGrantTypes";
+import vauthenticatorStyles from "../../../theme/styles";
+import FormSelect, {SelectOption} from "../../../component/FormSelect";
+import {findAllScopes} from "../ScopeRepository";
 import {Alert, Box, Card, CardContent, CardHeader, Snackbar, Tab, Tabs, Typography} from "@mui/material";
 import {Apps, Autorenew, ContentCopy} from "@mui/icons-material";
-import randomClientApplicationIdGenerator from "./RandomClientApplicationIdGenerator";
+import randomClientApplicationIdGenerator from "../RandomClientApplicationIdGenerator";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import copy from "copy-to-clipboard";
 
@@ -208,7 +208,8 @@ const ClientAppManagementPage = () => {
                                                 handler={(value) => {
                                                     setSecret(value.target.value)
                                                 }}
-                                                suffixItem={clientAppId != undefined ?  <div/> : generateRandomClientApplicationSecretItem}
+                                                suffixItem={clientAppId != undefined ?
+                                                    <div/> : generateRandomClientApplicationSecretItem}
                                                 value={secret}/>}
 
 
