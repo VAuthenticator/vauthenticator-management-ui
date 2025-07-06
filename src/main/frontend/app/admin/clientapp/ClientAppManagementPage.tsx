@@ -52,6 +52,7 @@ const ClientAppManagementPage = () => {
     const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
     const [authorizedGrantTypes, setAuthorizedGrantTypes] = useState(authorizedGrantTypesRegistry([]))
     const [webServerRedirectUri, setWebServerRedirectUri] = useState("")
+    const [allowedOrigins, setAllowedOrigins] = useState("")
     const [withPkce, setWithPkce] = useState(false)
 
     const [accessTokenValidity, setAccessTokenValidity] = useState("")
@@ -94,6 +95,7 @@ const ClientAppManagementPage = () => {
             accessTokenValidity: accessTokenValidity,
             refreshTokenValidity: refreshTokenValidity,
             postLogoutRedirectUri: postLogoutRedirectUri,
+            allowedOrigins: allowedOrigins.split(","),
             logoutUri: logoutUri
         }
 
@@ -127,6 +129,7 @@ const ClientAppManagementPage = () => {
             setRefreshTokenValidity(clientApp.refreshTokenValidity)
             setPostLogoutRedirectUri(clientApp.postLogoutRedirectUri)
             setLogoutUri(clientApp.logoutUri)
+            setAllowedOrigins(clientApp.allowedOrigins.join(","))
         }
 
         init().then()
@@ -303,6 +306,14 @@ const ClientAppManagementPage = () => {
                 <Card>
                     <CardContent>
                         <CardHeader title="Client Application urls definitions" color="textSecondary"/>
+
+                        <FormInputTextField id="allowedOrigins"
+                                            label="Allowed Origins"
+                                            required={true}
+                                            handler={(value) => {
+                                                setAllowedOrigins(value.target.value)
+                                            }}
+                                            value={allowedOrigins}/>
 
                         <FormInputTextField id="webServerRedirectUri"
                                             label="Web Server Redirect Uri"

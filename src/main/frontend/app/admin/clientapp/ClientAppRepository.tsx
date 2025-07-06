@@ -17,7 +17,8 @@ export type ClientApplicationDetails = {
     accessTokenValidity: string
     refreshTokenValidity: string
     postLogoutRedirectUri: string
-    logoutUri: string
+    logoutUri: string,
+    allowedOrigins: string[]
 }
 
 export type RandomSecret = {
