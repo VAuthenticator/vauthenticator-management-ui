@@ -13,7 +13,12 @@ import FormButton from "../../../component/FormButton";
 import TabPanel from "../../../component/TabPanel";
 import LeftRightComponentRow from "../../../component/LeftRightComponentRow";
 import CheckboxesGroup from "../../../component/CheckboxesGroup";
-import {AuthorizedGrantType, authorizedGrantTypesParam, authorizedGrantTypesRegistry} from "../AuthorizedGrantTypes";
+import {
+    AuthorizedGrantType,
+    authorizedGrantTypesParam,
+    authorizedGrantTypesRegistry,
+    ClientAppAuthorizedGrantType
+} from "../AuthorizedGrantTypes";
 import vauthenticatorStyles from "../../../theme/styles";
 import FormSelect, {SelectOption} from "../../../component/FormSelect";
 import {findAllScopes} from "../ScopeRepository";
@@ -22,6 +27,47 @@ import {Apps, Autorenew, ContentCopy} from "@mui/icons-material";
 import randomClientApplicationIdGenerator from "../RandomClientApplicationIdGenerator";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import copy from "copy-to-clipboard";
+
+type ClientApplicationPageDetailsSelect = {
+    value: string
+    label: string
+}
+type ClientApplicationPageDetails = {
+    clientApplicationId: string | undefined
+    clientAppName: string
+    secret: string
+    applicationType: SelectOption
+    scopes: SelectOption[]
+    authorizedGrantTypes: ClientAppAuthorizedGrantType
+    webServerRedirectUri: string
+    allowedOrigins: string
+    withPkce: boolean
+    accessTokenValidity: string
+    refreshTokenValidity: string
+    postLogoutRedirectUri: string
+    logoutUri: string
+}
+
+function newClientApplicationPageDetails(
+    clientAppId: string | undefined,
+    authorizedGrantType: ClientAppAuthorizedGrantType
+): ClientApplicationPageDetails {
+    return {
+        clientApplicationId: clientAppId,
+        clientAppName: "",
+        secret: "",
+        applicationType: CONFIDENTIAL_CLIENT_APP_TYPE,
+        scopes: [],
+        authorizedGrantTypes: authorizedGrantType,
+        webServerRedirectUri: "",
+        allowedOrigins: "",
+        withPkce: false,
+        accessTokenValidity: "",
+        refreshTokenValidity: "",
+        postLogoutRedirectUri: "",
+        logoutUri: ""
+    }
+}
 
 function allProps(index: string) {
     return {
@@ -43,10 +89,12 @@ const ClientAppManagementPage = () => {
     const storePassword = !clientAppId
     const navigate = useNavigate();
 
+    const [clientApplication, setClientApplication] = useState<ClientApplicationPageDetails>(newClientApplicationPageDetails(clientAppId, authorizedGrantTypesRegistry([])));
+
     const [clientApplicationId, setClientApplicationId] = useState<string | undefined>(clientAppId)
     const [clientAppName, setClientAppName] = useState("")
     const [secret, setSecret] = useState("*********")
-    const [applicationType, setApplicationType] = useState(CONFIDENTIAL_CLIENT_APP_TYPE)
+    const [applicationType, setApplicationType] = useState<SelectOption>(CONFIDENTIAL_CLIENT_APP_TYPE)
     const [availableClientApplicationTypes] = useState<SelectOption[]>([CONFIDENTIAL_CLIENT_APP_TYPE, PUBLIC_CLIENT_APP_TYPE])
     const [scopes, setScopes] = useState<SelectOption[]>([])
     const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
@@ -54,7 +102,6 @@ const ClientAppManagementPage = () => {
     const [webServerRedirectUri, setWebServerRedirectUri] = useState("")
     const [allowedOrigins, setAllowedOrigins] = useState("")
     const [withPkce, setWithPkce] = useState(false)
-
     const [accessTokenValidity, setAccessTokenValidity] = useState("")
     const [refreshTokenValidity, setRefreshTokenValidity] = useState("")
     const [postLogoutRedirectUri, setPostLogoutRedirectUri] = useState("")
@@ -116,6 +163,25 @@ const ClientAppManagementPage = () => {
 
             let clientApp = await findClientApplicationFor(clientApplicationId!!)
 
+            setClientApplication(
+                {
+                    clientApplicationId: clientApp.clientAppName,
+                    clientAppName: clientApp.clientAppName,
+                    secret:clientApp.secret,
+                    applicationType: CONFIDENTIAL_CLIENT_APP_TYPE,
+                    scopes:  clientApp.scopes.map(scope => {
+                        return {value: scope, label: scope} as SelectOption;
+                    }),
+                    authorizedGrantTypes: authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes as AuthorizedGrantType[]),
+                    webServerRedirectUri: clientApp.webServerRedirectUri,
+                    allowedOrigins: clientApp.allowedOrigins.join(","),
+                    withPkce: clientApp.withPkce,
+                    accessTokenValidity: clientApp.accessTokenValidity,
+                    refreshTokenValidity: clientApp.refreshTokenValidity,
+                    postLogoutRedirectUri: clientApp.postLogoutRedirectUri,
+                    logoutUri: clientApp.logoutUri,
+                }
+            )
             setClientAppName(clientApp.clientAppName)
             setSecret(clientApp.secret)
             setScopes(clientApp.scopes.map(scope => {
@@ -140,7 +206,6 @@ const ClientAppManagementPage = () => {
     };
 
     let pageTitle = clientApplicationId ? `: Client Application: ${clientApplicationId}` : "";
-    console.log(`isClientApplicationConfidential(applicationType): ${isClientApplicationConfidential(applicationType)}`)
     return <AdminTemplate maxWidth="xl" page={pageTitle}>
         <Snackbar open={openSecretAlert}>
             <Alert onClose={handleCloseSecretAlert} icon={false} severity="success" sx={{whiteSpace: 'pre-line'}}>
@@ -188,7 +253,7 @@ const ClientAppManagementPage = () => {
                                                 setClientApplicationId(value.target.value)
                                             }}
                                             suffixItem={generateRandomClientApplicationIdItem}
-                                            value={clientApplicationId || ""}/>
+                                            value={clientApplication.clientApplicationId || ""}/>
 
                         <FormSelect id="applicationType"
                                     label="Application Type"
@@ -197,7 +262,7 @@ const ClientAppManagementPage = () => {
                                         setApplicationType(event)
                                     }}
                                     options={availableClientApplicationTypes}
-                                    value={applicationType}/>
+                                    value={clientApplication.applicationType}/>
 
                         {isClientApplicationConfidential(applicationType) &&
                             <FormInputTextField id="secret"
@@ -210,7 +275,7 @@ const ClientAppManagementPage = () => {
                                                 }}
                                                 suffixItem={clientAppId != undefined ?
                                                     <div/> : generateRandomClientApplicationSecretItem}
-                                                value={secret}/>}
+                                                value={clientApplication.secret}/>}
 
 
                         <FormInputTextField id="clientAppName"
@@ -219,7 +284,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setClientAppName(value.target.value)
                                             }}
-                                            value={clientAppName}/>
+                                            value={clientApplication.clientAppName}/>
                     </CardContent>
                 </Card>
 
@@ -245,14 +310,14 @@ const ClientAppManagementPage = () => {
                                         setScopes(event)
                                     }}
                                     options={availableScopes}
-                                    value={scopes}/>
+                                    value={clientApplication.scopes}/>
 
                         <CheckboxesGroup id="withPkce"
                                          handler={(value) => {
                                              setWithPkce(value.target.checked)
                                          }}
                                          choicesRegistry={{
-                                             with_pkce: withPkce
+                                             with_pkce: clientApplication.withPkce
                                          }}
                                          legend="Enable/Disable PKCE"/>
 
@@ -263,7 +328,7 @@ const ClientAppManagementPage = () => {
                                                  [value.target.name]: value.target.checked
                                              })
                                          }}
-                                         choicesRegistry={authorizedGrantTypes}
+                                         choicesRegistry={clientApplication.authorizedGrantTypes}
                                          legend="Authorized Grant Types"/>
 
 
@@ -273,7 +338,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setAccessTokenValidity(value.target.value)
                                             }}
-                                            value={accessTokenValidity}/>
+                                            value={clientApplication.accessTokenValidity}/>
 
                         <FormInputTextField id="refreshTokenValidity"
                                             label="Refresh Token Validity"
@@ -281,7 +346,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setRefreshTokenValidity(value.target.value)
                                             }}
-                                            value={refreshTokenValidity}/>
+                                            value={clientApplication.refreshTokenValidity}/>
 
                     </CardContent>
                 </Card>
@@ -314,7 +379,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setAllowedOrigins(value.target.value)
                                             }}
-                                            value={allowedOrigins}/>
+                                            value={clientApplication.allowedOrigins}/>
 
                         <FormInputTextField id="webServerRedirectUri"
                                             label="Web Server Redirect Uri"
@@ -322,7 +387,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setWebServerRedirectUri(value.target.value)
                                             }}
-                                            value={webServerRedirectUri}/>
+                                            value={clientApplication.webServerRedirectUri}/>
 
                         <FormInputTextField id="postLogoutRedirectUri"
                                             label="Post Logout Redirect Uri"
@@ -330,7 +395,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setPostLogoutRedirectUri(value.target.value)
                                             }}
-                                            value={postLogoutRedirectUri}/>
+                                            value={clientApplication.postLogoutRedirectUri}/>
 
                         <FormInputTextField id="logoutUri"
                                             label="Logout Uri"
@@ -338,7 +403,7 @@ const ClientAppManagementPage = () => {
                                             handler={(value) => {
                                                 setLogoutUri(value.target.value)
                                             }}
-                                            value={logoutUri}/>
+                                            value={clientApplication.logoutUri}/>
                     </CardContent>
                 </Card>
                 <Separator/>
