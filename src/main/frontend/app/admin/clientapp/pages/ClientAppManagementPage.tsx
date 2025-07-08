@@ -32,6 +32,7 @@ type ClientApplicationPageDetailsSelect = {
     value: string
     label: string
 }
+
 type ClientApplicationPageDetails = {
     clientApplicationId: string | undefined
     clientAppName: string
@@ -92,20 +93,8 @@ const ClientAppManagementPage = () => {
     const [clientApplication, setClientApplication] = useState<ClientApplicationPageDetails>(newClientApplicationPageDetails(clientAppId, authorizedGrantTypesRegistry([])));
 
     const [clientApplicationId, setClientApplicationId] = useState<string | undefined>(clientAppId)
-    const [clientAppName, setClientAppName] = useState("")
-    const [secret, setSecret] = useState("*********")
-    const [applicationType, setApplicationType] = useState<SelectOption>(CONFIDENTIAL_CLIENT_APP_TYPE)
     const [availableClientApplicationTypes] = useState<SelectOption[]>([CONFIDENTIAL_CLIENT_APP_TYPE, PUBLIC_CLIENT_APP_TYPE])
-    const [scopes, setScopes] = useState<SelectOption[]>([])
     const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
-    const [authorizedGrantTypes, setAuthorizedGrantTypes] = useState(authorizedGrantTypesRegistry([]))
-    const [webServerRedirectUri, setWebServerRedirectUri] = useState("")
-    const [allowedOrigins, setAllowedOrigins] = useState("")
-    const [withPkce, setWithPkce] = useState(false)
-    const [accessTokenValidity, setAccessTokenValidity] = useState("")
-    const [refreshTokenValidity, setRefreshTokenValidity] = useState("")
-    const [postLogoutRedirectUri, setPostLogoutRedirectUri] = useState("")
-    const [logoutUri, setLogoutUri] = useState("")
     const [openSecretAlert, setOpenSecretAlert] = useState(false)
 
 
@@ -118,7 +107,11 @@ const ClientAppManagementPage = () => {
 
     const generateRandomClientApplicationSecret = async () => {
         let randomSecret = await newClientApplicationRandomSecret();
-        setSecret(randomSecret.pwd)
+        setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+            clientApplication.secret = randomSecret.pwd
+            return clientApplication
+        })
+
         setOpenSecretAlert(true)
     }
 
@@ -130,23 +123,23 @@ const ClientAppManagementPage = () => {
     let maskedContentWith = (content: string, mask: string = "*") => content.replace(/./g, mask);
 
     const saveClientApp = () => {
-        let clientApplication: ClientApplicationDetails = {
-            clientAppName: clientAppName,
-            secret: isClientApplicationConfidential(applicationType) ? secret : "",
-            withPkce: withPkce,
-            confidential: isClientApplicationConfidential(applicationType),
+        let clientApp: ClientApplicationDetails = {
+            clientAppName: clientApplication.clientAppName,
+            secret: isClientApplicationConfidential(clientApplication.applicationType) ? clientApplication.secret : "",
+            withPkce: clientApplication.withPkce,
+            confidential: isClientApplicationConfidential(clientApplication.applicationType),
             storePassword: storePassword,
-            scopes: scopes.map(scope => scope.value),
-            authorizedGrantTypes: authorizedGrantTypesParam(authorizedGrantTypes),
-            webServerRedirectUri: webServerRedirectUri,
-            accessTokenValidity: accessTokenValidity,
-            refreshTokenValidity: refreshTokenValidity,
-            postLogoutRedirectUri: postLogoutRedirectUri,
-            allowedOrigins: allowedOrigins.split(","),
-            logoutUri: logoutUri
+            scopes: clientApplication.scopes.map(scope => scope.value),
+            authorizedGrantTypes: authorizedGrantTypesParam(clientApplication.authorizedGrantTypes),
+            webServerRedirectUri: clientApplication.webServerRedirectUri,
+            accessTokenValidity: clientApplication.accessTokenValidity,
+            refreshTokenValidity: clientApplication.refreshTokenValidity,
+            postLogoutRedirectUri: clientApplication.postLogoutRedirectUri,
+            allowedOrigins: clientApplication.allowedOrigins.split(","),
+            logoutUri: clientApplication.logoutUri
         }
 
-        saveClientApplicationFor(clientApplicationId!!, clientApplication)
+        saveClientApplicationFor(clientApplicationId!!, clientApp)
             .then(response => {
                 if (response.status === 204) {
                     navigate(-1);
@@ -182,20 +175,6 @@ const ClientAppManagementPage = () => {
                     logoutUri: clientApp.logoutUri,
                 }
             )
-            setClientAppName(clientApp.clientAppName)
-            setSecret(clientApp.secret)
-            setScopes(clientApp.scopes.map(scope => {
-                return {value: scope, label: scope};
-            }))
-            setApplicationType(clientApp.confidential ? CONFIDENTIAL_CLIENT_APP_TYPE : PUBLIC_CLIENT_APP_TYPE)
-            setAuthorizedGrantTypes(authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes as AuthorizedGrantType[]))
-            setWithPkce(clientApp.withPkce)
-            setWebServerRedirectUri(clientApp.webServerRedirectUri)
-            setAccessTokenValidity(clientApp.accessTokenValidity)
-            setRefreshTokenValidity(clientApp.refreshTokenValidity)
-            setPostLogoutRedirectUri(clientApp.postLogoutRedirectUri)
-            setLogoutUri(clientApp.logoutUri)
-            setAllowedOrigins(clientApp.allowedOrigins.join(","))
         }
 
         init().then()
@@ -209,14 +188,14 @@ const ClientAppManagementPage = () => {
     return <AdminTemplate maxWidth="xl" page={pageTitle}>
         <Snackbar open={openSecretAlert}>
             <Alert onClose={handleCloseSecretAlert} icon={false} severity="success" sx={{whiteSpace: 'pre-line'}}>
-                <span>Secret: {maskedContentWith(secret)} <ContentCopy sx={{margin: "4px 8px -4px 0"}}
-                                                                       onClick={async () => {
-                                                                           if (('clipboard' in navigator)) {
-                                                                               await navigator.clipboard.writeText(maskedContentWith(secret))
-                                                                           } else {
-                                                                               copy(secret)
-                                                                           }
-                                                                       }}/> </span>
+                <span>Secret: {maskedContentWith(clientApplication.secret)} <ContentCopy sx={{margin: "4px 8px -4px 0"}}
+                                                                                         onClick={async () => {
+                                                                                             if (('clipboard' in navigator)) {
+                                                                                                 await navigator.clipboard.writeText(maskedContentWith(clientApplication.secret))
+                                                                                             } else {
+                                                                                                 copy(clientApplication.secret)
+                                                                                             }
+                                                                                         }}/> </span>
             </Alert>
         </Snackbar>
 
@@ -270,7 +249,7 @@ const ClientAppManagementPage = () => {
                                     options={availableClientApplicationTypes}
                                     value={clientApplication.applicationType}/>
 
-                        {isClientApplicationConfidential(applicationType) &&
+                        {isClientApplicationConfidential(clientApplication.applicationType) &&
                             <FormInputTextField id="secret"
                                                 label="Password"
                                                 required={true}
@@ -278,7 +257,7 @@ const ClientAppManagementPage = () => {
                                                 disabled={clientAppId != undefined}
                                                 handler={(value) => {
                                                     setClientApplication((clientApplication: ClientApplicationPageDetails) => {
-                                                        clientApplication.secret= value.target.value
+                                                        clientApplication.secret = value.target.value
                                                         return clientApplication
                                                     })
                                                 }}
@@ -343,7 +322,7 @@ const ClientAppManagementPage = () => {
                                          handler={(value) => {
                                              setClientApplication((clientApplication: ClientApplicationPageDetails) => {
                                                  clientApplication.authorizedGrantTypes = {
-                                                     ...authorizedGrantTypes,
+                                                     ...clientApplication.authorizedGrantTypes,
                                                      [value.target.name]: value.target.checked
                                                  }
                                                  return clientApplication
@@ -358,7 +337,7 @@ const ClientAppManagementPage = () => {
                                             required={true}
                                             handler={(value) => {
                                                 setClientApplication((clientApplication: ClientApplicationPageDetails) => {
-                                                    clientApplication.accessTokenValidity= value.target.value
+                                                    clientApplication.accessTokenValidity = value.target.value
                                                     return clientApplication
                                                 })
                                             }}
@@ -369,7 +348,7 @@ const ClientAppManagementPage = () => {
                                             required={true}
                                             handler={(value) => {
                                                 setClientApplication((clientApplication: ClientApplicationPageDetails) => {
-                                                    clientApplication.refreshTokenValidity= value.target.value
+                                                    clientApplication.refreshTokenValidity = value.target.value
                                                     return clientApplication
                                                 })
                                             }}
@@ -405,7 +384,7 @@ const ClientAppManagementPage = () => {
                                             required={true}
                                             handler={(value) => {
                                                 setClientApplication((clientApplication: ClientApplicationPageDetails) => {
-                                                    clientApplication.allowedOrigins= value.target.value
+                                                    clientApplication.allowedOrigins = value.target.value
                                                     return clientApplication
                                                 })
                                             }}
@@ -416,7 +395,7 @@ const ClientAppManagementPage = () => {
                                             required={true}
                                             handler={(value) => {
                                                 setClientApplication((clientApplication: ClientApplicationPageDetails) => {
-                                                    clientApplication.webServerRedirectUri= value.target.value
+                                                    clientApplication.webServerRedirectUri = value.target.value
                                                     return clientApplication
                                                 })
                                             }}
@@ -426,7 +405,10 @@ const ClientAppManagementPage = () => {
                                             label="Post Logout Redirect Uri"
                                             required={true}
                                             handler={(value) => {
-                                                setPostLogoutRedirectUri(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.postLogoutRedirectUri = value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             value={clientApplication.postLogoutRedirectUri}/>
 
@@ -435,7 +417,7 @@ const ClientAppManagementPage = () => {
                                             required={true}
                                             handler={(value) => {
                                                 setClientApplication((clientApplication: ClientApplicationPageDetails) => {
-                                                    clientApplication.logoutUri= value.target.value
+                                                    clientApplication.logoutUri = value.target.value
                                                     return clientApplication
                                                 })
                                             }}
