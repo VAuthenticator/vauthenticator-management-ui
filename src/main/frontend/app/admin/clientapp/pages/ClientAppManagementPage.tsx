@@ -167,9 +167,9 @@ const ClientAppManagementPage = () => {
                 {
                     clientApplicationId: clientApp.clientAppName,
                     clientAppName: clientApp.clientAppName,
-                    secret:clientApp.secret,
+                    secret: clientApp.secret,
                     applicationType: CONFIDENTIAL_CLIENT_APP_TYPE,
-                    scopes:  clientApp.scopes.map(scope => {
+                    scopes: clientApp.scopes.map(scope => {
                         return {value: scope, label: scope} as SelectOption;
                     }),
                     authorizedGrantTypes: authorizedGrantTypesRegistry(clientApp.authorizedGrantTypes as AuthorizedGrantType[]),
@@ -250,7 +250,10 @@ const ClientAppManagementPage = () => {
                                             label="Client Application Id"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplicationId(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.clientApplicationId = value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             suffixItem={generateRandomClientApplicationIdItem}
                                             value={clientApplication.clientApplicationId || ""}/>
@@ -259,7 +262,10 @@ const ClientAppManagementPage = () => {
                                     label="Application Type"
                                     multi={false}
                                     onChangeHandler={(event) => {
-                                        setApplicationType(event)
+                                        setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                            clientApplication.applicationType = event
+                                            return clientApplication
+                                        })
                                     }}
                                     options={availableClientApplicationTypes}
                                     value={clientApplication.applicationType}/>
@@ -271,7 +277,10 @@ const ClientAppManagementPage = () => {
                                                 type="Password"
                                                 disabled={clientAppId != undefined}
                                                 handler={(value) => {
-                                                    setSecret(value.target.value)
+                                                    setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                        clientApplication.secret= value.target.value
+                                                        return clientApplication
+                                                    })
                                                 }}
                                                 suffixItem={clientAppId != undefined ?
                                                     <div/> : generateRandomClientApplicationSecretItem}
@@ -282,7 +291,10 @@ const ClientAppManagementPage = () => {
                                             label="Client Application Displayed Name"
                                             required={true}
                                             handler={(value) => {
-                                                setClientAppName(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.clientAppName = value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             value={clientApplication.clientAppName}/>
                     </CardContent>
@@ -307,14 +319,20 @@ const ClientAppManagementPage = () => {
                                     label="Scopes"
                                     multi={true}
                                     onChangeHandler={(event) => {
-                                        setScopes(event)
+                                        setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                            clientApplication.scopes = event
+                                            return clientApplication
+                                        })
                                     }}
                                     options={availableScopes}
                                     value={clientApplication.scopes}/>
 
                         <CheckboxesGroup id="withPkce"
                                          handler={(value) => {
-                                             setWithPkce(value.target.checked)
+                                             setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                 clientApplication.withPkce = value.target.checked
+                                                 return clientApplication
+                                             })
                                          }}
                                          choicesRegistry={{
                                              with_pkce: clientApplication.withPkce
@@ -323,9 +341,12 @@ const ClientAppManagementPage = () => {
 
                         <CheckboxesGroup id="authorizedGrantTypes"
                                          handler={(value) => {
-                                             setAuthorizedGrantTypes({
-                                                 ...authorizedGrantTypes,
-                                                 [value.target.name]: value.target.checked
+                                             setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                 clientApplication.authorizedGrantTypes = {
+                                                     ...authorizedGrantTypes,
+                                                     [value.target.name]: value.target.checked
+                                                 }
+                                                 return clientApplication
                                              })
                                          }}
                                          choicesRegistry={clientApplication.authorizedGrantTypes}
@@ -336,7 +357,10 @@ const ClientAppManagementPage = () => {
                                             label="Access Token Validity"
                                             required={true}
                                             handler={(value) => {
-                                                setAccessTokenValidity(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.accessTokenValidity= value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             value={clientApplication.accessTokenValidity}/>
 
@@ -344,7 +368,10 @@ const ClientAppManagementPage = () => {
                                             label="Refresh Token Validity"
                                             required={true}
                                             handler={(value) => {
-                                                setRefreshTokenValidity(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.refreshTokenValidity= value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             value={clientApplication.refreshTokenValidity}/>
 
@@ -377,7 +404,10 @@ const ClientAppManagementPage = () => {
                                             label="Allowed Origins"
                                             required={true}
                                             handler={(value) => {
-                                                setAllowedOrigins(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.allowedOrigins= value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             value={clientApplication.allowedOrigins}/>
 
@@ -385,7 +415,10 @@ const ClientAppManagementPage = () => {
                                             label="Web Server Redirect Uri"
                                             required={true}
                                             handler={(value) => {
-                                                setWebServerRedirectUri(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.webServerRedirectUri= value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             value={clientApplication.webServerRedirectUri}/>
 
@@ -401,7 +434,10 @@ const ClientAppManagementPage = () => {
                                             label="Logout Uri"
                                             required={true}
                                             handler={(value) => {
-                                                setLogoutUri(value.target.value)
+                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    clientApplication.logoutUri= value.target.value
+                                                    return clientApplication
+                                                })
                                             }}
                                             value={clientApplication.logoutUri}/>
                     </CardContent>
