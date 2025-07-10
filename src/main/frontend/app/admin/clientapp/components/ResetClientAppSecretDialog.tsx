@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 
-import FormInputTextField from "../../component/FormInputTextField";
-import FormButton from "../../component/FormButton";
-import Separator from "../../component/Separator";
-import {resetSecretFor} from "./ClientAppRepository";
+import FormInputTextField from "../../../component/FormInputTextField";
+import FormButton from "../../../component/FormButton";
+import Separator from "../../../component/Separator";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import { resetSecretFor } from "../repository/ClientAppRepository";
 
 type ResetClientAppSecretDialogProps = {
     onClose: () => void

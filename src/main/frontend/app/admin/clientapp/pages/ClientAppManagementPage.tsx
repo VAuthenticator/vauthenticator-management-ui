@@ -5,7 +5,7 @@ import {
     findClientApplicationFor,
     newClientApplicationRandomSecret,
     saveClientApplicationFor
-} from "../ClientAppRepository";
+} from "../repository/ClientAppRepository";
 import FormInputTextField from "../../../component/FormInputTextField";
 import AdminTemplate from "../../../component/AdminTemplate";
 import Separator from "../../../component/Separator";
@@ -21,7 +21,7 @@ import {
 } from "../AuthorizedGrantTypes";
 import vauthenticatorStyles from "../../../theme/styles";
 import FormSelect, {SelectOption} from "../../../component/FormSelect";
-import {findAllScopes} from "../ScopeRepository";
+import {findAllScopes} from "../repository/ScopeRepository";
 import {Alert, Box, Card, CardContent, CardHeader, Snackbar, Tab, Tabs, Typography} from "@mui/material";
 import {Apps, Autorenew, ContentCopy} from "@mui/icons-material";
 import randomClientApplicationIdGenerator from "../RandomClientApplicationIdGenerator";
@@ -91,7 +91,7 @@ const ClientAppManagementPage = () => {
     const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
     const [openSecretAlert, setOpenSecretAlert] = useState(false)
     const [tab, setTab] = React.useState('0');
-    const handleChange = (event: React.SyntheticEvent, newValue: any) => {
+    const handleTabChange = (event: React.SyntheticEvent, newValue: any) => {
         setTab(newValue);
     };
 
@@ -161,7 +161,7 @@ const ClientAppManagementPage = () => {
 
             setClientApplication(
                 {
-                    clientApplicationId: clientApp.clientAppName,
+                    clientApplicationId: clientApplication.clientApplicationId,
                     clientAppName: clientApp.clientAppName,
                     secret: clientApp.secret,
                     applicationType: CONFIDENTIAL_CLIENT_APP_TYPE,
@@ -205,7 +205,7 @@ const ClientAppManagementPage = () => {
         <Box style={classes.tabs}>
             <Tabs value={tab}
                   orientation="vertical"
-                  onChange={handleChange}
+                  onChange={handleTabChange}
                   aria-label="wrapped label tabs example">
                 <Tab value="0"
                      label="1) Client Application Credentials Section"

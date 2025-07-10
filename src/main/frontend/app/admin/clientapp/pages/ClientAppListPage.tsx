@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import StickyHeadTable, {StickyHeadTableColumn} from "../../../component/StickyHeadTable";
-import {deleteClientApplicationFor, findAllClientApplications} from "../ClientAppRepository";
 import {Link} from "react-router-dom";
 import AdminTemplate from "../../../component/AdminTemplate";
 import FormButton from "../../../component/FormButton";
-import ResetClientAppSecretDialog from "../ResetClientAppSecretDialog";
 import {useNavigate} from "react-router";
 import {Apps, Delete, Edit, VpnKey} from "@mui/icons-material";
 import {jsx} from "@emotion/react";
 import JSX = jsx.JSX;
 import ConfirmationDialog from "../../../component/ConfirmationDialog";
+import {deleteClientApplicationFor, findAllClientApplications} from "../repository/ClientAppRepository";
+import ResetClientAppSecretDialog from "../components/ResetClientAppSecretDialog";
 
 const columns: StickyHeadTableColumn[] = [
     {id: 'clientAppName', label: 'Client Application Name', minWidth: 170},
