@@ -19,7 +19,7 @@ jobs:
       - build-backend
       - ui-backend
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
           git commit -am "[skip-ci] new version release ${{github.event.inputs.newversion}}"
           git push
   build-backend:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -90,7 +90,7 @@ jobs:
           docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
           docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
   ui-backend:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: checkout
