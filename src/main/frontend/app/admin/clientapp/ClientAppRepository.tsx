@@ -59,9 +59,6 @@ export async function findClientApplicationFor(clientAppId: string): Promise<Cli
 }
 
 export function saveClientApplicationFor(clientAppId: string, clientApp: ClientApplicationDetails) {
-    console.log("clientApp")
-    console.log(clientApp)
-    console.log("clientApp")
     return fetch(`/secure/api/client-applications/${clientAppId}`,
         {
             method: "PUT",
