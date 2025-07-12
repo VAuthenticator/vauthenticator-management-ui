@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import StickyHeadTable, {StickyHeadTableColumn} from "../../../component/StickyHeadTable";
 import {Link} from "react-router-dom";
-import AdminTemplate from "../../../component/AdminTemplate";
-import FormButton from "../../../component/FormButton";
 import {useNavigate} from "react-router";
 import {Apps, Delete, Edit, VpnKey} from "@mui/icons-material";
-import {jsx} from "@emotion/react";
-import JSX = jsx.JSX;
-import ConfirmationDialog from "../../../component/ConfirmationDialog";
-import {deleteClientApplicationFor, findAllClientApplications} from "../repository/ClientAppRepository";
-import ResetClientAppSecretDialog from "../components/ResetClientAppSecretDialog";
+import {deleteClientApplicationFor, findAllClientApplications} from "../../repository/ClientAppRepository";
+import AdminTemplate from "../../../../component/AdminTemplate";
+import ConfirmationDialog from '../../../../component/ConfirmationDialog';
+import FormButton from "../../../../component/FormButton";
+import StickyHeadTable, {StickyHeadTableColumn} from '../../../../component/StickyHeadTable';
+import {ClientAppListPageTableRow} from "./ClientAppListTypes";
+import ResetClientAppSecretDialog from "./ResetClientAppSecretDialog";
 
 const columns: StickyHeadTableColumn[] = [
     {id: 'clientAppName', label: 'Client Application Name', minWidth: 170},
@@ -20,16 +19,6 @@ const columns: StickyHeadTableColumn[] = [
     {id: 'delete', label: 'Delete Application', minWidth: 170},
     {id: 'secretKey', label: 'Reset Password', minWidth: 170}
 ];
-
-type ClientAppListPageTableRow = {
-    clientAppName: string
-    clientAppId: string
-    scopes: string
-    authorizedGrantTypes: string
-    edit: JSX.Element
-    delete: JSX.Element
-    secretKey: JSX.Element
-}
 
 const ClientAppListPage = () => {
     const [applications, setApplications] = useState<ClientAppListPageTableRow[]>([])
@@ -94,9 +83,7 @@ const ClientAppListPage = () => {
             });
     }
 
-    useEffect(() => {
-        fetchAllApplications()
-    }, []);
+    useEffect(() => fetchAllApplications(), []);
 
     return (
         <AdminTemplate maxWidth="xl" page=": Client Application Admin">

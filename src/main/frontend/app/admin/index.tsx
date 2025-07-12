@@ -7,10 +7,10 @@ import HomePage from "./home/HomePage";
 import RolesManagementPage from "./roles/RolesManagementPage";
 import AccountManagementPage from "./account/AccountManagementPage";
 import AccountListPage from "./account/AccountListPage";
-import ClientAppListPage from "./clientapp/pages/ClientAppListPage";
-import ClientAppManagementPage from "./clientapp/pages/ClientAppManagementPage";
 import KeyManagementPage from "./key/KeyManagementPage";
 import MailTemplatePage from "./templates/MailTemplatePage";
+import ClientAppListPage from "./clientapp/pages/clientAppList/ClientAppListPage";
+import ClientAppManagementPage from './clientapp/pages/clientAppManagement/ClientAppManagementPage';
 
 const VAuthenticatorAdminApp = () =>
     <HashRouter>

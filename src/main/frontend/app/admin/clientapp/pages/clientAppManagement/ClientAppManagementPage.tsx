@@ -1,53 +1,38 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
 import {
-    ClientApplicationDetails,
     findClientApplicationFor,
     newClientApplicationRandomSecret,
     saveClientApplicationFor
-} from "../repository/ClientAppRepository";
-import FormInputTextField from "../../../component/FormInputTextField";
-import AdminTemplate from "../../../component/AdminTemplate";
-import Separator from "../../../component/Separator";
-import FormButton from "../../../component/FormButton";
-import TabPanel from "../../../component/TabPanel";
-import LeftRightComponentRow from "../../../component/LeftRightComponentRow";
-import CheckboxesGroup from "../../../component/CheckboxesGroup";
+} from "../../repository/ClientAppRepository";
+import FormInputTextField from "../../../../component/FormInputTextField";
+import AdminTemplate from "../../../../component/AdminTemplate";
+import Separator from "../../../../component/Separator";
+import FormButton from "../../../../component/FormButton";
+import TabPanel from "../../../../component/TabPanel";
+import LeftRightComponentRow from "../../../../component/LeftRightComponentRow";
+import CheckboxesGroup from "../../../../component/CheckboxesGroup";
 import {
     AuthorizedGrantType,
     authorizedGrantTypesParam,
     authorizedGrantTypesRegistry,
     ClientAppAuthorizedGrantType
-} from "../AuthorizedGrantTypes";
-import vauthenticatorStyles from "../../../theme/styles";
-import FormSelect, {SelectOption} from "../../../component/FormSelect";
-import {findAllScopes} from "../repository/ScopeRepository";
+} from "./AuthorizedGrantTypes";
+import vauthenticatorStyles from "../../../../theme/styles";
+import FormSelect, {SelectOption} from "../../../../component/FormSelect";
+import {findAllScopes} from "../../repository/ScopeRepository";
 import {Alert, Box, Card, CardContent, CardHeader, Snackbar, Tab, Tabs, Typography} from "@mui/material";
 import {Apps, Autorenew, ContentCopy} from "@mui/icons-material";
-import randomClientApplicationIdGenerator from "../RandomClientApplicationIdGenerator";
+import randomClientApplicationIdGenerator from "./RandomClientApplicationIdGenerator";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import copy from "copy-to-clipboard";
-
-type ClientApplicationPageDetails = {
-    clientApplicationId: string | undefined
-    clientAppName: string
-    secret: string
-    applicationType: SelectOption
-    scopes: SelectOption[]
-    authorizedGrantTypes: ClientAppAuthorizedGrantType
-    webServerRedirectUri: string
-    allowedOrigins: string
-    withPkce: boolean
-    accessTokenValidity: string
-    refreshTokenValidity: string
-    postLogoutRedirectUri: string
-    logoutUri: string
-}
+import { ClientAppManagementPageTypes } from './ClientAppManagementPageTypes';
+import {ClientApplicationDetails} from "../../repository/ClientAppApiTypes";
 
 function newClientApplicationPageDetails(
     clientAppId: string | undefined,
     authorizedGrantType: ClientAppAuthorizedGrantType
-): ClientApplicationPageDetails {
+): ClientAppManagementPageTypes {
     return {
         clientApplicationId: clientAppId,
         clientAppName: "",
@@ -85,7 +70,7 @@ const ClientAppManagementPage = () => {
     const storePassword = !clientAppId
     const navigate = useNavigate();
 
-    const [clientApplication, setClientApplication] = useState<ClientApplicationPageDetails>(newClientApplicationPageDetails(clientAppId, authorizedGrantTypesRegistry([])));
+    const [clientApplication, setClientApplication] = useState<ClientAppManagementPageTypes>(newClientApplicationPageDetails(clientAppId, authorizedGrantTypesRegistry([])));
 
     const [availableClientApplicationTypes] = useState<SelectOption[]>([CONFIDENTIAL_CLIENT_APP_TYPE, PUBLIC_CLIENT_APP_TYPE])
     const [availableScopes, setAvailableScopes] = useState<SelectOption[]>([])
@@ -97,7 +82,7 @@ const ClientAppManagementPage = () => {
 
 
     const generateRandomClientApplicationId = () => {
-        setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+        setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
             let copiedClientApplication = Object.assign({}, clientApplication)
             copiedClientApplication.clientApplicationId = randomClientApplicationIdGenerator()
             return copiedClientApplication
@@ -109,7 +94,7 @@ const ClientAppManagementPage = () => {
 
     const generateRandomClientApplicationSecret = async () => {
         let randomSecret = await newClientApplicationRandomSecret();
-        setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+        setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
             let copiedClientApplication = Object.assign({}, clientApplication)
             copiedClientApplication.secret = randomSecret.pwd
             return copiedClientApplication
@@ -228,7 +213,7 @@ const ClientAppManagementPage = () => {
                                             label="Client Application Id"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.clientApplicationId = value.target.value
                                                     return copiedClientApplication
@@ -241,7 +226,7 @@ const ClientAppManagementPage = () => {
                                     label="Application Type"
                                     multi={false}
                                     onChangeHandler={(event) => {
-                                        setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                        setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                             let copiedClientApplication = Object.assign({}, clientApplication)
                                             copiedClientApplication.applicationType = event
                                             return copiedClientApplication
@@ -257,7 +242,7 @@ const ClientAppManagementPage = () => {
                                                 type="Password"
                                                 disabled={clientAppId != undefined}
                                                 handler={(value) => {
-                                                    setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                    setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                         let copiedClientApplication = Object.assign({}, clientApplication)
                                                         copiedClientApplication.secret = value.target.value
                                                         return copiedClientApplication
@@ -272,7 +257,7 @@ const ClientAppManagementPage = () => {
                                             label="Client Application Displayed Name"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.clientAppName = value.target.value
                                                     return copiedClientApplication
@@ -301,7 +286,7 @@ const ClientAppManagementPage = () => {
                                     label="Scopes"
                                     multi={true}
                                     onChangeHandler={(event) => {
-                                        setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                        setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                             let copiedClientApplication = Object.assign({}, clientApplication)
                                             copiedClientApplication.scopes = event
                                             return copiedClientApplication
@@ -312,7 +297,7 @@ const ClientAppManagementPage = () => {
 
                         <CheckboxesGroup id="withPkce"
                                          handler={(value) => {
-                                             setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                             setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                  let copiedClientApplication = Object.assign({}, clientApplication)
                                                  copiedClientApplication.withPkce = value.target.checked
                                                  return copiedClientApplication
@@ -325,7 +310,7 @@ const ClientAppManagementPage = () => {
 
                         <CheckboxesGroup id="authorizedGrantTypes"
                                          handler={(value) => {
-                                             setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                             setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                  let copiedClientApplication = Object.assign({}, clientApplication)
                                                  copiedClientApplication.authorizedGrantTypes = {
                                                      ...clientApplication.authorizedGrantTypes,
@@ -342,7 +327,7 @@ const ClientAppManagementPage = () => {
                                             label="Access Token Validity"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.accessTokenValidity = value.target.value
                                                     return copiedClientApplication
@@ -354,7 +339,7 @@ const ClientAppManagementPage = () => {
                                             label="Refresh Token Validity"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.refreshTokenValidity = value.target.value
                                                     return copiedClientApplication
@@ -391,7 +376,7 @@ const ClientAppManagementPage = () => {
                                             label="Allowed Origins"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.allowedOrigins = value.target.value
                                                     return copiedClientApplication
@@ -403,7 +388,7 @@ const ClientAppManagementPage = () => {
                                             label="Web Server Redirect Uri"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.webServerRedirectUri = value.target.value
                                                     return copiedClientApplication
@@ -415,7 +400,7 @@ const ClientAppManagementPage = () => {
                                             label="Post Logout Redirect Uri"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.postLogoutRedirectUri = value.target.value
                                                     return copiedClientApplication
@@ -427,7 +412,7 @@ const ClientAppManagementPage = () => {
                                             label="Logout Uri"
                                             required={true}
                                             handler={(value) => {
-                                                setClientApplication((clientApplication: ClientApplicationPageDetails) => {
+                                                setClientApplication((clientApplication: ClientAppManagementPageTypes) => {
                                                     let copiedClientApplication = Object.assign({}, clientApplication)
                                                     copiedClientApplication.logoutUri = value.target.value
                                                     return copiedClientApplication
