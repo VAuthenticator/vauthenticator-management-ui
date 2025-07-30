@@ -19,10 +19,10 @@ jobs:
       - build-backend
       - ui-backend
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: make an echo
         run: |
@@ -52,7 +52,7 @@ jobs:
           git commit -am "[skip-ci] new version release ${{github.event.inputs.newversion}}"
           git push
   build-backend:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -90,11 +90,11 @@ jobs:
           docker build . -t mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
           docker push mrflick72/vauthenticator-management-ui-k8s:$DOCKER_TAG
   ui-backend:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: install node
         uses: actions/setup-node@v4
@@ -106,21 +106,3 @@ jobs:
           cd src/main/frontend
           npm install --legacy-peer-deps
           npm run-script production-build
-
-      - name: load static file on s3
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-      - run: |
-          UI_VERSION=${{github.event.inputs.version}}
-          cd src/main/frontend/dist/asset
-          ls *.js | while read line
-          do 
-            aws s3 cp $line s3://${{ secrets.VAUTHENTICATOR_BUCKET }}/static-asset/content/asset/${GITHUB_REF##*/}/$line
-            aws s3 cp $line s3://${{ secrets.VAUTHENTICATOR_BUCKET }}/static-asset/content/asset/$line
-            if [ ${UI_VERSION} ]; then
-               aws s3 cp $line s3://${{ secrets.VAUTHENTICATOR_BUCKET }}/static-asset/content/asset/${UI_VERSION}/$line
-            fi
-          done

@@ -24,7 +24,7 @@ export const authorizedGrantTypesRegistry = (authorizedGrantTypes: AuthorizedGra
     }
 
     if (authorizedGrantTypes) {
-        authorizedGrantTypes.map(authorizedGrantType => {
+        authorizedGrantTypes.forEach(authorizedGrantType => {
             registry[authorizedGrantType] = true;
         })
     }

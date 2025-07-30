@@ -7,6 +7,5 @@ export async function findAllScopes(): Promise<string[]> {
             },
             credentials: 'same-origin'
         });
-    let promise = await response.json() as string[];
-    return Promise.resolve(promise)
+    return await response.json() as string[]
 }

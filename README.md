@@ -2,7 +2,7 @@
 
 
 ### ui local environment
-In order to make simple the ui assets build for local development take in consideration to enable the following spring configuration properties:
+In order to make it simple, the ui assets build for local development take in consideration to enable the following spring configuration properties:
 
 ```yaml
   document:
